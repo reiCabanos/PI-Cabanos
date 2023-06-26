@@ -13,6 +13,7 @@ public class Movimentacao : MonoBehaviour
     [SerializeField] float _girarSpeed;
     Vector3 _playerVelocity;
     [SerializeField] float _forceGravity = -9.81f;
+    Animator _anim;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -23,6 +24,8 @@ public class Movimentacao : MonoBehaviour
        
         _rot -= Input.GetAxis("Horizontal") * _girarSpeed;
         transform.localEulerAngles = new Vector3(0.0f, _rot, 0.0f);
+       
+
     }
     void GravityMode()
     {
@@ -45,6 +48,8 @@ public class Movimentacao : MonoBehaviour
         _moveZ = Input.GetAxisRaw("Vertical");
 
         _controller.Move(transform.forward * _moveZ * _velocidade * Time.deltaTime);
+        _anim.SetBool("parado", false);
+        
         
     }
 
