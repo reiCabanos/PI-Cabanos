@@ -48,8 +48,7 @@ public class Movimentacao : MonoBehaviour
         _moveZ = Input.GetAxisRaw("Vertical");
 
         _controller.Move(transform.forward * _moveZ * _velocidade * Time.deltaTime);
-        _anim.SetBool("parado", false);
-        
+       
         
     }
 
