@@ -61,7 +61,7 @@ public class Movimentacao : MonoBehaviour
        // _speedAnimY = _controller.velocity.y;
         //_anim.SetFloat("pulandoY", _speedAnimY);
        
-        _speed = Mathf.Abs(_moveZ);
+        _speed = _moveZ;
         _anim.SetFloat("correndo", _speed);
 
 
