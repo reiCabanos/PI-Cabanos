@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movimentacao : MonoBehaviour
@@ -14,16 +15,23 @@ public class Movimentacao : MonoBehaviour
     Vector3 _playerVelocity;
     [SerializeField] float _forceGravity = -9.81f;
     Animator _anim;
+    [SerializeField]float _speed;
+    float _speedAnimY;
+    [SerializeField]Rigidbody _rid;
+    [SerializeField] bool isGround;
+
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _anim = GetComponent<Animator>();
     }
 
     void RoationPlayer()
     {
        
         _rot -= Input.GetAxis("Horizontal") * _girarSpeed;
-        transform.localEulerAngles = new Vector3(0.0f, _rot, 0.0f);
+        transform.localEulerAngles = new Vector3(0.0f, -_rot, 0.0f);
+
        
 
     }
@@ -44,24 +52,38 @@ public class Movimentacao : MonoBehaviour
     }
     void Andar()
     {
-        
+        isGround = _controller.isGrounded;
         _moveZ = Input.GetAxisRaw("Vertical");
 
         _controller.Move(transform.forward * _moveZ * _velocidade * Time.deltaTime);
+       // __co.velocity = new Vector3(_moveZ* _velocidade, _rid.velocity.y);
+        //_speedAnimY = _rid.velocity.y;
+       // _speedAnimY = _controller.velocity.y;
+        //_anim.SetFloat("pulandoY", _speedAnimY);
        
-        
+        _speed = Mathf.Abs(_moveZ);
+        _anim.SetFloat("correndo", _speed);
+
+
+
     }
+   
 
 
     void Update()
     {
+        _anim.SetBool("chekground", _controller.isGrounded);
         if (_controller.isGrounded == false)
         {
             GravityMode();
         }
+        _speedAnimY = _controller.velocity.y;
+        _anim.SetFloat("pulandoY", _speedAnimY);
+
 
         Jump();
         Andar();
+        
         GravityMode();
         RoationPlayer();
 
