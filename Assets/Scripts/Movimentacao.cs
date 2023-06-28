@@ -47,6 +47,8 @@ public class Movimentacao : MonoBehaviour
         if ((Input.GetAxisRaw("Jump") > 0 && _controller.isGrounded == true))
         {
             _playerVelocity.y += Mathf.Sqrt(_jumpForce * -3.0f * _forceGravity);
+           //_speedAnimY = _controller.velocity.y;
+            //_anim.SetFloat("pulandoY", _speedAnimY);
 
         }
     }
