@@ -47,8 +47,7 @@ public class Movimentacao : MonoBehaviour
         if ((Input.GetAxisRaw("Jump") > 0 && _controller.isGrounded == true))
         {
             _playerVelocity.y += Mathf.Sqrt(_jumpForce * -3.0f * _forceGravity);
-           //_speedAnimY = _controller.velocity.y;
-            //_anim.SetFloat("pulandoY", _speedAnimY);
+           
 
         }
     }
@@ -58,10 +57,7 @@ public class Movimentacao : MonoBehaviour
         _moveZ = Input.GetAxisRaw("Vertical");
 
         _controller.Move(transform.forward * _moveZ * _velocidade * Time.deltaTime);
-       // __co.velocity = new Vector3(_moveZ* _velocidade, _rid.velocity.y);
-        //_speedAnimY = _rid.velocity.y;
-       // _speedAnimY = _controller.velocity.y;
-        //_anim.SetFloat("pulandoY", _speedAnimY);
+       
        
         _speed = _moveZ;
         _anim.SetFloat("correndo", _speed);
