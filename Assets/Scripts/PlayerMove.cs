@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -20,8 +21,17 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
+
         _checkGround = _characterController.isGrounded;
+        _characterController.Move(new Vector3(_moveX*_speed,_characterController.velocity.y,_moveZ*_speed)*Time.deltaTime);
         Gravity();
+
+    }
+    public void SetMove(InputAction.CallbackContext value)
+    {
+        Vector3 m = value.ReadValue<Vector3>();
+        _moveX = m.x;
+        _moveZ = m.y;
     }
     void Gravity()
     {
