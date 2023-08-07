@@ -16,10 +16,13 @@ public class PlayerMove : MonoBehaviour
     float _gravityValue=-9.8f;
     float _timer;
     [SerializeField] float _timeValue;
+    Animator _anim;
+
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
         _timer = _timeValue;
+        _anim = GetComponent<Animator>();
 
     }
     void Update()
@@ -46,6 +49,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 m = value.ReadValue<Vector3>();
         _moveX = m.x;
         _moveZ = m.y;
+        _anim.SetFloat("correndo", _speed);
     }
     public void SetJump(InputAction.CallbackContext value)
     {
