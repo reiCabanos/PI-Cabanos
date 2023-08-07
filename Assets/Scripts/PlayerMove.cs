@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -17,20 +18,29 @@ public class PlayerMove : MonoBehaviour
     float _timer;
     [SerializeField] float _timeValue;
     Animator _anim;
+    float _speedAnimY;
+
 
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
-
     }
     void Update()
     {
 
+        _anim.SetBool("chekground", _characterController.isGrounded);
+        if (_characterController.isGrounded == false)
+        {
+            Gravity();
+        }
+        _speedAnimY = _characterController.velocity.y;
+        _anim.SetFloat("pulandoY", _speedAnimY);
+
         _checkGround = _characterController.isGrounded;
         _characterController.Move(new Vector3(_moveX*_speed,_characterController.velocity.y,_moveZ*_speed)*Time.deltaTime);
-        Gravity();
+        
         Jump();
         if (_checkJump)
         {
@@ -42,6 +52,7 @@ public class PlayerMove : MonoBehaviour
 
             }
         }
+        Gravity();
 
     }
     public void SetMove(InputAction.CallbackContext value)
