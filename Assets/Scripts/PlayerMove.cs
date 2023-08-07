@@ -14,9 +14,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]bool _checkJump;
     [SerializeField] bool _checkGround;
     float _gravityValue=-9.8f;
+    float _timer;
+    [SerializeField] float _timeValue;
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
+        _timer = _timeValue;
 
     }
     void Update()
@@ -25,6 +28,17 @@ public class PlayerMove : MonoBehaviour
         _checkGround = _characterController.isGrounded;
         _characterController.Move(new Vector3(_moveX*_speed,_characterController.velocity.y,_moveZ*_speed)*Time.deltaTime);
         Gravity();
+        Jump();
+        if (_checkJump)
+        {
+            _timer-=Time.deltaTime;
+            if(_timer<0)
+            {
+                _checkJump = false;
+                _timer = _timeValue;
+
+            }
+        }
 
     }
     public void SetMove(InputAction.CallbackContext value)
@@ -32,6 +46,21 @@ public class PlayerMove : MonoBehaviour
         Vector3 m = value.ReadValue<Vector3>();
         _moveX = m.x;
         _moveZ = m.y;
+    }
+    public void SetJump(InputAction.CallbackContext value)
+    {
+        _checkJump = true;
+      
+
+    }
+    void Jump()
+    {
+        if (_checkGround==true && _checkJump)
+        {
+            _checkGround = false;
+            _playerVelocity.y = 0;
+            _playerVelocity.y = Mathf.Sqrt(_jumpForce /5 * -3.0f *_gravityValue);
+        }
     }
     void Gravity()
     {
