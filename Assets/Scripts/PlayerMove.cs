@@ -31,6 +31,9 @@ public class PlayerMove : MonoBehaviour
     {
 
         _anim.SetBool("chekground", _characterController.isGrounded);
+        _speed = _moveZ;
+        _anim.SetFloat("correndo", _speed);
+
         if (_characterController.isGrounded == false)
         {
             Gravity();
@@ -60,8 +63,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 m = value.ReadValue<Vector3>();
         _moveX = m.x;
         _moveZ = m.y;
-        _speed = _moveZ;
-        _anim.SetFloat("correndo", _speed);
+       
 
     }
     public void SetJump(InputAction.CallbackContext value)

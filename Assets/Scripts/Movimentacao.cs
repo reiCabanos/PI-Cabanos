@@ -59,7 +59,7 @@ public class Movimentacao : MonoBehaviour
         _controller.Move(transform.forward * _moveZ * _velocidade * Time.deltaTime);
        
        
-        _speed = _moveZ;
+       
         _anim.SetFloat("correndo", _speed);
 
 
