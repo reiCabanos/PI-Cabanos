@@ -32,10 +32,10 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-      
-        _speed = _moveZ;
-       
-        _anim.SetFloat("correndo", _speed); 
+
+        // _speed = _moveZ;
+        float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+        _anim.SetFloat("correndo", tempSpeed); 
         _anim.SetBool("chekground", _characterController.isGrounded);
 
         if (_characterController.isGrounded == false)
@@ -48,6 +48,8 @@ public class PlayerMove : MonoBehaviour
         _checkGround = _characterController.isGrounded;
         _characterController.Move(new Vector3(_moveX*_speed,_characterController.velocity.y,_moveZ*_speed)*Time.deltaTime);
         
+
+
         Jump();
         if (_checkJump)
         {
