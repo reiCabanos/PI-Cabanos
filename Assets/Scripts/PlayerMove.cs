@@ -19,6 +19,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _timeValue;
     Animator _anim;
     float _speedAnimY;
+    [SerializeField] float _girarSpeed;
+    [SerializeField] float _rot;
 
 
     void Start()
@@ -30,9 +32,11 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-        _anim.SetBool("chekground", _characterController.isGrounded);
+      
         _speed = _moveZ;
-        _anim.SetFloat("correndo", _speed);
+       
+        _anim.SetFloat("correndo", _speed); 
+        _anim.SetBool("chekground", _characterController.isGrounded);
 
         if (_characterController.isGrounded == false)
         {
@@ -56,6 +60,16 @@ public class PlayerMove : MonoBehaviour
             }
         }
         Gravity();
+        RoationPlayer();
+
+    }
+    void RoationPlayer()
+    {
+
+        _rot -= Input.GetAxis("Horizontal") * _girarSpeed;
+        transform.localEulerAngles = new Vector3(0.0f, -_rot, 0.0f);
+
+
 
     }
     public void SetMove(InputAction.CallbackContext value)
