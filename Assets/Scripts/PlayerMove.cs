@@ -60,7 +60,9 @@ public class PlayerMove : MonoBehaviour
         Vector3 m = value.ReadValue<Vector3>();
         _moveX = m.x;
         _moveZ = m.y;
+        _speed = _moveZ;
         _anim.SetFloat("correndo", _speed);
+
     }
     public void SetJump(InputAction.CallbackContext value)
     {
