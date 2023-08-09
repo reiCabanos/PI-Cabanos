@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
     float _speedAnimY;
     [SerializeField] float _girarSpeed;
     [SerializeField] float _rot;
+    [SerializeField] float _velocidade;
 
 
     void Start()
@@ -46,7 +47,7 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("pulandoY", _speedAnimY);
 
         _checkGround = _characterController.isGrounded;
-        _characterController.Move(new Vector3(_moveX*_speed,_characterController.velocity.y,_moveZ*_speed)*Time.deltaTime);
+        _characterController.Move(transform.forward * _moveZ *_velocidade* Time.deltaTime);
         
 
 
@@ -68,8 +69,8 @@ public class PlayerMove : MonoBehaviour
     void RoationPlayer()
     {
 
-        _rot -= Input.GetAxis("Horizontal") * _girarSpeed;
-        transform.localEulerAngles = new Vector3(0.0f, -_rot, 0.0f);
+        _rot =_rot -Input.GetAxis("Horizontal") * _girarSpeed;
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, _rot,transform.localEulerAngles.z);
 
 
 
