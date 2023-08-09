@@ -70,7 +70,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         _rot =_rot -Input.GetAxis("Horizontal") * _girarSpeed;
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, _rot,transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -_rot,transform.localEulerAngles.z);
 
 
 
