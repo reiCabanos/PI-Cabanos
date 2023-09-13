@@ -37,7 +37,7 @@ public class InimigoMove : MonoBehaviour
         
         Movimento();
         _speedAgente = _agent.velocity;
-
+        Animacao();
 
     }
 
