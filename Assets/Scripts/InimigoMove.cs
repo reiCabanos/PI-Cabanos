@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 using UnityEngine.AI;
@@ -16,9 +17,17 @@ public class InimigoMove : MonoBehaviour
     [SerializeField] Transform _player;
     [SerializeField] float _distanciaPlayer;
     [SerializeField] Vector3 _speedAgente;
+    [SerializeField] Hit Hit;
+    [SerializeField] float _speedAnin;
+
+
+    Animator _animator;
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+        Hit = GetComponent<Hit>();
+        
         
     }
 
@@ -29,7 +38,18 @@ public class InimigoMove : MonoBehaviour
         Movimento();
         _speedAgente = _agent.velocity;
 
+
     }
+
+
+    void Animacao()
+    {
+
+        _speedAnin = math.abs(_speedAgente.x + _speedAgente.z);
+        _animator.SetFloat("Speed", _speedAnin);
+        _animator.SetBool("Hit", Hit._isHit);
+    }
+
     void Patrulhar()
     {
         if (_distancia < _distanciaPatrulhar && _numero == 0)
