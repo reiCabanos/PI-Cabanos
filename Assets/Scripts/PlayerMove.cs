@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _girarSpeed;
     [SerializeField] float _rot;
     [SerializeField] float _velocidade;
+    [SerializeField] Hit _hit;
 
 
     void Start()
@@ -29,6 +30,7 @@ public class PlayerMove : MonoBehaviour
         _characterController=GetComponent<CharacterController>();
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
+        _hit = GetComponent<Hit>();
     }
     void Update()
     {
@@ -64,6 +66,7 @@ public class PlayerMove : MonoBehaviour
         }
         Gravity();
         RoationPlayer();
+        _anim.SetBool("hit", _hit._isHit);
 
     }
     void RoationPlayer()
