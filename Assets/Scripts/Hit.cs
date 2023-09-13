@@ -6,8 +6,9 @@ public class Hit : MonoBehaviour
 {
 
     Animator _anin;
-    public bool _isHit = false;
-    GameObject _mae;
+    [SerializeField]public bool _isHit = false;
+   [SerializeField] GameObject _mae;
+
     Animator _aninMae;
    
 
