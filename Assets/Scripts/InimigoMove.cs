@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
+
 using UnityEngine;
 
 using UnityEngine.AI;
@@ -45,7 +45,7 @@ public class InimigoMove : MonoBehaviour
     void Animacao()
     {
 
-        _speedAnin = math.abs(_speedAgente.x + _speedAgente.z);
+        _speedAnin = Mathf.Abs(_speedAgente.x + _speedAgente.z);
         _animator.SetFloat("Speed", _speedAnin);
         _animator.SetBool("Hit", Hit._isHit);
     }
