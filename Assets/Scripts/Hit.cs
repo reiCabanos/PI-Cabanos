@@ -29,7 +29,7 @@ public class Hit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       if (other.gameObject.name== "mae")
+       if (other.gameObject.name== "AtackCol")
         {
               _isHit = true;
             Morte();
