@@ -54,6 +54,7 @@ public class PlayerMove : MonoBehaviour
 
 
         Jump();
+
         if (_checkJump)
         {
             _timer-=Time.deltaTime;
@@ -63,7 +64,7 @@ public class PlayerMove : MonoBehaviour
                 _timer = _timeValue;
 
             }
-        }
+        }  
         Gravity();
         RoationPlayer();
        
