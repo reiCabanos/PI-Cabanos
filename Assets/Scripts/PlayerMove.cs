@@ -50,14 +50,7 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("pulandoY", _speedAnimY);
 
         _checkGround = _characterController.isGrounded;
-        _characterController.Move(transform.forward * _moveZ *_speed* Time.deltaTime);
-        if(_checkwalk && _velocidade!= 0) { 
-            _speed = 6f;
-        }
-        else
-        {
-            _speed = 2.57f;
-        }
+        Andar();
 
         
 
@@ -77,6 +70,19 @@ public class PlayerMove : MonoBehaviour
         Gravity();
         RoationPlayer();
        
+
+    } 
+    void Andar()
+    {
+        _characterController.Move(transform.forward * _moveZ * _speed * Time.deltaTime);
+        if (_checkwalk && _velocidade != 0)
+        {
+            _speed = 6f;
+        }
+        else
+        {
+            _speed = 2.57f;
+        }
 
     }
     void RoationPlayer()
