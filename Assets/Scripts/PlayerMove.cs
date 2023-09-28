@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
         float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
         _anim.SetFloat("correndo", tempSpeed); 
         _anim.SetBool("chekground", _characterController.isGrounded);
-
+        
         if (_characterController.isGrounded == false)
         {
             Gravity();
