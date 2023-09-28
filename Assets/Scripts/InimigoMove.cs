@@ -45,7 +45,7 @@ public class InimigoMove : MonoBehaviour
 
         _speedAnin = Mathf.Abs(_speedAgente.x + _speedAgente.z);
         _animator.SetFloat("Speed", _speedAnin);
-        _animator.SetBool("Hit", Hit._isHit);
+       //_animator.SetBool("Hit", Hit._isHit);
     }
 
     void Patrulhar()

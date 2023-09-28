@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _girarSpeed;
     [SerializeField] float _rot;
     [SerializeField] float _velocidade;
+    [SerializeField]bool _checkwalk;
     
 
 
@@ -49,7 +50,15 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("pulandoY", _speedAnimY);
 
         _checkGround = _characterController.isGrounded;
-        _characterController.Move(transform.forward * _moveZ *_velocidade* Time.deltaTime);
+        _characterController.Move(transform.forward * _moveZ *_speed* Time.deltaTime);
+        if(_checkwalk && _velocidade!= 0) { 
+            _speed = 6f;
+        }
+        else
+        {
+            _speed = 2.57f;
+        }
+
         
 
 
@@ -92,6 +101,10 @@ public class PlayerMove : MonoBehaviour
         _checkJump = true;
       
 
+    }
+    public void SetMoveWalk(InputAction.CallbackContext value)
+    {
+        _checkwalk = value.performed;
     }
     void Jump()
     {
