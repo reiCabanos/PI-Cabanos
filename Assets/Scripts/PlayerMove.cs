@@ -48,6 +48,7 @@ public class PlayerMove : MonoBehaviour
         }
         _speedAnimY = _characterController.velocity.y;
         _anim.SetFloat("pulandoY", _speedAnimY);
+        _anim.SetBool("IsRunning", Input.GetKey(KeyCode.LeftShift));
 
         _checkGround = _characterController.isGrounded;
         Andar();
