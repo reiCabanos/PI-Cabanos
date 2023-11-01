@@ -9,7 +9,8 @@ public class NpcsControlle : MonoBehaviour
     [SerializeField] ControleNpc _ContNpc;
     public List<GameObject> _iniVivo_1L;
     public List<GameObject> _iniMorto_1L;
-   public Transform _pos;
+   [SerializeField] Transform _pos;
+    public List<Transform> _pos1;
     public float timer = 15;
     float oldTimer;
     bool isRunning = true;
@@ -47,7 +48,7 @@ public class NpcsControlle : MonoBehaviour
         if (bullet != null)
         {
             bullet.transform.position = _pos.position;
-            bullet.GetComponent<SeguirPlayer>()._alvo = _ContNpc._alvo;
+            bullet.GetComponent<SeguirPlayer>()._alvo = _pos1[0];
             bullet.transform.SetParent(_ContNpc._inimigosMae);
             _iniVivo_1L.Add(bullet);
             _iniMorto_1L.Remove(bullet);
@@ -63,7 +64,7 @@ public class NpcsControlle : MonoBehaviour
         {
             bullet.transform.position = _pos.position;
 
-            bullet.GetComponent<SeguirPlayer>()._alvo = _ContNpc._alvo;
+            bullet.GetComponent<SeguirPlayer>()._alvo = _pos1[0];
             bullet.transform.SetParent(_ContNpc._inimigosMae);
             _iniVivo_1L.Add(bullet);
             _iniMorto_1L.Remove(bullet) ;
