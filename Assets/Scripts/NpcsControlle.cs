@@ -9,11 +9,15 @@ public class NpcsControlle : MonoBehaviour
     [SerializeField] ControleNpc _ContNpc;
     public List<GameObject> _iniVivo_1L;
     public List<GameObject> _iniMorto_1L;
-   [SerializeField] Transform _pos;
+    public List<Transform> _inifixo;
+    [SerializeField] Transform _pos;
     public List<Transform> _pos1;
     public float timer = 15;
     float oldTimer;
     bool isRunning = true;
+
+
+
 
     void Start()
     {
@@ -36,6 +40,9 @@ public class NpcsControlle : MonoBehaviour
                 oldTimer = timer;
                 InimigoStart1();
                 InimigoStart2();
+                InimigoIten1();
+                timer = Random.Range(3, 6);
+                oldTimer = timer;
             }
         }
 
@@ -71,5 +78,30 @@ public class NpcsControlle : MonoBehaviour
             bullet.SetActive(true);
         }
     }
-    
+
+    public void InimigoIten1()
+    {
+        GameObject bullet = DropItens.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            
+            int number = Random.Range(0, _inifixo.Count);
+            bullet.transform.position = _inifixo[number].position;
+            bullet.transform.SetParent(_ContNpc._itensmap);
+           
+            bullet.SetActive(true);
+
+        }
+    }
+
+    public void InimigoIten2()
+    {
+
+
+
+
+
+    }
+
+
 }

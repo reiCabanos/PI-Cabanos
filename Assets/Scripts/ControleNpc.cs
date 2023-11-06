@@ -6,7 +6,9 @@ public class ControleNpc : MonoBehaviour
 {
     public Transform _alvo;
     public Transform _inimigosMae;
-    
+    public Transform _itensmap;
+
+
 
     void Start()
     {
