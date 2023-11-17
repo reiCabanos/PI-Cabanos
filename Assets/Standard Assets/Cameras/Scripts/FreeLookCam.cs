@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace UnityStandardAssets.Cameras
@@ -26,7 +27,9 @@ namespace UnityStandardAssets.Cameras
         private const float k_LookDistance = 100f;    // How far in front of the pivot the character's look target is.
 		private Vector3 m_PivotEulers;
 		private Quaternion m_PivotTargetRot;
-		private Quaternion m_TransformTargetRot;
+        private Quaternion m_TransformTargetRot;
+
+        public Vector3 posCam;
 
         protected override void Awake()
         {
@@ -65,7 +68,7 @@ namespace UnityStandardAssets.Cameras
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime*m_MoveSpeed);
         }
-
+      
 
         private void HandleRotationMovement()
         {
@@ -73,8 +76,8 @@ namespace UnityStandardAssets.Cameras
 			return;
 
             // Read the user input
-            var x = CrossPlatformInputManager.GetAxis("Mouse X");
-            var y = CrossPlatformInputManager.GetAxis("Mouse Y");
+            var x = posCam.x;// CrossPlatformInputManager.GetAxis("Mouse X");
+            var y = posCam.y;//CrossPlatformInputManager.GetAxis("Mouse Y");
 
             // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
             m_LookAngle += x*m_TurnSpeed;

@@ -19,6 +19,7 @@ namespace UnityStandardAssets.Cameras
 
         protected Rigidbody targetRigidbody;
 
+       
 
         protected virtual void Start()
         {

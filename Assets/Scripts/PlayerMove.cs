@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
+using UnityStandardAssets.Cameras;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _rot;
     [SerializeField] float _velocidade;
     [SerializeField]bool _checkwalk;
+
+   
+     [SerializeField]FreeLookCam _cam;
     
 
 
@@ -112,6 +116,10 @@ public class PlayerMove : MonoBehaviour
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
         _checkwalk = value.performed;
+    }
+    public void SetCamera(InputAction.CallbackContext value)
+    {
+        _cam.posCam = value.ReadValue<Vector3>();
     }
     void Jump()
     {
