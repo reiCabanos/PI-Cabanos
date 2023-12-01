@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -13,9 +14,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _jumpForce;
     Vector3 _playerVelocity;
     CharacterController _characterController;
-    [SerializeField]bool _checkJump;
+    [SerializeField] bool _checkJump;
     [SerializeField] bool _checkGround;
-    float _gravityValue=-9.8f;
+    [SerializeField] float _gravityValue=-9.8f;
     float _timer;
     [SerializeField] float _timeValue;
     Animator _anim;
@@ -27,6 +28,9 @@ public class PlayerMove : MonoBehaviour
 
    
      [SerializeField]FreeLookCam _cam;
+
+    [SerializeField] Transform _posRestatPlayer;
+    [SerializeField] bool _checkMove;
     
 
 
@@ -35,6 +39,8 @@ public class PlayerMove : MonoBehaviour
         _characterController=GetComponent<CharacterController>();
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
+
+        _checkMove = true;
        
     }
     void Update()
@@ -55,7 +61,9 @@ public class PlayerMove : MonoBehaviour
         _anim.SetBool("IsRunning", _checkwalk);
 
         _checkGround = _characterController.isGrounded;
+        if (_checkMove) { 
         Andar();
+        }
 
         
 
@@ -132,7 +140,29 @@ public class PlayerMove : MonoBehaviour
     }
     void Gravity()
     {
+      //  _characterController.Move(new Vector3(_characterController.velocity.x, 0, _characterController.velocity.z));
         _playerVelocity.y += _gravityValue * Time.deltaTime;
+      //  _playerVelocity.y = Mathf.Sqrt(_jumpForce / 5 * -3.0f * _gravityValue);
         _characterController.Move( _playerVelocity *Time.deltaTime);
+      
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("filho"))
+        {
+            _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
+            StartCoroutine(Dano());
+        }
+
+    }
+     IEnumerator Dano()
+    {
+        _checkMove = false;
+        yield return new WaitForSeconds(2);
+        transform.position = _posRestatPlayer.position;
+        yield return new WaitForSeconds(1);
+        _checkMove =true;
+        Debug.Log("dano");
     }
 }
