@@ -97,7 +97,7 @@ public class PlayerMove : MonoBehaviour
     void Andar()
     {
         RoationPlayer();
-        _characterController.Move(_vMovimento * _moveZ * _speed * Time.deltaTime);
+        _characterController.Move(_vMovimento * _speed * Time.deltaTime);
         if (_checkwalk && _velocidade != 0)
         {
             _speed = 6f;
