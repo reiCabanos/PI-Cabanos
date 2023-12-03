@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _moveZ;
     [SerializeField] float _speed;
     [SerializeField] float _jumpForce;
-    Vector3 _playerVelocity;
+    public Vector3 _playerVelocity;
     CharacterController _characterController;
     [SerializeField] bool _checkJump;
     [SerializeField] bool _checkGround;
@@ -31,6 +31,10 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] Transform _posRestatPlayer;
     [SerializeField] bool _checkMove;
+    Vector3 _vMovimento;
+    float _currentvelocity;
+    [SerializeField] float _smoothTime=0.0f;
+    Vector3 _input;
     
 
 
@@ -45,9 +49,13 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
+        _checkGround = _characterController.isGrounded;
+        if (_checkGround)
+        {
+            _playerVelocity.y = 0;
 
+        }
 
-        // _speed = _moveZ;
         float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
         _anim.SetFloat("correndo", tempSpeed); 
         _anim.SetBool("chekground", _characterController.isGrounded);
@@ -59,8 +67,9 @@ public class PlayerMove : MonoBehaviour
         _speedAnimY = _characterController.velocity.y;
         _anim.SetFloat("pulandoY", _speedAnimY);
         _anim.SetBool("IsRunning", _checkwalk);
+        
 
-        _checkGround = _characterController.isGrounded;
+
         if (_checkMove) { 
         Andar();
         }
@@ -81,13 +90,14 @@ public class PlayerMove : MonoBehaviour
             }
         }  
         Gravity();
-        RoationPlayer();
+      
        
 
     } 
     void Andar()
     {
-        _characterController.Move(transform.forward * _moveZ * _speed * Time.deltaTime);
+        RoationPlayer();
+        _characterController.Move(_vMovimento * _moveZ * _speed * Time.deltaTime);
         if (_checkwalk && _velocidade != 0)
         {
             _speed = 6f;
@@ -100,18 +110,20 @@ public class PlayerMove : MonoBehaviour
     }
     void RoationPlayer()
     {
-
-        _rot =_rot -Input.GetAxis("Horizontal") * _girarSpeed;
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -_rot,transform.localEulerAngles.z);
-
-
+        if (_input.sqrMagnitude==0)return;
+            
+       var tartAngle = Mathf.Atan2(_vMovimento.x,_vMovimento.z)*Mathf.Rad2Deg;
+       var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime);
+       transform.rotation=Quaternion.Euler(0,angle,0);
+        
 
     }
     public void SetMove(InputAction.CallbackContext value)
     {
-        Vector3 m = value.ReadValue<Vector3>();
-        _moveX = m.x;
-        _moveZ = m.y;
+        _input= value.ReadValue<Vector3>();
+        _moveX = _input.x;
+        _moveZ = _input.y;
+        _vMovimento=new Vector3(_moveX, _characterController.velocity.y, _moveZ);
        
 
     }
