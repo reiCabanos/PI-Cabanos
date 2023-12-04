@@ -35,7 +35,8 @@ public class PlayerMove : MonoBehaviour
     float _currentvelocity;
     [SerializeField] float _smoothTime=0.0f;
     Vector3 _input;
-    
+
+    Transform _myCamera;
 
 
     void Start()
@@ -45,7 +46,9 @@ public class PlayerMove : MonoBehaviour
         _anim = GetComponent<Animator>();
 
         _checkMove = true;
-       
+        _myCamera = Camera.main.transform;
+
+
     }
     void Update()
     {
@@ -96,8 +99,23 @@ public class PlayerMove : MonoBehaviour
     } 
     void Andar()
     {
-        RoationPlayer();
+       // RoationPlayer();
+
+         var forward = _myCamera.TransformDirection(Vector3.forward);
+        forward.y = 0;
+
+        var right = _myCamera.TransformDirection(Vector3.right);
+
+        Vector3 direcao = _vMovimento.x * right + _vMovimento.z * forward;
+
+        if(_vMovimento!= Vector3.zero && direcao.magnitude > 0.1f){
+            Quaternion FreeRotation = Quaternion.LookRotation(direcao.normalized,transform.up);
+            transform.rotation = FreeRotation;
+        }
+
         _characterController.Move(_vMovimento * _speed * Time.deltaTime);
+        _characterController.Move(Vector3.down * Time.deltaTime);
+
         if (_checkwalk && _velocidade != 0)
         {
             _speed = 6f;
