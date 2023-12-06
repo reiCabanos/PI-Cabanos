@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropItens : MonoBehaviour
+public class PoolingMira : MonoBehaviour
 {
-    public static DropItens SharedInstance;
+    // Start is called before the first frame update
+    public static PoolingMira SharedInstance;
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
     public int amountToPool;
-    public NpcsControlle _contreleNpcs;
 
     void Awake()
     {
         SharedInstance = this;
-        _contreleNpcs = Camera.main.GetComponent<NpcsControlle>();
-
-
     }
 
     void Start()
@@ -27,7 +24,6 @@ public class DropItens : MonoBehaviour
             tmp = Instantiate(objectToPool);
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
-           
         }
     }
 
@@ -41,5 +37,9 @@ public class DropItens : MonoBehaviour
             }
         }
         return null;
+    }
+    void Update()
+    {
+        
     }
 }

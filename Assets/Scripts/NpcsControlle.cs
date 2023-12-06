@@ -23,8 +23,6 @@ public class NpcsControlle : MonoBehaviour
     {
         
         _ContNpc = Camera.main.GetComponent<ControleNpc>();
-        //Invoke("InimigoStart1", 0.5f);
-        //Invoke("InimigoStart2", 0.5f);
         oldTimer = timer;
     }
     void Update()
@@ -32,11 +30,10 @@ public class NpcsControlle : MonoBehaviour
         if (isRunning)
         {
             oldTimer -= Time.deltaTime;
-           // GetComponent<Text>().text = "Tempo: " + Mathf.RoundToInt(timer).ToString() + " s";
+           
 
             if (oldTimer < 0) { 
-                //isRunning = false;
-                Debug.Log("Aparecer Inimigo!!");
+               
                 oldTimer = timer;
                 InimigoStart1();
                 InimigoStart2();

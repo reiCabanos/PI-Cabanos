@@ -136,20 +136,10 @@ public class PlayerMove : MonoBehaviour
         
 
     }
-    public void SetMove(InputAction.CallbackContext value)
-    {
-        _input= value.ReadValue<Vector3>();
-        _moveX = _input.x;
-        _moveZ = _input.y;
-        _vMovimento=new Vector3(_moveX, _characterController.velocity.y, _moveZ);
-       
-
-    }
+   
     public void SetJump(InputAction.CallbackContext value)
     {
         _checkJump = true;
-      
-
     }
     public void SetMoveWalk(InputAction.CallbackContext value)
     {

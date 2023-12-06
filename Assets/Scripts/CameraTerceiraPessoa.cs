@@ -32,8 +32,7 @@ public class CameraTerceiraPessoa : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Alpha1)) TrocarEstiloCamera(CameraEstilo.Basic);
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) TrocarEstiloCamera(CameraEstilo.Combat);
+       
 
         //como conservar a rotação da camera, na troca de estilos de camera
       
