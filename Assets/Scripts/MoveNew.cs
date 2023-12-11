@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 public class MoveNew : MonoBehaviour
@@ -27,6 +28,11 @@ public class MoveNew : MonoBehaviour
     [SerializeField] bool _checkwalk;
     [SerializeField] Animator _anim;
     [SerializeField] Transform _posRestatPlayer;
+    [SerializeField] Transform _mira;
+    public bool _mira1;
+    [SerializeField] Transform _miraFinal;
+    public ProjectileThrow _project;
+  
 
     void Start()
     {
@@ -61,6 +67,14 @@ public class MoveNew : MonoBehaviour
         {
             MovimentoPlayer();
         }
+        else
+        {
+            _anim.SetFloat("correndo", 0);
+            _anim.SetFloat("pulandoY", 0);
+            _anim.SetBool("IsRunning", false);
+          //  _moveX = 0;
+           // _moveZ = 0;
+        }
 
         if (_checkJump)
         {
@@ -94,7 +108,7 @@ public class MoveNew : MonoBehaviour
     }
     void Jump()
     {
-        if (_checkGround == true && _checkJump)
+        if (_checkGround == true && _checkJump && _checkMove)
         {
             _checkGround = false;
             _playerVelocity.y = 0;
@@ -104,9 +118,13 @@ public class MoveNew : MonoBehaviour
 
     public void SetMove(InputAction.CallbackContext value)
     {
-        Vector3 m = value.ReadValue<Vector3>();
-        _moveX = m.x;
-        _moveZ = m.y;
+        if (_checkMove)
+        {
+            Vector3 m = value.ReadValue<Vector3>();
+            _moveX = m.x;
+            _moveZ = m.y;
+        }
+        
 
     }
     public void SetJump(InputAction.CallbackContext value)
@@ -142,4 +160,28 @@ public class MoveNew : MonoBehaviour
         _checkMove = true;
         Debug.Log("dano");
     }
+    public void SetMira(InputAction.CallbackContext callbackContext)
+    {
+       
+        _mira1 = callbackContext.performed;
+        _mira.gameObject.SetActive(_mira1);
+        _miraFinal.gameObject.SetActive(_mira1);
+        _checkMove = !_mira1;
+
+       
+
+    }
+    public void SetAtirar(InputAction.CallbackContext callbackContext)
+    {
+        if (_mira1) { 
+            _anim.SetBool("atirar", true);
+        Invoke("MiraFalse", 0.5f);
+        }
+
+    }
+    void MiraFalse()
+    {
+        _anim.SetBool("atirar", false);
+    }
+
 }

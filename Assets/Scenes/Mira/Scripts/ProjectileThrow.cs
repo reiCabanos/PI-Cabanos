@@ -17,8 +17,10 @@ public class ProjectileThrow : MonoBehaviour
     Transform StartPosition;
 
     public InputAction fire;
+    [SerializeField] MoveNew _move;
+    
 
-    void OnEnable()
+    public void OnEnable()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
 
@@ -27,6 +29,20 @@ public class ProjectileThrow : MonoBehaviour
 
         fire.Enable();
         fire.performed += ThrowObject;
+
+    }
+
+    public void Fire()
+    {
+
+        GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = StartPosition.position;
+            bullet.transform.localRotation = Quaternion.identity;
+            bullet.SetActive(true);
+        }
+        bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
     }
 
     void Update()
@@ -55,14 +71,16 @@ public class ProjectileThrow : MonoBehaviour
 
     void ThrowObject(InputAction.CallbackContext ctx)
     {
-       // Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
-        GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
-        if (bullet != null)
-        {
-            bullet.transform.position = StartPosition.position;
-            bullet.transform.localRotation = Quaternion.identity;
-            bullet.SetActive(true);
+        if (_move._mira1)
+        { // Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
+            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = StartPosition.position;
+                bullet.transform.localRotation = Quaternion.identity;
+                bullet.SetActive(true);
+            }
+            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
         }
-        bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
     }
 }
