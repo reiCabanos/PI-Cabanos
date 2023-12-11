@@ -18,8 +18,19 @@ public class ProjectileThrow : MonoBehaviour
 
     public InputAction fire;
     [SerializeField] MoveNew _move;
+    public Transform _sandalia;
+     public bool _sandaliaOn;
     
 
+    public void DesativarSandalia()
+    {
+        _sandalia.gameObject.SetActive(false);
+        _sandaliaOn = true;
+    }
+    private void Start()
+    {
+        _sandaliaOn=true;
+    }
     public void OnEnable()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
@@ -34,15 +45,20 @@ public class ProjectileThrow : MonoBehaviour
 
     public void Fire()
     {
-
-        GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
-        if (bullet != null)
+        if (_sandaliaOn)
         {
-            bullet.transform.position = StartPosition.position;
-            bullet.transform.localRotation = Quaternion.identity;
-            bullet.SetActive(true);
+            _sandaliaOn=false;
+            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = StartPosition.position;
+                bullet.transform.localRotation = Quaternion.identity;
+                bullet.SetActive(true);
+                Invoke("DesativarSandalia", 5f);
+                _sandalia = bullet.transform;
+            }
+            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
         }
-        bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
     }
 
     void Update()
