@@ -32,7 +32,8 @@ public class MoveNew : MonoBehaviour
     public bool _mira1;
     [SerializeField] Transform _miraFinal;
     public ProjectileThrow _project;
-  
+    public float _falt = 10f;
+
 
     void Start()
     {
@@ -149,6 +150,10 @@ public class MoveNew : MonoBehaviour
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
         }
+        if (other.gameObject.CompareTag("item"))
+        {
+            Debug.Log("ff");
+        }
 
     }
     IEnumerator Dano()
@@ -190,5 +195,7 @@ public class MoveNew : MonoBehaviour
     {
         _anim.SetBool("atirar", false);
     }
+    
+    
 
 }

@@ -9,7 +9,8 @@ public class DropItens : MonoBehaviour
     public GameObject objectToPool;
     public int amountToPool;
     public NpcsControlle _contreleNpcs;
-    [SerializeField] Transform _sand;
+   
+    
 
     void Awake()
     {
@@ -44,14 +45,6 @@ public class DropItens : MonoBehaviour
         return null;
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("sandalia"))
-        {
-
-            _sand.gameObject.SetActive(false);
-
-        }
-    }
-
+    
+    
 }
