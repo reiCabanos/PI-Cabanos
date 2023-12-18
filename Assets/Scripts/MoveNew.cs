@@ -33,11 +33,13 @@ public class MoveNew : MonoBehaviour
     [SerializeField] Transform _miraFinal;
     public ProjectileThrow _project;
     public float _falt = 10f;
+    PlayerPontos _playerPontos;
 
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _playerPontos=Camera.main.GetComponent<PlayerPontos>();
     }
 
     // Update is called once per frame
@@ -152,6 +154,8 @@ public class MoveNew : MonoBehaviour
         }
         if (other.gameObject.CompareTag("item"))
         {
+            _playerPontos.SomarPontos(1);
+            other.GetComponent<ColetarItens>().DestroyItens();
             Debug.Log("ff");
         }
 

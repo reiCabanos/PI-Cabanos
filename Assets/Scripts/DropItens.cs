@@ -9,6 +9,9 @@ public class DropItens : MonoBehaviour
     public GameObject objectToPool;
     public int amountToPool;
     public NpcsControlle _contreleNpcs;
+
+    
+
    
     
 
@@ -20,8 +23,9 @@ public class DropItens : MonoBehaviour
 
     }
 
-    void Start()
+    protected virtual void Start()
     {
+       
         pooledObjects = new List<GameObject>();
         GameObject tmp;
         for (int i = 0; i < amountToPool; i++)
@@ -31,7 +35,10 @@ public class DropItens : MonoBehaviour
             pooledObjects.Add(tmp);
            
         }
+       
+        
     }
+
 
     public GameObject GetPooledObject()
     {

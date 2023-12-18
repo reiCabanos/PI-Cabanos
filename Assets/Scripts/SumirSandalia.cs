@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SumirSandalia : MonoBehaviour
 {
-    public float _falt = 10f;
+  
     // Start is called before the first frame update
     void Start()
     {
