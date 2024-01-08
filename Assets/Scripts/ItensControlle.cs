@@ -14,7 +14,8 @@ public class ItensControlle : MonoBehaviour
     }
     void ItemOn()
     {
-        for(int i=0; i<3; i++)
+        Shuffle(_posFrutas);
+        for(int i=0; i<4; i++)
         {
             FrutaOn(i);
         }
@@ -25,9 +26,19 @@ public class ItensControlle : MonoBehaviour
         GameObject bullet = FrutaPool.SharedInstance.GetPooledObject();
         if (bullet != null)
         {
-            //bullet.transform.position = turret.transform.position;
+            bullet.transform.position = _posFrutas[value].transform.position;
             //bullet.transform.rotation = turret.transform.rotation;
             bullet.SetActive(true);
         }
+    }
+    public void Shuffle(List<Transform> lists)
+    {
+        for (int j=lists.Count-1;j>0;j--) {
+            int rnd = UnityEngine.Random.Range(0, j+1) ;
+            Transform temp = lists[j];
+            lists[j] = lists[rnd];
+            lists[rnd] = temp;
+        }
+    
     }
 }
