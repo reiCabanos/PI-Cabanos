@@ -35,9 +35,9 @@ public class NpcsControlle : MonoBehaviour
             if (oldTimer < 0) { 
                
                 oldTimer = timer;
-                InimigoStart1();
-                InimigoStart2();
-                InimigoIten1();
+                Invoke("InimigoStart1",0.1f);
+                Invoke("InimigoStart2", 0.1f);
+                Invoke("InimigoIten1", 0.1f);
                 timer = Random.Range(3, 6);
                 oldTimer = timer;
             }

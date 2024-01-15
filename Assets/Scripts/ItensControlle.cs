@@ -5,7 +5,10 @@ using UnityEngine;
 public class ItensControlle : MonoBehaviour
 {
     [SerializeField] int _numbFrutas;
+    [SerializeField] int _numbTabuas;
     [SerializeField] List<Transform> _posFrutas;
+    [SerializeField] List<Transform> _posTabuas;
+
 
     private void Start()
     {
@@ -15,11 +18,31 @@ public class ItensControlle : MonoBehaviour
     void ItemOn()
     {
         Shuffle(_posFrutas);
-        for(int i=0; i<4; i++)
+        for(int i=0; i<_posFrutas.Count; i++)
         {
+            Debug.Log("y");
             FrutaOn(i);
+            
         }
-        
+
+        for (int i = 0; i < _posTabuas.Count; i++)
+        {
+            Debug.Log("g");
+            TabuasOn(i);
+           
+
+        }
+
+    }
+    void TabuasOn(int value)
+    {
+        GameObject bullet = TabuaPool.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = _posTabuas[value].transform.position;
+            //bullet.transform.rotation = turret.transform.rotation;
+            bullet.SetActive(true);
+        }
     }
     void FrutaOn(int value)
     {
