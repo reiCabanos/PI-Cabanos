@@ -34,18 +34,24 @@ public class MoveNew : MonoBehaviour
     public ProjectileThrow _project;
     public float _falt = 10f;
     PlayerPontos _playerPontos;
-
+    public Transform[] _camera;
+    public Transform[] _freecamera;
+    public Transform _moveCamera;
+   
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
+       // _camera=GetComponent<Transform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         _checkGround = _controller.isGrounded;
+   //     _orientation.eu = Vector3.zero;
         if (_checkGround)
         {
             _playerVelocity.y = 0;
@@ -158,8 +164,37 @@ public class MoveNew : MonoBehaviour
             other.GetComponent<ColetarItens>().DestroyItens();
             Debug.Log("ff");
         }
+        if (other.gameObject.CompareTag("i"))
+        {
+            for (int i = 0; i < _camera.Length; i++)
+            {
+                _camera[i].gameObject.SetActive(false);
+            }
 
-    }
+
+
+            for (int i = 0; i < _freecamera.Length; i++)
+            {
+                _freecamera[i].gameObject.SetActive(true);
+                _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -180, _freecamera[i].localEulerAngles.z);
+            }
+            Debug.Log("ff");
+
+
+        }
+        if (other.gameObject.CompareTag("p"))
+        {
+
+
+            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
+           
+            Debug.Log("pp");
+
+
+        }
+
+
+        }
     IEnumerator Dano()
     {
         _checkMove = false;

@@ -32,30 +32,39 @@ public class CameraTerceiraPessoa : MonoBehaviour
 
     private void Update()
     {
-       
+
 
         //como conservar a rotação da camera, na troca de estilos de camera
-      
-        
+
+
 
         //Orientação da rotação
+        RotCam();
+
+
+
+    }
+
+    void RotCam()
+    {
+        //Orientação da rotação
+
         Vector3 _viewDir = _player.position - new Vector3(transform.position.x, _player.position.y, transform.position.z);
         _orientation.forward = _viewDir.normalized;
 
         //Rotacionar o Objeto Player
-    
-            float _hInput = Input.GetAxisRaw("Horizontal");
-            float _vInput = Input.GetAxisRaw("Vertical");
-            Vector3 _InputDir = _orientation.forward * _vInput + _orientation.right * _hInput;
 
-            if (_InputDir != Vector3.zero)
-            {
-                _playerObj.forward = Vector3.Slerp(_playerObj.forward, _InputDir.normalized, Time.deltaTime * _rotationSpeed);
-            }
-        
-        
+        float _hInput = Input.GetAxisRaw("Horizontal");
+        float _vInput = Input.GetAxisRaw("Vertical");
+        Vector3 _InputDir = _orientation.forward * _vInput + _orientation.right * _hInput;
+
+        if (_InputDir != Vector3.zero)
+        {
+            _playerObj.forward = Vector3.Slerp(_playerObj.forward, _InputDir.normalized, Time.deltaTime * _rotationSpeed);
+        }
+
     }
 
-    
+
 
 }
