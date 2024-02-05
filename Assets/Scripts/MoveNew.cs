@@ -162,7 +162,7 @@ public class MoveNew : MonoBehaviour
         {
             _playerPontos.SomarPontos(1);
             other.GetComponent<ColetarItens>().DestroyItens();
-            Debug.Log("ff");
+            
         }
         if (other.gameObject.CompareTag("i"))
         {
@@ -178,7 +178,7 @@ public class MoveNew : MonoBehaviour
                 _freecamera[i].gameObject.SetActive(true);
                 _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -145.182f, _freecamera[i].localEulerAngles.z);
             }
-            Debug.Log("ff");
+         
 
 
         }
@@ -190,7 +190,7 @@ public class MoveNew : MonoBehaviour
             //-75.457
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -75.457f, transform.localEulerAngles.z);
 
-            Debug.Log("pp");
+            
 
 
         }
