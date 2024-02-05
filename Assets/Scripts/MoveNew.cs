@@ -173,12 +173,9 @@ public class MoveNew : MonoBehaviour
 
 
 
-            for (int i = 0; i < _freecamera.Length; i++)
-            {
-                _freecamera[i].gameObject.SetActive(true);
-                _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -145.182f, _freecamera[i].localEulerAngles.z);
-            }
-         
+            Cam1();
+
+
 
 
         }
@@ -187,7 +184,7 @@ public class MoveNew : MonoBehaviour
 
 
             _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
-            //-75.457
+           
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -75.457f, transform.localEulerAngles.z);
 
             
@@ -196,7 +193,19 @@ public class MoveNew : MonoBehaviour
         }
 
 
+    }
+
+    public void Cam1()
+    {
+
+        for (int i = 0; i < _freecamera.Length; i++)
+        {
+
+            _freecamera[i].gameObject.SetActive(true);
+            _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -145.182f, _freecamera[i].localEulerAngles.z);
+
         }
+    }
     IEnumerator Dano()
     {
         _checkMove = false;
