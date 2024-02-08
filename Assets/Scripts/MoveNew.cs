@@ -183,9 +183,8 @@ public class MoveNew : MonoBehaviour
         {
 
 
-            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
-           
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -75.457f, transform.localEulerAngles.z);
+            Cam2();
+
 
             
 
@@ -200,11 +199,19 @@ public class MoveNew : MonoBehaviour
 
         for (int i = 0; i < _freecamera.Length; i++)
         {
+           
 
             _freecamera[i].gameObject.SetActive(true);
             _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -145.182f, _freecamera[i].localEulerAngles.z);
-
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -6.2f, transform.localEulerAngles.z);
         }
+    }
+    public void Cam2()
+    {
+        _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
+
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -75.457f, transform.localEulerAngles.z);
+
     }
     IEnumerator Dano()
     {
