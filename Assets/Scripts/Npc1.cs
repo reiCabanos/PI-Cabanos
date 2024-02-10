@@ -9,11 +9,13 @@ public class Npc1 : MonoBehaviour
     public GameObject objectToPool;
     public int amountToPool;
     public NpcsControlle _contreleNpcs;
+    
 
     void Awake()
     {
         SharedInstance = this;
         _contreleNpcs = Camera.main.GetComponent<NpcsControlle>();
+
 
         
     }
@@ -27,9 +29,12 @@ public class Npc1 : MonoBehaviour
             tmp = Instantiate(objectToPool);
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
-            //_inimigoControl._iniVivo_1L.Add(tmp);
+            
         }
+        
     }
+    
+
 
     public GameObject GetPooledObject()
     {
@@ -42,4 +47,5 @@ public class Npc1 : MonoBehaviour
         }
         return null;
     }
+        
 }
