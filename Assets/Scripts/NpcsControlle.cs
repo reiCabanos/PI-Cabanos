@@ -38,6 +38,7 @@ public class NpcsControlle : MonoBehaviour
                 Invoke("InimigoStart1",0.1f);
                 Invoke("InimigoStart2", 0.1f);
                 Invoke("InimigoIten1", 0.1f);
+                Invoke("NpcStart3", 0.1f);
                 timer = Random.Range(3, 6);
                 oldTimer = timer;
             }
@@ -91,11 +92,21 @@ public class NpcsControlle : MonoBehaviour
         }
     }
 
-    public void InimigoIten2()
+    public void NpcStart3()
     {
 
 
+        GameObject bullet = Npc3.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = _pos.position;
 
+            bullet.GetComponent<SeguirPlayer>()._alvo = _pos1[0];
+            bullet.transform.SetParent(_ContNpc._inimigosMae);
+            _iniVivo_1L.Add(bullet);
+            _iniMorto_1L.Remove(bullet);
+            bullet.SetActive(true);
+        }
 
 
     }
