@@ -37,7 +37,10 @@ public class MoveNew : MonoBehaviour
     public Transform[] _camera;
     public Transform[] _freecamera;
     public Transform _moveCamera;
-   
+    [SerializeField] int _quantVida;
+    PlayerControle _playerControle;
+    public Transform _ativar;
+
 
     void Start()
     {
@@ -157,6 +160,12 @@ public class MoveNew : MonoBehaviour
         {
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
+            _quantVida--;
+            _playerControle.CheckIcomVida(_quantVida);
+            
+
+
+
         }
         if (other.gameObject.CompareTag("item"))
         {
