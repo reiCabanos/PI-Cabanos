@@ -2,7 +2,10 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerControle : MonoBehaviour
 {
@@ -13,10 +16,12 @@ public class PlayerControle : MonoBehaviour
     public Transform _virtualCam;
     public Transform _localCam;
     public Camera[] _camera2;
+    public Button _reiniciar;
+    public Transform _player;
+    public GameController _gameController;
     void Start()
     {
-        _iConVida[2].DOScale(0, 0.5f);
-     
+        _gameController=Camera.main.GetComponent<GameController>();
     }
 
 
@@ -35,10 +40,15 @@ public class PlayerControle : MonoBehaviour
     public void CheckIcomVida(int vida)
     {
 
-        if (vida == 0)
+        if (vida <= 0)
         {
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
+            HudCamera2();
+            _gameController._gamerOver = true;
+            _reiniciar.Select();
+
+
         }
         else if (vida == 1)
         {
@@ -52,4 +62,9 @@ public class PlayerControle : MonoBehaviour
         }
 
     }
+    public void GamerReiniciar()
+    {
+        SceneManager.LoadScene("MapaBeta");
+    }
+    
 }

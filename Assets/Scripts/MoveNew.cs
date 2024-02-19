@@ -38,76 +38,89 @@ public class MoveNew : MonoBehaviour
     public Transform[] _freecamera;
     public Transform _moveCamera;
     [SerializeField] int _quantVida;
-    PlayerControle _playerControle;
+    [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
-
+    public GameController _gameController;
+   
+   
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
-       // _camera=GetComponent<Transform>();
+        _gameController = Camera.main.GetComponent<GameController>();
+        // _camera=GetComponent<Transform>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        _checkGround = _controller.isGrounded;
-   //     _orientation.eu = Vector3.zero;
-        if (_checkGround)
+        if (_gameController._gamerOver == false)
         {
-            _playerVelocity.y = 0;
 
-        }
 
-        float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
-        _anim.SetFloat("correndo", tempSpeed);
-        _anim.SetBool("chekground", _controller.isGrounded);
+            _checkGround = _controller.isGrounded;
+            //     _orientation.eu = Vector3.zero;
+            if (_checkGround)
+            {
+                _playerVelocity.y = 0;
 
-        if (_controller.isGrounded == false)
-        {
+            }
+
+            float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+            _anim.SetFloat("correndo", tempSpeed);
+            _anim.SetBool("chekground", _controller.isGrounded);
+
+            if (_controller.isGrounded == false)
+            {
+                Gravidade();
+            }
+            _speedAnimY = _controller.velocity.y;
+            _anim.SetFloat("pulandoY", _speedAnimY);
+            _anim.SetBool("IsRunning", _checkwalk);
+
+            Jump();
+
+            if (_checkMove)
+            {
+                MovimentoPlayer();
+            }
+            else
+            {
+                _anim.SetFloat("correndo", 0);
+                _anim.SetFloat("pulandoY", 0);
+                _anim.SetBool("IsRunning", false);
+                
+            }
+
+            if (_checkJump)
+            {
+                _timer -= Time.deltaTime;
+                if (_timer < 0)
+                {
+                    _checkJump = false;
+                    _timer = _timeValue;
+
+                }
+            }
+
+            if (_checkwalk && _moveSpeed != 0)
+            {
+                _moveSpeed = 6f;
+            }
+            else
+            {
+                _moveSpeed = 2.57f;
+            }
             Gravidade();
-        }
-        _speedAnimY = _controller.velocity.y;
-        _anim.SetFloat("pulandoY", _speedAnimY);
-        _anim.SetBool("IsRunning", _checkwalk);
-
-        Jump();
-
-        if (_checkMove)
-        {
-            MovimentoPlayer();
         }
         else
         {
             _anim.SetFloat("correndo", 0);
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
-          //  _moveX = 0;
-           // _moveZ = 0;
         }
-
-        if (_checkJump)
-        {
-            _timer -= Time.deltaTime;
-            if (_timer < 0)
-            {
-                _checkJump = false;
-                _timer = _timeValue;
-
-            }
-        }
-
-        if (_checkwalk && _moveSpeed != 0)
-        {
-            _moveSpeed = 6f;
-        }
-        else
-        {
-            _moveSpeed = 2.57f;
-        }
-        Gravidade();
     }
 
     void MovimentoPlayer()
@@ -229,7 +242,7 @@ public class MoveNew : MonoBehaviour
         transform.position = _posRestatPlayer.position;
         yield return new WaitForSeconds(1);
         _checkMove = true;
-        Debug.Log("dano");
+        //Debug.Log("dano");
     }
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
