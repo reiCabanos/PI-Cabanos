@@ -42,6 +42,8 @@ public class MoveNew : MonoBehaviour
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
+
+    [SerializeField] bool _autoCorrer;
    
    
 
@@ -50,7 +52,15 @@ public class MoveNew : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-        
+        for (int i = 0; i < _camera.Length; i++)
+        {
+            _camera[i].gameObject.SetActive(false);
+        }
+
+     //   _autoCorrer = true;
+
+        Cam1();
+
         // _camera=GetComponent<Transform>();
 
     }
@@ -60,7 +70,7 @@ public class MoveNew : MonoBehaviour
     {
         if (_gameController._gamerOver == false)
         {
-
+            
 
             _checkGround = _controller.isGrounded;
             //     _orientation.eu = Vector3.zero;
@@ -78,12 +88,23 @@ public class MoveNew : MonoBehaviour
             {
                 Gravidade();
             }
+          
+           
             _speedAnimY = _controller.velocity.y;
             _anim.SetFloat("pulandoY", _speedAnimY);
             _anim.SetBool("IsRunning", _checkwalk);
 
             Jump();
 
+            if (_autoCorrer)
+            {
+
+                CorrerAuto();
+                _anim.SetFloat("correndo", 6);
+                _controller.Move(new Vector3(_moveDir.x, _controller.velocity.y, 6) * Time.deltaTime);
+
+            }
+            
             if (_checkMove)
             {
                 MovimentoPlayer();
@@ -123,6 +144,8 @@ public class MoveNew : MonoBehaviour
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
         }
+
+       
     }
 
     void MovimentoPlayer()
@@ -153,6 +176,12 @@ public class MoveNew : MonoBehaviour
         }
         
 
+    }
+
+    public void CorrerAuto()
+    {
+        _checkwalk = true;
+        _moveSpeed = 6f;
     }
     public void SetJump(InputAction.CallbackContext value)
     {
@@ -186,7 +215,10 @@ public class MoveNew : MonoBehaviour
         {
             _playerPontos.SomarPontos(1);
             other.GetComponent<ColetarItens>().DestroyItens();
-            
+           
+
+
+
         }
         if (other.gameObject.CompareTag("i"))
         {
@@ -195,7 +227,7 @@ public class MoveNew : MonoBehaviour
                 _camera[i].gameObject.SetActive(false);
             }
 
-
+            _autoCorrer = true;
 
             Cam1();
 
