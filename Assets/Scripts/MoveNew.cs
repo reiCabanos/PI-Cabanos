@@ -37,7 +37,8 @@ public class MoveNew : MonoBehaviour
     public Transform[] _camera;
     public Transform[] _freecamera;
     public Transform _moveCamera;
-    [SerializeField] int _quantVida;
+    [SerializeField] int _quantVida=3;
+    [SerializeField] int _quantVida2;
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
@@ -49,6 +50,7 @@ public class MoveNew : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
+        
         // _camera=GetComponent<Transform>();
 
     }

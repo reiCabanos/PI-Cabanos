@@ -19,9 +19,11 @@ public class PlayerControle : MonoBehaviour
     public Button _reiniciar;
     public Transform _player;
     public GameController _gameController;
+    public MoveNew _moveNew;
     void Start()
     {
         _gameController=Camera.main.GetComponent<GameController>();
+        
     }
 
 
@@ -47,6 +49,11 @@ public class PlayerControle : MonoBehaviour
             HudCamera2();
             _gameController._gamerOver = true;
             _reiniciar.Select();
+            
+
+
+
+
 
 
         }
@@ -65,6 +72,7 @@ public class PlayerControle : MonoBehaviour
     public void GamerReiniciar()
     {
         SceneManager.LoadScene("MapaBeta");
+        _gameController._gamerOver=false;
     }
     
 }
