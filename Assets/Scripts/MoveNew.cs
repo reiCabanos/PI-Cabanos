@@ -34,13 +34,11 @@ public class MoveNew : MonoBehaviour
     public ProjectileThrow _project;
     public float _falt = 10f;
     PlayerPontos _playerPontos;
-    public Transform[] _camera;
-    public Transform[] _freecamera;
-    public Transform _moveCamera;
+   
     [SerializeField] int _quantVida=3;
-    [SerializeField] int _quantVida2;
+    
     [SerializeField] PlayerControle _playerControle;
-    public Transform _ativar;
+    
     public GameController _gameController;
 
     [SerializeField] bool _autoCorrer;
@@ -52,17 +50,7 @@ public class MoveNew : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-        for (int i = 0; i < _camera.Length; i++)
-        {
-            _camera[i].gameObject.SetActive(false);
-        }
-
-     //   _autoCorrer = true;
-
-        Cam1();
-
-        // _camera=GetComponent<Transform>();
-
+       
     }
 
     // Update is called once per frame
@@ -220,55 +208,13 @@ public class MoveNew : MonoBehaviour
 
 
         }
-        if (other.gameObject.CompareTag("i"))
-        {
-            for (int i = 0; i < _camera.Length; i++)
-            {
-                _camera[i].gameObject.SetActive(false);
-            }
-
-            _autoCorrer = true;
-
-            Cam1();
-
-
-
-
-        }
-        if (other.gameObject.CompareTag("p"))
-        {
-
-
-            Cam2();
-
-
-            
-
-
-        }
-
+       
+       
 
     }
 
-    public void Cam1()
-    {
-
-        for (int i = 0; i < _freecamera.Length; i++)
-        {
-           
-
-            _freecamera[i].gameObject.SetActive(true);
-            _freecamera[i].localEulerAngles = new Vector3(_freecamera[i].localEulerAngles.x, -145.182f, _freecamera[i].localEulerAngles.z);
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -6.2f, transform.localEulerAngles.z);
-        }
-    }
-    public void Cam2()
-    {
-        _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
-
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -75.457f, transform.localEulerAngles.z);
-
-    }
+    
+    
     IEnumerator Dano()
     {
         _checkMove = false;

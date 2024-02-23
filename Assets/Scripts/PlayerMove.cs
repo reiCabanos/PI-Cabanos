@@ -25,18 +25,18 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _rot;
     [SerializeField] float _velocidade;
     [SerializeField]bool _checkwalk;
+    [SerializeField] Transform _orientation;
 
-   
-     [SerializeField]FreeLookCam _cam;
+
 
     [SerializeField] Transform _posRestatPlayer;
     [SerializeField] bool _checkMove;
-    Vector3 _vMovimento;
+    Vector3 _moveDir;
     float _currentvelocity;
     [SerializeField] float _smoothTime=0.0f;
     Vector3 _input;
+    public Transform _moveCamera;
 
-    Transform _myCamera;
 
 
     void Start()
@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
         _anim = GetComponent<Animator>();
 
         _checkMove = true;
-        _myCamera = Camera.main.transform;
+        
 
 
     }
@@ -99,22 +99,13 @@ public class PlayerMove : MonoBehaviour
     } 
     void Andar()
     {
-       // RoationPlayer();
+       
 
-         var forward = _myCamera.TransformDirection(Vector3.forward);
-        forward.y = 0;
+        //orientação do movimento
+        _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
 
-        var right = _myCamera.TransformDirection(Vector3.right);
-
-        Vector3 direcao = _vMovimento.x * right + _vMovimento.z * forward;
-
-        if(_vMovimento!= Vector3.zero && direcao.magnitude > 0.1f){
-            Quaternion FreeRotation = Quaternion.LookRotation(direcao.normalized,transform.up);
-            transform.rotation = FreeRotation;
-        }
-
-        _characterController.Move(_vMovimento * _speed * Time.deltaTime);
-        _characterController.Move(Vector3.down * Time.deltaTime);
+        //movimento
+        _characterController.Move(new Vector3(_moveDir.x, _characterController.velocity.y, _moveDir.z) * Time.deltaTime);
 
         if (_checkwalk && _velocidade != 0)
         {
@@ -130,13 +121,25 @@ public class PlayerMove : MonoBehaviour
     {
         if (_input.sqrMagnitude==0)return;
             
-       var tartAngle = Mathf.Atan2(_vMovimento.x,_vMovimento.z)*Mathf.Rad2Deg;
+       var tartAngle = Mathf.Atan2( _moveDir.x, _moveDir.z)*Mathf.Rad2Deg;
        var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime);
        transform.rotation=Quaternion.Euler(0,angle,0);
         
 
     }
-   
+    public void SetMove(InputAction.CallbackContext value)
+    {
+        if (_checkMove)
+        {
+            Vector3 m = value.ReadValue<Vector3>();
+            _moveX = m.x;
+            _moveZ = m.y;
+        }
+
+
+    }
+
+
     public void SetJump(InputAction.CallbackContext value)
     {
         _checkJump = true;
@@ -145,10 +148,7 @@ public class PlayerMove : MonoBehaviour
     {
         _checkwalk = value.performed;
     }
-    public void SetCamera(InputAction.CallbackContext value)
-    {
-        _cam.posCam = value.ReadValue<Vector3>();
-    }
+    
     void Jump()
     {
         if (_checkGround==true && _checkJump)
@@ -160,9 +160,8 @@ public class PlayerMove : MonoBehaviour
     }
     void Gravity()
     {
-      //  _characterController.Move(new Vector3(_characterController.velocity.x, 0, _characterController.velocity.z));
+      
         _playerVelocity.y += _gravityValue * Time.deltaTime;
-      //  _playerVelocity.y = Mathf.Sqrt(_jumpForce / 5 * -3.0f * _gravityValue);
         _characterController.Move( _playerVelocity *Time.deltaTime);
       
     }
@@ -174,9 +173,21 @@ public class PlayerMove : MonoBehaviour
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
         }
+        if (other.gameObject.CompareTag("p"))
+        {
+            RotacaoDaCamera();
+        }
+
 
     }
-     IEnumerator Dano()
+    public void RotacaoDaCamera()
+    {
+        _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
+
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z);
+
+    }
+    IEnumerator Dano()
     {
         _checkMove = false;
         yield return new WaitForSeconds(2);
