@@ -39,7 +39,11 @@ public class CameraTerceiraPessoa : MonoBehaviour
 
 
         //Orientação da rotação
-        RotCam();
+        if (_orientation != null)
+        {
+            RotCam();
+        }
+        //RotCam();
 
 
 
@@ -50,6 +54,7 @@ public class CameraTerceiraPessoa : MonoBehaviour
         //Orientação da rotação
 
         Vector3 _viewDir = _player.position - new Vector3(transform.position.x, _player.position.y, transform.position.z);
+
         _orientation.forward = _viewDir.normalized;
 
         //Rotacionar o Objeto Player

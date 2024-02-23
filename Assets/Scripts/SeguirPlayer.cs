@@ -40,6 +40,11 @@ public class SeguirPlayer : MonoBehaviour
     {
 
         _speedAnin = Mathf.Abs(_speedAgente.x + _speedAgente.z);
-        _animator.SetFloat("Speed", _speedAnin);
+
+        if (_animator != null)
+        {
+            _animator.SetFloat("Speed", _speedAnin);
+        }
+      
     }
 }

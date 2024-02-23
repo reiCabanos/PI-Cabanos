@@ -39,6 +39,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] int _quantVida = 3;
     [SerializeField] PlayerControle _playerControle;
     [SerializeField] bool _autoCorrer=true;
+    [SerializeField] int _mod;
 
 
 
@@ -193,6 +194,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("filho"))
         {
+            Debug.Log("Leo maconha");
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
             _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
