@@ -34,11 +34,12 @@ public class MoveNew : MonoBehaviour
     public ProjectileThrow _project;
     public float _falt = 10f;
     PlayerPontos _playerPontos;
-   
+    
+    
     [SerializeField] int _quantVida=3;
-    
+   
     [SerializeField] PlayerControle _playerControle;
-    
+    public Transform _ativar;
     public GameController _gameController;
 
     [SerializeField] bool _autoCorrer;
@@ -50,7 +51,8 @@ public class MoveNew : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-       
+        
+
     }
 
     // Update is called once per frame
@@ -208,13 +210,12 @@ public class MoveNew : MonoBehaviour
 
 
         }
-       
-       
+        
+
 
     }
 
-    
-    
+   
     IEnumerator Dano()
     {
         _checkMove = false;

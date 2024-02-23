@@ -13,16 +13,16 @@ public class PlayerControle : MonoBehaviour
     [SerializeField] Transform _telaGameOver;
     public Transform _camera;
     public Canvas _canvas;
-    public Transform _virtualCam;
-    public Transform _localCam;
+    
     public Camera[] _camera2;
     public Button _reiniciar;
     public Transform _player;
     public GameController _gameController;
-    public MoveNew _moveNew;
+    //public MoveNew _moveNew
+    public PlayerMove _playerMove;
     void Start()
     {
-        _gameController=Camera.main.GetComponent<GameController>();
+        //_gameController=Camera.main.GetComponent<GameController>();
         
     }
 
@@ -47,7 +47,7 @@ public class PlayerControle : MonoBehaviour
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
             HudCamera2();
-            _gameController._gamerOver = true;
+            //_gameController._gamerOver = true;
             _reiniciar.Select();
             
 
@@ -72,7 +72,7 @@ public class PlayerControle : MonoBehaviour
     public void GamerReiniciar()
     {
         SceneManager.LoadScene("MapaBeta");
-        _gameController._gamerOver=false;
+        //_gameController._gamerOver=false;
     }
     
 }

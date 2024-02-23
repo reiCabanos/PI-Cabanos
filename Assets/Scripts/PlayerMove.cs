@@ -36,12 +36,19 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _smoothTime=0.0f;
     Vector3 _input;
     public Transform _moveCamera;
+    [SerializeField] int _quantVida = 3;
+    [SerializeField] PlayerControle _playerControle;
+    [SerializeField] bool _autoCorrer=true;
+
+
 
 
 
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
+       
+
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
 
@@ -49,54 +56,60 @@ public class PlayerMove : MonoBehaviour
         
 
 
+
+
+
     }
     void Update()
     {
-        _checkGround = _characterController.isGrounded;
-        if (_checkGround)
-        {
-            _playerVelocity.y = 0;
-
-        }
-
-        float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
-        _anim.SetFloat("correndo", tempSpeed); 
-        _anim.SetBool("chekground", _characterController.isGrounded);
         
-        if (_characterController.isGrounded == false)
-        {
-            Gravity();
-        }
-        _speedAnimY = _characterController.velocity.y;
-        _anim.SetFloat("pulandoY", _speedAnimY);
-        _anim.SetBool("IsRunning", _checkwalk);
+            _checkGround = _characterController.isGrounded;
+            if (_checkGround)
+            {
+                _playerVelocity.y = 0;
+
+            }
+
+            float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+            _anim.SetFloat("correndo", tempSpeed);
+            _anim.SetBool("chekground", _characterController.isGrounded);
+
+            if (_characterController.isGrounded == false)
+            {
+                Gravity();
+            }
+            _speedAnimY = _characterController.velocity.y;
+            _anim.SetFloat("pulandoY", _speedAnimY);
+            _anim.SetBool("IsRunning", _checkwalk);
+
+
+
+            if (_checkMove)
+            {
+                Andar();
+            }
+
+
         
-
-
-        if (_checkMove) { 
-        Andar();
-        }
-
-        
-
 
         Jump();
 
-        if (_checkJump)
-        {
-            _timer-=Time.deltaTime;
-            if(_timer<0)
+            if (_checkJump)
             {
-                _checkJump = false;
-                _timer = _timeValue;
+                _timer -= Time.deltaTime;
+                if (_timer < 0)
+                {
+                    _checkJump = false;
+                    _timer = _timeValue;
 
+                }
             }
-        }  
-        Gravity();
-      
-       
+            Gravity();
 
-    } 
+
+
+        
+    }
     void Andar()
     {
        
@@ -172,6 +185,10 @@ public class PlayerMove : MonoBehaviour
         {
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
+            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z);
+            _quantVida--;
+            _playerControle.CheckIcomVida(_quantVida);
         }
         if (other.gameObject.CompareTag("p"))
         {
@@ -186,6 +203,11 @@ public class PlayerMove : MonoBehaviour
 
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z);
 
+    }
+    public void CorrerAuto()
+    {
+        _checkwalk = true;
+        _speed = 6f;
     }
     IEnumerator Dano()
     {
