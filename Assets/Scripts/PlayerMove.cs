@@ -103,8 +103,18 @@ public class PlayerMove : MonoBehaviour
                     _timer = _timeValue;
 
                 }
+
             }
-            Gravity();
+        if (_autoCorrer)
+        {
+
+            CorrerAuto();
+            _anim.SetFloat("correndo", 6);
+             tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+           
+
+        }
+        Gravity();
 
 
 
