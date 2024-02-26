@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityStandardAssets.Cameras;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] PlayerControle _playerControle;
     [SerializeField] bool _autoCorrer=true;
     [SerializeField] int _mod;
-
+    PlayerPontos _playerPontos;
 
 
 
@@ -52,6 +53,7 @@ public class PlayerMove : MonoBehaviour
 
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
+       _playerPontos = Camera.main.GetComponent<PlayerPontos>();
 
         _checkMove = true;
         
@@ -113,6 +115,8 @@ public class PlayerMove : MonoBehaviour
             _anim.SetFloat("correndo", 6);
              tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
            
+
+
 
         }
         Gravity();
@@ -194,11 +198,10 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("filho"))
         {
-            Debug.Log("Leo maconha");
+           
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             StartCoroutine(Dano());
-            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z);
+            
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
         }
@@ -206,6 +209,27 @@ public class PlayerMove : MonoBehaviour
         {
             RotacaoDaCamera();
         }
+        
+        if (other.gameObject.CompareTag("i"))
+        {
+            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z);
+
+
+
+
+        }
+        if (other.gameObject.CompareTag("item"))
+        {
+            _playerPontos.SomarPontos(1);
+            other.GetComponent<ColetarItens>().DestroyItens();
+
+
+
+
+        }
+
+
 
 
     }

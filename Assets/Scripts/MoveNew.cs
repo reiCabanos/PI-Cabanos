@@ -204,6 +204,7 @@ public class MoveNew : MonoBehaviour
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
+            
             other.GetComponent<ColetarItens>().DestroyItens();
            
 
