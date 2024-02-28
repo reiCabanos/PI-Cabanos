@@ -53,7 +53,7 @@ public class CameraTerceiraPessoa : MonoBehaviour
     {
         //Orientação da rotação
 
-        Vector3 _viewDir = _player.position - new Vector3(transform.position.x, _player.position.y, transform.position.z);
+        Vector3 _viewDir = (_player.position - new Vector3(transform.position.x, _player.position.y, transform.position.z))*0.5f;
 
         _orientation.forward = _viewDir.normalized;
 
@@ -65,7 +65,7 @@ public class CameraTerceiraPessoa : MonoBehaviour
 
         if (_InputDir != Vector3.zero)
         {
-            _playerObj.forward = Vector3.Slerp(_playerObj.forward, _InputDir.normalized, Time.deltaTime * _rotationSpeed);
+            _playerObj.forward = Vector3.Slerp(_playerObj.forward, _InputDir.normalized, Time.deltaTime * _rotationSpeed*0.2f);
         }
 
     }

@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityStandardAssets.Cameras;
 using static UnityEngine.Rendering.DebugUI;
+using DG.Tweening;
+using UnityEngine.UIElements;
+using Unity.Mathematics;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -114,7 +117,7 @@ public class PlayerMove : MonoBehaviour
             CorrerAuto();
             _anim.SetFloat("correndo", 6);
              tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
-           
+                                                                                                                       
 
 
 
@@ -207,7 +210,10 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.gameObject.CompareTag("p"))
         {
+
             RotacaoDaCamera();
+
+
         }
         
         if (other.gameObject.CompareTag("i"))
@@ -228,6 +234,7 @@ public class PlayerMove : MonoBehaviour
 
 
         }
+      
 
 
 
@@ -235,11 +242,13 @@ public class PlayerMove : MonoBehaviour
     }
     public void RotacaoDaCamera()
     {
-        _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z);
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+       
 
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z);
+        transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
 
     }
+    
     public void CorrerAuto()
     {
         _checkwalk = true;
