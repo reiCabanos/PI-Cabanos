@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class hudcontrole : MonoBehaviour
         }
 
         _MenuControls[0].gameObject.SetActive(true);
+        _MenuControls[0].MenuOFF();
+        _MenuControls[0].transform.DOScale(1,0.25f);
+        _MenuControls[0].ChamaMenu();
 
     }
 
