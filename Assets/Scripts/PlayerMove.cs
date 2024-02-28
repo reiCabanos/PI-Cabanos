@@ -212,7 +212,7 @@ public class PlayerMove : MonoBehaviour
         {
 
             RotacaoDaCamera();
-
+            
 
         }
         
@@ -220,8 +220,6 @@ public class PlayerMove : MonoBehaviour
         {
             _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z);
-
-
 
 
         }
@@ -248,7 +246,8 @@ public class PlayerMove : MonoBehaviour
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
 
     }
-    
+   
+
     public void CorrerAuto()
     {
         _checkwalk = true;
