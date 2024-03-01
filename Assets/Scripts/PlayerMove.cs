@@ -45,6 +45,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] bool _autoCorrer=true;
     [SerializeField] int _mod;
     PlayerPontos _playerPontos;
+    [SerializeField] GameObject _pont1;
+
 
 
 
@@ -115,6 +117,8 @@ public class PlayerMove : MonoBehaviour
         {
 
             CorrerAuto();
+            
+            
             _anim.SetFloat("correndo", 6);
              tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
                                                                                                                        
@@ -208,10 +212,11 @@ public class PlayerMove : MonoBehaviour
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
         }
-        if (other.gameObject.CompareTag("p"))
+        if (other.gameObject.CompareTag("p2"))
         {
 
             RotacaoDaCamera();
+            _pont1.SetActive(true);
             
 
         }
@@ -250,6 +255,10 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
+        //_moveDir = new Vector3(0, 0, 1);
+       // _speed = 6f;
+
+      //_characterController.Move(new Vector3(_moveDir.x, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
         _speed = 6f;
     }
