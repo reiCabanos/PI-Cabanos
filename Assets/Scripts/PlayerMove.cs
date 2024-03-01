@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] int _mod;
     PlayerPontos _playerPontos;
     [SerializeField] GameObject _pont1;
-
+    float value;
 
 
 
@@ -61,7 +61,9 @@ public class PlayerMove : MonoBehaviour
        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
 
         _checkMove = true;
-        
+        value = -1;
+
+
 
 
 
@@ -120,7 +122,7 @@ public class PlayerMove : MonoBehaviour
             
             
             _anim.SetFloat("correndo", 6);
-             tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+            
                                                                                                                        
 
 
@@ -207,6 +209,7 @@ public class PlayerMove : MonoBehaviour
         {
            
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
+            _pont1.SetActive(false);
             StartCoroutine(Dano());
             
             _quantVida--;
@@ -217,7 +220,7 @@ public class PlayerMove : MonoBehaviour
 
             RotacaoDaCamera();
             _pont1.SetActive(true);
-            
+            value *= -1;
 
         }
         
@@ -244,7 +247,8 @@ public class PlayerMove : MonoBehaviour
 
     }
     public void RotacaoDaCamera()
-    {
+    { 
+
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
        
 
@@ -255,12 +259,12 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
-        //_moveDir = new Vector3(0, 0, 1);
-       // _speed = 6f;
+       _moveDir = new Vector3(-1, 0, -1);
+        _speed = 4f;
 
-      //_characterController.Move(new Vector3(_moveDir.x, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
+      _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
-        _speed = 6f;
+        //_speed = 6f;
     }
     IEnumerator Dano()
     {
