@@ -18,10 +18,10 @@ public class MenuControl : MonoBehaviour
         {
             _itensMenu[i].localScale = Vector3.zero;
         }
-        for (int i = 0; i < _itensMenu.Count; i++)
+      /*  for (int i = 0; i < _itensMenu.Count; i++)
         {
             _itensMenu[i].DOScale(1, 0.5f);
-        }
+        }*/
 
 
     }
