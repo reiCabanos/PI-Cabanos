@@ -48,6 +48,10 @@ public class PlayerMove : MonoBehaviour
     PlayerPontos _playerPontos;
     [SerializeField] GameObject _pont1;
     float value;
+    bool _isStandingStill = false; 
+    float _standStillDuration = 5f; 
+    bool _isReseting = false;
+   PlayerMove _playerMove;
 
 
 
@@ -122,9 +126,9 @@ public class PlayerMove : MonoBehaviour
             CorrerAuto();
             
             _anim.SetFloat("correndo", 6);
-            
-                                                                                                                       
 
+
+            
 
 
         }
@@ -211,7 +215,10 @@ public class PlayerMove : MonoBehaviour
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
-            
+         
+
+            _isReseting = true;
+
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
         }
@@ -222,6 +229,7 @@ public class PlayerMove : MonoBehaviour
             _pont1.SetActive(true);
             value *= -1;
             _posRestatPlayer2 =other.GetComponent<Resetar>()._posRestat;
+            
 
 
         }
@@ -261,19 +269,15 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
-        StartCoroutine(TimerCoroutine());
+        
        _moveDir = new Vector3(-1, 0, -1);
-        _speed = 4f;
+        _speed = 1.5f;
         
         _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
         //_speed = 6f;
     }
-    IEnumerator TimerCoroutine()
-    {
-        yield return new WaitForSeconds(20);
-        
-    }
+    
     IEnumerator Dano()
     {
         _checkMove = false;
@@ -283,4 +287,5 @@ public class PlayerMove : MonoBehaviour
         _checkMove =true;
         Debug.Log("dano");
     }
+   
 }
