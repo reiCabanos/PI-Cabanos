@@ -34,6 +34,7 @@ public class PlayerMove : MonoBehaviour
 
 
     [SerializeField] Transform _posRestatPlayer;
+    [SerializeField] Transform _posRestatPlayer2;
     [SerializeField] bool _checkMove;
     Vector3 _moveDir;
     float _currentvelocity;
@@ -117,9 +118,8 @@ public class PlayerMove : MonoBehaviour
             }
         if (_autoCorrer)
         {
-
+           
             CorrerAuto();
-            
             
             _anim.SetFloat("correndo", 6);
             
@@ -221,6 +221,8 @@ public class PlayerMove : MonoBehaviour
             RotacaoDaCamera();
             _pont1.SetActive(true);
             value *= -1;
+            _posRestatPlayer2 =other.GetComponent<Resetar>()._posRestat;
+
 
         }
         
@@ -259,12 +261,18 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
+        StartCoroutine(TimerCoroutine());
        _moveDir = new Vector3(-1, 0, -1);
         _speed = 4f;
-
-      _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
+        
+        _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
         //_speed = 6f;
+    }
+    IEnumerator TimerCoroutine()
+    {
+        yield return new WaitForSeconds(20);
+        
     }
     IEnumerator Dano()
     {

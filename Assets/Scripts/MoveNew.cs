@@ -9,7 +9,7 @@ public class MoveNew : MonoBehaviour
 {
     public Transform _orientation;
 
-     float _moveX, _moveZ;
+    float _moveX, _moveZ;
     [SerializeField] float _jumpForce;
 
     Vector3 _moveDir;
@@ -34,24 +34,28 @@ public class MoveNew : MonoBehaviour
     public ProjectileThrow _project;
     public float _falt = 10f;
     PlayerPontos _playerPontos;
-    
-    
-    [SerializeField] int _quantVida=3;
-   
+
+
+    [SerializeField] int _quantVida = 3;
+
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
 
     [SerializeField] bool _autoCorrer;
-   
-   
+    
+    public GameObject[] _aimCamera;
+
+
+
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-        
+       
+
 
     }
 
@@ -233,8 +237,19 @@ public class MoveNew : MonoBehaviour
         _mira.gameObject.SetActive(_mira1);
         _miraFinal.gameObject.SetActive(_mira1);
         _checkMove = !_mira1;
+        if (_mira1)
+        {
+            _aimCamera[0].gameObject.SetActive(false);
+            _aimCamera[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            _aimCamera[0].gameObject.SetActive(true);
+            _aimCamera[1].gameObject.SetActive(false);
+        }
 
-       
+
+
 
     }
     public void SetAtirar(InputAction.CallbackContext callbackContext)
