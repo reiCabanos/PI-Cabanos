@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
     public Transform _moveCamera;
     [SerializeField] int _quantVida = 3;
     [SerializeField] PlayerControle _playerControle;
-    [SerializeField] bool _autoCorrer=true;
+    [SerializeField] bool _autoCorrer;
     [SerializeField] int _mod;
     PlayerPontos _playerPontos;
     [SerializeField] GameObject _pont1;
@@ -51,7 +51,8 @@ public class PlayerMove : MonoBehaviour
     bool _isStandingStill = false; 
     float _standStillDuration = 5f; 
     bool _isReseting = false;
-   PlayerMove _playerMove;
+    [SerializeField] ControlePersonagem _controle;
+
 
 
 
@@ -64,9 +65,11 @@ public class PlayerMove : MonoBehaviour
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
-
+        _controle= Camera.main.GetComponent<ControlePersonagem>();
         _checkMove = true;
         value = -1;
+
+
 
 
 
@@ -77,7 +80,8 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
-        
+        if (_controle._stop == false)
+        {
             _checkGround = _characterController.isGrounded;
             if (_checkGround)
             {
@@ -105,9 +109,9 @@ public class PlayerMove : MonoBehaviour
             }
 
 
-        
 
-        Jump();
+
+            Jump();
 
             if (_checkJump)
             {
@@ -120,21 +124,22 @@ public class PlayerMove : MonoBehaviour
                 }
 
             }
-        if (_autoCorrer)
-        {
-           
-            CorrerAuto();
-            
-            _anim.SetFloat("correndo", 6);
+            if (_autoCorrer)
+            {
+
+                CorrerAuto();
+
+                _anim.SetFloat("correndo", 6);
 
 
-            
+
+
+
+            }
+            Gravity();
 
 
         }
-        Gravity();
-
-
 
         
     }
@@ -225,9 +230,12 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("p2"))
         {
 
+            
             RotacaoDaCamera();
+            
             _pont1.SetActive(true);
             value *= -1;
+            ;
             _posRestatPlayer2 =other.GetComponent<Resetar>()._posRestat;
             
 
@@ -271,7 +279,7 @@ public class PlayerMove : MonoBehaviour
     {
         
        _moveDir = new Vector3(-1, 0, -1);
-        _speed = 1.5f;
+        _speed = 4f;
         
         _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
@@ -286,6 +294,11 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(1);
         _checkMove =true;
         Debug.Log("dano");
+    }
+    
+    public void Corretrue()
+    {
+        _autoCorrer = true;
     }
    
 }

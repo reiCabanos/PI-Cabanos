@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.HighDefinition;
@@ -20,11 +21,13 @@ public class PlayerControle : MonoBehaviour
     public GameController _gameController;
     //public MoveNew _moveNew
     public PlayerMove _playerMove;
+    public ControlePersonagem _controle;
     void Start()
     {
-        //_gameController=Camera.main.GetComponent<GameController>();
-        
+        _controle = Camera.main.GetComponent<ControlePersonagem>();
     }
+
+
 
 
     void Update()
@@ -47,7 +50,7 @@ public class PlayerControle : MonoBehaviour
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
             HudCamera2();
-            //_gameController._gamerOver = true;
+            _controle._stop = true;
             _reiniciar.Select();
             
 
