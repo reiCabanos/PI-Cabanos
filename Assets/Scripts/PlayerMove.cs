@@ -52,6 +52,8 @@ public class PlayerMove : MonoBehaviour
     float _standStillDuration = 5f; 
     bool _isReseting = false;
     [SerializeField] ControlePersonagem _controle;
+    
+   
 
 
 
@@ -235,7 +237,7 @@ public class PlayerMove : MonoBehaviour
             
             _pont1.SetActive(true);
             value *= -1;
-            ;
+            
             _posRestatPlayer2 =other.GetComponent<Resetar>()._posRestat;
             
 
@@ -253,6 +255,7 @@ public class PlayerMove : MonoBehaviour
         {
             _playerPontos.SomarPontos(1);
             other.GetComponent<ColetarItens>().DestroyItens();
+
 
 
 
@@ -279,7 +282,7 @@ public class PlayerMove : MonoBehaviour
     {
         
        _moveDir = new Vector3(-1, 0, -1);
-        _speed = 4f;
+        _speed = 1f;
         
         _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;

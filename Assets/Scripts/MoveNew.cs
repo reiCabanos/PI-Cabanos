@@ -237,7 +237,7 @@ public class MoveNew : MonoBehaviour
         _mira.gameObject.SetActive(_mira1);
         _miraFinal.gameObject.SetActive(_mira1);
         _checkMove = !_mira1;
-        if (_mira1)
+        /*if (_mira1)
         {
             _aimCamera[0].gameObject.SetActive(false);
             _aimCamera[1].gameObject.SetActive(true);
@@ -246,7 +246,7 @@ public class MoveNew : MonoBehaviour
         {
             _aimCamera[0].gameObject.SetActive(true);
             _aimCamera[1].gameObject.SetActive(false);
-        }
+        }*/
 
 
 
