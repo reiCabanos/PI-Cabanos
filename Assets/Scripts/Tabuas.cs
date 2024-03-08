@@ -14,7 +14,7 @@ public class Tabuas : ColetarItens
     }
     IEnumerator DestruirTime()
     {
-        Testura.enabled = false;transform.DOMove(PosTaboa.position, 2f);
+        Testura.enabled = false;
         PartSaida.SetActive(true);
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);

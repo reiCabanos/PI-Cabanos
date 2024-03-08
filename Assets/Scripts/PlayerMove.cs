@@ -52,8 +52,11 @@ public class PlayerMove : MonoBehaviour
     float _standStillDuration = 5f; 
     bool _isReseting = false;
     [SerializeField] ControlePersonagem _controle;
-    
-   
+    [SerializeField] Transform _posTaboa;
+    [SerializeField] Transform _taboa;
+    public Vector3 deslocamento = new Vector3(0f, 0f, 3f);
+
+
 
 
 
@@ -253,10 +256,13 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.gameObject.CompareTag("item"))
         {
+
+           
             _playerPontos.SomarPontos(1);
+            
+           transform.DOMove(_posTaboa.position, 2f);
+            
             other.GetComponent<ColetarItens>().DestroyItens();
-
-
 
 
 
@@ -282,7 +288,7 @@ public class PlayerMove : MonoBehaviour
     {
         
        _moveDir = new Vector3(-1, 0, -1);
-        _speed = 1f;
+        _speed = 4f;
         
         _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
         _checkwalk = true;
@@ -296,7 +302,7 @@ public class PlayerMove : MonoBehaviour
         transform.position = _posRestatPlayer.position;
         yield return new WaitForSeconds(1);
         _checkMove =true;
-        Debug.Log("dano");
+       
     }
     
     public void Corretrue()

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,15 +20,11 @@ public class PlayGamer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         
     }
     public void GamePlay()
     {
-        if (_controle==false)
-        {
-
-
-        }
+        _controle._stop = true;
     }
 }

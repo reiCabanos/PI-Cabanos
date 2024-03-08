@@ -75,7 +75,7 @@ public class PlayerControle : MonoBehaviour
     public void GamerReiniciar()
     {
         SceneManager.LoadScene("MapaBeta");
-        //_gameController._gamerOver=false;
+        _controle._stop=false;
     }
     
 }
