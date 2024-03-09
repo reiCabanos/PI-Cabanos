@@ -18,7 +18,7 @@ public class hudcontrole : MonoBehaviour
         }
         _MenuControls[0].gameObject.SetActive(true);
         _MenuControls[0].MenuOFF();
-        _MenuControls[0].transform.DOScale(1,0.25f);
+        _MenuControls[0].transform.DOScale(1,00f);
         _MenuControls[0].ChamaMenu();
 
     }
@@ -34,7 +34,7 @@ public class hudcontrole : MonoBehaviour
             _MenuControls[i].gameObject.SetActive(false);
         }
         _MenuControls[value].gameObject.SetActive(true);
-        _MenuControls[value].transform.DOScale(1, 25F);
+        _MenuControls[value].transform.DOScale(1, 00F);
         _MenuControls[value].ChamaMenu();
     }
 
