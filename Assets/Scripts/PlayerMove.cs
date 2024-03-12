@@ -260,7 +260,7 @@ public class PlayerMove : MonoBehaviour
            
             _playerPontos.SomarPontos(1);
             
-           transform.DOMove(_posTaboa.position, 2f);
+           //transform.DOMove(_posTaboa.position, 2f);
             
             other.GetComponent<ColetarItens>().DestroyItens();
 
