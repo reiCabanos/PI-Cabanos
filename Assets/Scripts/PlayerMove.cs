@@ -9,6 +9,9 @@ using static UnityEngine.Rendering.DebugUI;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using Unity.Mathematics;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -55,6 +58,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] Transform _posTaboa;
     [SerializeField] Transform _taboa;
     public Vector3 deslocamento = new Vector3(0f, 0f, 3f);
+    public Button _fimG;
+    public Transform _fim; 
 
 
 
@@ -221,11 +226,11 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("filho"))
         {
-           
+
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
-         
+
 
             _isReseting = true;
 
@@ -235,18 +240,18 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("p2"))
         {
 
-            
+
             RotacaoDaCamera();
-            
+
             _pont1.SetActive(true);
             value *= -1;
-            
-            _posRestatPlayer2 =other.GetComponent<Resetar>()._posRestat;
-            
+
+            _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
+
 
 
         }
-        
+
         if (other.gameObject.CompareTag("i"))
         {
             _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
@@ -257,21 +262,26 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("item"))
         {
 
-           
+
             _playerPontos.SomarPontos(1);
-            
-           //transform.DOMove(_posTaboa.position, 2f);
-            
+
+            //transform.DOMove(_posTaboa.position, 2f);
+
             other.GetComponent<ColetarItens>().DestroyItens();
 
 
 
         }
-      
+        if (other.gameObject.CompareTag("fimGamer"))
+        {
+
+            _controle._stop=true;
+            transform.DORotate (new Vector3(transform.localEulerAngles.x, 37.18f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
+            _fim.DOScale(1, 0.5f);
+            _fimG.Select();
 
 
-
-
+        }
     }
     public void RotacaoDaCamera()
     { 
@@ -309,5 +319,10 @@ public class PlayerMove : MonoBehaviour
     {
         _autoCorrer = true;
     }
-   
+
+    public void FimGamer()
+    {
+        SceneManager.LoadScene("MapaBeta");
+    }
+
 }

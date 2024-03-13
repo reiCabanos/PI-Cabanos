@@ -50,7 +50,7 @@ public class PlayerControle : MonoBehaviour
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
             HudCamera2();
-            _controle._stop = true;
+            //_controle._stop = true;
             _reiniciar.Select();
             
 
