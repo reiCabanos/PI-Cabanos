@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloudGeneratorScript : MonoBehaviour
+public class GeradorNuvens : MonoBehaviour
 {
+    
     [SerializeField]
     GameObject[] clouds;
 
@@ -13,7 +14,7 @@ public class CloudGeneratorScript : MonoBehaviour
     [SerializeField]
     GameObject endPoint;
 
-    
+
 
     Vector3 startPos;
 
@@ -30,14 +31,14 @@ public class CloudGeneratorScript : MonoBehaviour
         Invoke("AttemptSpawn", spawnInterval);
     }
 
-   
+
 
     void AttemptSpawn()
     {
         GetCloudFromPool();
     }
 
-  
+
 
 
     void GetCloudFromPool()
@@ -46,10 +47,10 @@ public class CloudGeneratorScript : MonoBehaviour
         if (bullet != null)
         {
             bullet.transform.position = transform.position;
-          
-           // bullet.transform.rotation = turret.transform.rotation;
+
+            // bullet.transform.rotation = turret.transform.rotation;
             bullet.SetActive(true);
-            bullet.GetComponent<Nuvenscript>().Destruir();
+            bullet.GetComponent<Nuvens>().Destruir();
             Invoke("AttemptSpawn", spawnInterval);
         }
     }
