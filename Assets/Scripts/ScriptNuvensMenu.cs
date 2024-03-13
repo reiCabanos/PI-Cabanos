@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ScriptNuvensMenu : MonoBehaviour
 {
     public static ObjectPool SharedInstance;
     public List<GameObject> pooledObjects;
@@ -36,10 +35,5 @@ public class ObjectPool : MonoBehaviour
             }
         }
         return null;
-    }
-
-    public static implicit operator ObjectPool(ScriptNuvensMenu v)
-    {
-        throw new NotImplementedException();
     }
 }
