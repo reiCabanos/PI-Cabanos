@@ -92,6 +92,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_controle._stop == false)
         {
+
             _checkGround = _characterController.isGrounded;
             if (_checkGround)
             {
@@ -276,6 +277,8 @@ public class PlayerMove : MonoBehaviour
         {
 
             _controle._stop=true;
+            _anim.SetBool("IsRunning", false);
+            //transform.position = new Vector3(436.14f, 9.340258f,990.23f );
             transform.DORotate (new Vector3(transform.localEulerAngles.x, 37.18f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
             _fim.DOScale(1, 0.5f);
             _fimG.Select();
@@ -317,6 +320,7 @@ public class PlayerMove : MonoBehaviour
     
     public void Corretrue()
     {
+       
         _autoCorrer = true;
     }
 
