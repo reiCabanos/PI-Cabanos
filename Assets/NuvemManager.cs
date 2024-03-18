@@ -11,7 +11,7 @@ public class NuvemManager : MonoBehaviour
     float spawnInterval;
     [SerializeField]
     GameObject endPoint;
-    Vector3 startPos;
+    [SerializeField]Vector3 startPos;
     List<GameObject> cloudPool;
 
     // Variáveis do Object Pool
@@ -19,6 +19,9 @@ public class NuvemManager : MonoBehaviour
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
     public int amountToPool;
+    [SerializeField]public float objectToPoolX;
+
+
 
     void Awake()
     {
@@ -40,6 +43,7 @@ public class NuvemManager : MonoBehaviour
         // Inicialização do Sistema de Nuvens
         startPos = transform.position;
         cloudPool = new List<GameObject>();
+        float objectToPoolX = objectToPool.transform.position.x;
         Prewarm();
         Invoke("AttemptSpawn", spawnInterval);
     }
@@ -53,7 +57,7 @@ public class NuvemManager : MonoBehaviour
         // Posicionar e configurar a nuvem
         float randomY = Random.Range(minY, maxY); // Define o intervalo Y para spawn
         cloud.transform.position = new Vector3(startPos.x, randomY, startPos.z);
-        float scale = UnityEngine.Random.Range(0.8f, 1.2f);
+        float scale = UnityEngine.Random.Range(0.9f, 2.5f); // AQUI MUDAR AS ESCALAS DAS NUVENS 
         cloud.transform.localScale = new Vector2(scale, scale);
 
         // Ativar a nuvem
@@ -68,12 +72,28 @@ public class NuvemManager : MonoBehaviour
 
     void Prewarm()
     {
-        for (int i = 0; i < 10; i++)
+        int amountToSpawn = 10; // Quantidade de nuvens para spawn inicial
+
+        // Definir o intervalo X e Y
+        float minX = -40; // Limite inferior X
+        float maxX = 200; // Limite superior X
+        float minY = -30; // Limite inferior Y
+        float maxY = 45; // Limite superior Y
+       
+
+        for (int i = 0; i < amountToSpawn; i++)
         {
-            Vector3 spawnPos = startPos + Vector3.right * (i * 2);
+            // Gerar posição aleatória dentro do intervalo
+            float randomX = Random.Range(minX, maxX);
+            float randomY = Random.Range(minY, maxY);
+            Vector3 spawnPos = startPos + new Vector3(randomX, randomY,0);
+
+            // Spawnar a nuvem na posição aleatória
             SpawnCloud(spawnPos);
         }
     }
+
+
 
     public GameObject GetCloudFromPool(int index)
     {
