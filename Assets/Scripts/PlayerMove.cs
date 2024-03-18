@@ -12,6 +12,7 @@ using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
+using System;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -55,11 +56,17 @@ public class PlayerMove : MonoBehaviour
     float _standStillDuration = 5f; 
     bool _isReseting = false;
     [SerializeField] ControlePersonagem _controle;
-    [SerializeField] Transform _posTaboa;
-    [SerializeField] Transform _taboa;
-    public Vector3 deslocamento = new Vector3(0f, 0f, 3f);
+   
+   
     public Button _fimG;
-    public Transform _fim; 
+    public Transform _fim;
+    [SerializeField] GameObject _tabua;
+    [SerializeField] private Transform[] _scores;
+
+    private int _index;
+    [SerializeField] public Transform _coinNextPos;
+    [SerializeField] Transform _t;
+
 
 
 
@@ -241,6 +248,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("p2"))
         {
 
+             
 
             RotacaoDaCamera();
 
@@ -262,17 +270,16 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.gameObject.CompareTag("item"))
         {
-
-
             _playerPontos.SomarPontos(1);
-
-            //transform.DOMove(_posTaboa.position, 2f);
 
             other.GetComponent<ColetarItens>().DestroyItens();
 
 
 
+
         }
+
+
         if (other.gameObject.CompareTag("fimGamer"))
         {
 
@@ -285,6 +292,35 @@ public class PlayerMove : MonoBehaviour
 
 
         }
+
+        if (other.gameObject.CompareTag("teste"))
+        {
+            
+            _scores[_index].gameObject.SetActive(true);
+            _scores[_index].position = other.transform.position;
+            if (_index < 4)
+                _index++;
+            else
+            {
+                _index = 0;
+            }
+            
+            other.GetComponent<JogoPontos>()._scoreMode = true;
+            other.GetComponent<Rigidbody>().isKinematic = true;
+               
+            other.transform.parent = _coinNextPos.parent;
+
+            if (!other.GetComponent<RectTransform>())
+            {
+                other.gameObject.AddComponent<RectTransform>();
+                other.gameObject.AddComponent<RectTransform>().anchorMin = Vector2.one;
+                other.gameObject.AddComponent<RectTransform>().anchorMax = Vector2.one;
+            }
+            
+
+          //other.gameObject.SetActive(false);
+        }
+        
     }
     public void RotacaoDaCamera()
     { 
