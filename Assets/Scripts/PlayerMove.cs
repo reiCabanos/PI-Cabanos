@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using System;
+using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -66,6 +67,11 @@ public class PlayerMove : MonoBehaviour
     private int _index;
     [SerializeField] public Transform _coinNextPos;
     [SerializeField] Transform _t;
+    public int _scoreCounter;
+    public TextMeshProUGUI _coinCounterTex;
+    public Transform _posT;
+    float _moveDuration = 1f;
+
 
 
 
@@ -295,8 +301,9 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.CompareTag("teste"))
         {
-            
             _scores[_index].gameObject.SetActive(true);
+            other.transform.parent = _coinNextPos.parent;
+            _t = other.transform;
             _scores[_index].position = other.transform.position;
             if (_index < 4)
                 _index++;
@@ -304,21 +311,14 @@ public class PlayerMove : MonoBehaviour
             {
                 _index = 0;
             }
-            
-            other.GetComponent<JogoPontos>()._scoreMode = true;
             other.GetComponent<Rigidbody>().isKinematic = true;
-               
-            other.transform.parent = _coinNextPos.parent;
+            other.GetComponent<Collider>().isTrigger = true;
+            other.GetComponent<JogoPontos>()._scoreMode = true;
 
-            if (!other.GetComponent<RectTransform>())
-            {
-                other.gameObject.AddComponent<RectTransform>();
-                other.gameObject.AddComponent<RectTransform>().anchorMin = Vector2.one;
-                other.gameObject.AddComponent<RectTransform>().anchorMax = Vector2.one;
-            }
-            
+       
+            StartCoroutine(Desativar());
+           
 
-          //other.gameObject.SetActive(false);
         }
         
     }
@@ -353,7 +353,24 @@ public class PlayerMove : MonoBehaviour
         _checkMove =true;
        
     }
-    
+    IEnumerator Desativar()
+    {
+        _t.transform.SetParent(_posT.transform);
+        _t.gameObject.SetActive(true);
+        _t.DORotate(new Vector3(0, 360*2, 0), 1, RotateMode.WorldAxisAdd);
+        _t.DOLocalMove(new Vector3(0, 0, 0), _moveDuration);
+        _t.DOScale(new Vector3(0.5f, 0.1f, 1f), 2).SetEase(Ease.InOutQuad);
+
+        yield return new WaitForSeconds(1f);
+
+        _scoreCounter++;
+        _coinCounterTex.text = _scoreCounter.ToString();
+        _t.gameObject.SetActive(false);
+    }
+
+
+
+
     public void Corretrue()
     {
        

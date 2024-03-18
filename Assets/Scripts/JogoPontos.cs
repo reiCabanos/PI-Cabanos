@@ -42,12 +42,29 @@ public class JogoPontos : MonoBehaviour
 
         }
 
+
     }
     private void ConvertToScore()
     {
 
         transform.position = Vector3.MoveTowards(transform.position, _playerMove._coinNextPos.position, Time.deltaTime * 100f);
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, Time.deltaTime * 5f);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+       if(other.CompareTag("Player"))
+        {
+            _playerMove._scoreCounter++;
+            _playerMove._coinCounterTex.text = _playerMove._scoreCounter.ToString();
+
+            GetComponent<Collider>().enabled = false;
+            Invoke("InActiveCoin", 0.5f);
+
+        }
+    }
+    void InActiveCoin()
+    {
+        gameObject.SetActive(false);
     }
     private void OnDrawGizmos()
     {
