@@ -357,7 +357,7 @@ public class PlayerMove : MonoBehaviour
     {
         _t.transform.SetParent(_posT.transform);
         _t.gameObject.SetActive(true);
-        _t.DORotate(new Vector3(0, 360*2, 0), 1, RotateMode.WorldAxisAdd);
+        _t.DORotate(new Vector3(0, 360*3, 0), 1, RotateMode.WorldAxisAdd);
         _t.DOLocalMove(new Vector3(0, 0, 0), _moveDuration);
         _t.DOScale(new Vector3(0.5f, 0.1f, 1f), 2).SetEase(Ease.InOutQuad);
 
