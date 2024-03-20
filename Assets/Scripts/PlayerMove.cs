@@ -71,6 +71,8 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _coinCounterTex;
     public Transform _posT;
     float _moveDuration = 1f;
+   
+    public ParteT _jogoP;
 
 
 
@@ -83,7 +85,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
-       
+       _jogoP=GetComponent<ParteT>();
 
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
@@ -360,7 +362,7 @@ public class PlayerMove : MonoBehaviour
         _t.DORotate(new Vector3(0, 360*3, 0), 1, RotateMode.WorldAxisAdd);
         _t.DOLocalMove(new Vector3(0, 0, 0), _moveDuration);
         _t.DOScale(new Vector3(0.5f, 0.1f, 1f), 2).SetEase(Ease.InOutQuad);
-
+        _jogoP._partT.SetActive(true);
         yield return new WaitForSeconds(1f);
 
         _scoreCounter++;
