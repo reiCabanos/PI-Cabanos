@@ -8,6 +8,7 @@ public class JogoPontos : MonoBehaviour
     [SerializeField] private float _radius;
     public bool _scoreMode;
     public PlayerMove _playerMove;
+    
     void Start()
     {
         _playerMove = GetComponent<PlayerMove>();
@@ -17,12 +18,13 @@ public class JogoPontos : MonoBehaviour
     void Update()
     {
         FindThePlayer();
-        
+
     }
 
     private void FindThePlayer()
     {
-        if(!_scoreMode) {
+        if (!_scoreMode)
+        {
             Collider[] _coinColl = Physics.OverlapSphere(transform.position, _radius);
 
             foreach (var c in _coinColl)
@@ -52,7 +54,7 @@ public class JogoPontos : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-       if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             //_playerMove._scoreCounter++;
             //_playerMove._coinCounterTex.text = _playerMove._scoreCounter.ToString();
