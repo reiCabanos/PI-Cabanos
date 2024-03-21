@@ -8,7 +8,7 @@ public class JogoPontos : MonoBehaviour
     [SerializeField] private float _radius;
     public bool _scoreMode;
     public PlayerMove _playerMove;
-    
+    public GameObject _p;
     void Start()
     {
         _playerMove = GetComponent<PlayerMove>();
@@ -61,6 +61,9 @@ public class JogoPontos : MonoBehaviour
 
             GetComponent<Collider>().enabled = false;
             Invoke("InActiveCoin", 0.5f);
+            _p.gameObject.SetActive(true);
+
+
 
         }
     }

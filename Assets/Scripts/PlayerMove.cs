@@ -14,6 +14,7 @@ using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using System;
 using TMPro;
+using UnityEditor.ShaderGraph;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -21,71 +22,66 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _moveZ;
     [SerializeField] float _speed;
     [SerializeField] float _jumpForce;
-    public Vector3 _playerVelocity;
-    CharacterController _characterController;
-    [SerializeField] bool _checkJump;
-    [SerializeField] bool _checkGround;
-    [SerializeField] float _gravityValue=-9.8f;
-    float _timer;
-    [SerializeField] float _timeValue;
-    Animator _anim;
-    float _speedAnimY;
+    [SerializeField] float _gravityValue = -9.8f;
     [SerializeField] float _girarSpeed;
     [SerializeField] float _rot;
     [SerializeField] float _velocidade;
-    [SerializeField]bool _checkwalk;
+    [SerializeField] float _timeValue;
+    [SerializeField] float _smoothTime=0.0f; 
+    float _timer;
+    float _speedAnimY;
+    float _currentvelocity;
+    float value;
+    float _moveDuration = 1f;
+    
+    [SerializeField] bool _checkJump;
+    [SerializeField] bool _checkGround; 
+    [SerializeField] bool _checkwalk;
+    [SerializeField] bool _checkMove;
+    [SerializeField] bool _autoCorrer; 
+    bool _isStandingStill = false; 
+    bool _isReseting = false;
+  
+   
+    CharacterController _characterController;
+    Animator _anim;
+
+    public Vector3 _playerVelocity;
+    Vector3 _moveDir;
+    Vector3 _input; 
+
     [SerializeField] Transform _orientation;
-
-
-
     [SerializeField] Transform _posRestatPlayer;
     [SerializeField] Transform _posRestatPlayer2;
-    [SerializeField] bool _checkMove;
-    Vector3 _moveDir;
-    float _currentvelocity;
-    [SerializeField] float _smoothTime=0.0f;
-    Vector3 _input;
     public Transform _moveCamera;
-    [SerializeField] int _quantVida = 3;
-    [SerializeField] PlayerControle _playerControle;
-    [SerializeField] bool _autoCorrer;
-    [SerializeField] int _mod;
-    PlayerPontos _playerPontos;
-    [SerializeField] GameObject _pont1;
-    float value;
-    bool _isStandingStill = false; 
-    float _standStillDuration = 5f; 
-    bool _isReseting = false;
-    [SerializeField] ControlePersonagem _controle;
-   
-   
-    public Button _fimG;
     public Transform _fim;
-    [SerializeField] GameObject _tabua;
-    [SerializeField] private Transform[] _scores;
-
-    private int _index;
+    [SerializeField] private Transform[] _scores; 
     [SerializeField] public Transform _coinNextPos;
     [SerializeField] Transform _t;
-    public int _scoreCounter;
-    public TextMeshProUGUI _coinCounterTex;
     public Transform _posT;
-    float _moveDuration = 1f;
+    [SerializeField] Transform _pontos;
+
+    [SerializeField] int _quantVida = 3;
+    [SerializeField] int _mod; 
+    private int _index; 
+    public int _scoreCounter;
+
+    [SerializeField] PlayerControle _playerControle;
+    PlayerPontos _playerPontos;
+    [SerializeField] ControlePersonagem _controle;
+
+    [SerializeField] GameObject _pont1;
+    
+    public Button _fimG;
+
+    public TextMeshProUGUI _coinCounterTex;
+    
    
-    public ParteT _jogoP;
-
-
-
-
-
-
-
-
-
+   
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
-       _jogoP=GetComponent<ParteT>();
+       
 
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
@@ -93,13 +89,6 @@ public class PlayerMove : MonoBehaviour
         _controle= Camera.main.GetComponent<ControlePersonagem>();
         _checkMove = true;
         value = -1;
-
-
-
-
-
-
-
 
 
     }
@@ -242,11 +231,10 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("filho"))
         {
-
-            _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
+            StartCoroutine(TempoPlayer());
+           _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
-
 
             _isReseting = true;
 
@@ -256,16 +244,11 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("p2"))
         {
 
-             
-
-            RotacaoDaCamera();
-
+             RotacaoDaCamera();
             _pont1.SetActive(true);
             value *= -1;
-
+            StartCoroutine(TempoPlayer());
             _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
-
-
 
         }
 
@@ -286,6 +269,7 @@ public class PlayerMove : MonoBehaviour
 
 
         }
+        
 
 
         if (other.gameObject.CompareTag("fimGamer"))
@@ -318,6 +302,7 @@ public class PlayerMove : MonoBehaviour
             other.GetComponent<JogoPontos>()._scoreMode = true;
 
        
+
             StartCoroutine(Desativar());
            
 
@@ -325,11 +310,10 @@ public class PlayerMove : MonoBehaviour
         
     }
     public void RotacaoDaCamera()
-    { 
-
+    {
+         StartCoroutine(TempoRotacao());
+        _pontos.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-       
-
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
 
     }
@@ -362,15 +346,28 @@ public class PlayerMove : MonoBehaviour
         _t.DORotate(new Vector3(0, 360*3, 0), 1, RotateMode.WorldAxisAdd);
         _t.DOLocalMove(new Vector3(0, 0, 0), _moveDuration);
         _t.DOScale(new Vector3(0.5f, 0.1f, 1f), 2).SetEase(Ease.InOutQuad);
-        _jogoP._partT.SetActive(true);
         yield return new WaitForSeconds(1f);
-
         _scoreCounter++;
         _coinCounterTex.text = _scoreCounter.ToString();
         _t.gameObject.SetActive(false);
     }
 
 
+    IEnumerator TempoPlayer()
+    {
+        _controle._stop = true;
+        yield return new WaitForSeconds(5);
+
+        _controle._stop = false;
+
+    }
+    IEnumerator TempoRotacao()
+    {
+        _controle._stop = true;
+        yield return new WaitForSeconds(1);
+        _controle._stop = false;
+
+    }
 
 
     public void Corretrue()
