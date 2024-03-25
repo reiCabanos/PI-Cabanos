@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class MoveNew : MonoBehaviour
@@ -43,8 +44,8 @@ public class MoveNew : MonoBehaviour
     public GameController _gameController;
 
     [SerializeField] bool _autoCorrer;
-    
-    public GameObject[] _aimCamera;
+
+    public GameObject _troca;
 
 
 
@@ -215,9 +216,13 @@ public class MoveNew : MonoBehaviour
 
 
         }
-        
+        if (other.gameObject.CompareTag("T"))
+        {
+            TrocaScene();
+            _troca.SetActive(false);
 
 
+        }
     }
 
    
@@ -228,7 +233,7 @@ public class MoveNew : MonoBehaviour
         transform.position = _posRestatPlayer.position;
         yield return new WaitForSeconds(1);
         _checkMove = true;
-        //Debug.Log("dano");
+      
     }
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
@@ -237,17 +242,7 @@ public class MoveNew : MonoBehaviour
         _mira.gameObject.SetActive(_mira1);
         _miraFinal.gameObject.SetActive(_mira1);
         _checkMove = !_mira1;
-        /*if (_mira1)
-        {
-            _aimCamera[0].gameObject.SetActive(false);
-            _aimCamera[1].gameObject.SetActive(true);
-        }
-        else
-        {
-            _aimCamera[0].gameObject.SetActive(true);
-            _aimCamera[1].gameObject.SetActive(false);
-        }*/
-
+       
 
 
 
@@ -256,7 +251,7 @@ public class MoveNew : MonoBehaviour
     {
         if (_mira1 && _project._sandaliaOn) { 
             _anim.SetBool("atirar", true);
-        Invoke("MiraFalse", 0.5f);
+             Invoke("MiraFalse", 0.5f);
             Invoke("DesativarSandalia", 5f);
         }
 
@@ -270,6 +265,10 @@ public class MoveNew : MonoBehaviour
     void MiraFalse()
     {
         _anim.SetBool("atirar", false);
+    }
+    public void TrocaScene()
+    {
+        SceneManager.LoadScene("MiniGame1");
     }
     
     
