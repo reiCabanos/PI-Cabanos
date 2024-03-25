@@ -43,7 +43,7 @@ public class MoveNew : MonoBehaviour
     public Transform _ativar;
     public GameController _gameController;
 
-    [SerializeField] bool _autoCorrer;
+    
 
     public GameObject _troca;
 
@@ -91,14 +91,7 @@ public class MoveNew : MonoBehaviour
 
             Jump();
 
-            if (_autoCorrer)
-            {
-
-                CorrerAuto();
-                _anim.SetFloat("correndo", 6);
-                _controller.Move(new Vector3(_moveDir.x, _controller.velocity.y, 6) * Time.deltaTime);
-
-            }
+            
             
             if (_checkMove)
             {
