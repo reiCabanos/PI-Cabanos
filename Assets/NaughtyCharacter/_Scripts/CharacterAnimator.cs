@@ -4,22 +4,26 @@ namespace NaughtyCharacter
 {
     public static class CharacterAnimatorParamId
     {
-        public static readonly int HorizontalSpeed = Animator.StringToHash("HorizontalSpeed");
-        public static readonly int VerticalSpeed = Animator.StringToHash("VerticalSpeed");
-        public static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
+        public static readonly int HorizontalSpeed = Animator.StringToHash("correndo");
+        public static readonly int VerticalSpeed = Animator.StringToHash("pulandoY");
+        public static readonly int IsGrounded = Animator.StringToHash("chekground");
     }
+   
 
     public class CharacterAnimator : MonoBehaviour
     {
         private Animator _animator;
         private Character _character;
 
-        private void Awake()
+        public void Start ()
         {
             _animator = GetComponent<Animator>();
             _character = GetComponent<Character>();
         }
 
+
+    
+        
         public void UpdateState()
         {
             float normHorizontalSpeed = _character.HorizontalVelocity.magnitude / _character.MovementSettings.MaxHorizontalSpeed;
@@ -32,4 +36,5 @@ namespace NaughtyCharacter
             _animator.SetBool(CharacterAnimatorParamId.IsGrounded, _character.IsGrounded);
         }
     }
+
 }

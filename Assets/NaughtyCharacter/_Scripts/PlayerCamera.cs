@@ -1,11 +1,10 @@
 using UnityEngine;
 
 // Importa a engine Unity
-using UnityEngine;
+
 
 // Define um namespace para organizar o código
-namespace NaughtyCharacter
-{
+
     // Define uma classe pública que herda de MonoBehaviour
     public class PlayerCamera : MonoBehaviour
     {
@@ -57,4 +56,4 @@ namespace NaughtyCharacter
             }
         }
     }
-}
+

@@ -55,7 +55,7 @@ namespace NaughtyCharacter
         public GravitySettings GravitySettings;
         public RotationSettings RotationSettings;
         public GroundSettings GroundSettings;
-
+        
         private CharacterController _characterController; // The Unity's CharacterController
         private CharacterAnimator _characterAnimator;
 
@@ -74,12 +74,14 @@ namespace NaughtyCharacter
         public Vector3 HorizontalVelocity => _characterController.velocity.SetY(0.0f);
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
         public bool IsGrounded { get; private set; }
+        private Animator _animator;
 
+        
         private void Awake()
         {
             Controller.Init();
             Controller.Character = this;
-
+            _animator=GetComponent<Animator>();         
             _characterController = GetComponent<CharacterController>();
             _characterAnimator = GetComponent<CharacterAnimator>();
         }
@@ -108,6 +110,8 @@ namespace NaughtyCharacter
             UpdateGrounded();
 
             _characterAnimator.UpdateState();
+
+           
         }
 
         public void SetMovementInput(Vector3 movementInput)
@@ -121,6 +125,7 @@ namespace NaughtyCharacter
 
             _movementInput = movementInput;
             _hasMovementInput = hasMovementInput;
+            
         }
 
         private Vector3 GetMovementInput()
@@ -136,6 +141,7 @@ namespace NaughtyCharacter
 
         public void SetJumpInput(bool jumpInput)
         {
+            
             _jumpInput = jumpInput;
         }
 
@@ -196,6 +202,7 @@ namespace NaughtyCharacter
             float acceleration = _hasMovementInput ? MovementSettings.Acceleration : MovementSettings.Decceleration;
 
             _horizontalSpeed = Mathf.MoveTowards(_horizontalSpeed, _targetHorizontalSpeed, acceleration * deltaTime);
+            
         }
 
         private void UpdateVerticalSpeed(float deltaTime)
@@ -206,7 +213,9 @@ namespace NaughtyCharacter
 
                 if (_jumpInput)
                 {
+                    
                     _verticalSpeed = MovementSettings.JumpSpeed;
+                    
                 }
             }
             else

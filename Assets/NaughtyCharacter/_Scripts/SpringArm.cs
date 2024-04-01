@@ -11,7 +11,7 @@ namespace NaughtyCharacter
         public LayerMask CollisionMask = 0;
         public Camera Camera;
         public float CameraViewportExtentsMultipllier = 1.0f;
-
+        //public Transform TargetObject;
         private Vector3 _socketVelocity;
 
         private void LateUpdate()
@@ -53,7 +53,8 @@ namespace NaughtyCharacter
         private void UpdateLength()
         {
             float targetLength = GetDesiredTargetLength();
-            Vector3 newSocketLocalPosition = -Vector3.forward * targetLength;
+            Vector3 newSocketLocalPosition = -Vector3.forward * targetLength ;
+            //+ TargetObject.position;
 
             CollisionSocket.localPosition = Vector3.SmoothDamp(
                 CollisionSocket.localPosition, newSocketLocalPosition, ref _socketVelocity, SpeedDamp);
