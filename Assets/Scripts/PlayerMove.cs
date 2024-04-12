@@ -336,9 +336,9 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Dano()
     {
         _checkMove = false;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         transform.position = _posRestatPlayer.position;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         _checkMove =true;
        
     }
@@ -361,7 +361,7 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.5f);
 
         _controle._stop = false;
 
@@ -371,7 +371,7 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         _controle._stop = false;
 
     }
