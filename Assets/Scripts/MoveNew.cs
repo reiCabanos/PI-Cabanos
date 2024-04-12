@@ -166,11 +166,7 @@ public class MoveNew : MonoBehaviour
 
     }
 
-    public void CorrerAuto()
-    {
-        _checkwalk = true;
-        _moveSpeed = 6f;
-    }
+    
     public void SetJump(InputAction.CallbackContext value)
     {
         _checkJump = true;
