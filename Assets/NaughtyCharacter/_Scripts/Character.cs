@@ -15,7 +15,7 @@ namespace NaughtyCharacter
         [Header("Control Rotation")]
         public float MinPitchAngle = -45.0f;
         public float MaxPitchAngle = 75.0f;
-
+        public float JumpDuration;
         [Header("Character Orientation")]
         public ERotationBehavior RotationBehavior = ERotationBehavior.OrientRotationToMovement;
         public float MinRotationSpeed = 600.0f; // The turn speed when the player is at max speed (in degrees/second)
@@ -60,7 +60,7 @@ namespace NaughtyCharacter
         private CharacterAnimator _characterAnimator;
 
         private float _targetHorizontalSpeed; // In meters/second
-        private float _horizontalSpeed; // In meters/second
+        public float _horizontalSpeed; // In meters/second
         private float _verticalSpeed; // In meters/second
         private bool _justWalkedOffALedge;
 
@@ -75,8 +75,15 @@ namespace NaughtyCharacter
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
         public bool IsGrounded { get; private set; }
         private Animator _animator;
+        private float _movementSpeed;
+        private float _defaultMovementSpeed = 5.0f;
+        private float _maxRunSpeed = 15.0f;
+        private float _acceleration = 15.0f;
+        private float _deceleration = 5.0f;
+        private bool _isRunning;
 
-        
+
+
         private void Awake()
         {
             Controller.Init();
@@ -85,10 +92,24 @@ namespace NaughtyCharacter
             _characterController = GetComponent<CharacterController>();
             _characterAnimator = GetComponent<CharacterAnimator>();
         }
+        
 
-        private void Update()
+         void Update()
         {
             Controller.OnCharacterUpdate();
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            {
+                _isRunning = true;
+                _animator.SetBool("IsRunning",true);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+            {
+                _isRunning = false;
+                _animator.SetBool("IsRunning",false);
+            }
+
+            UpdateSpeed();
         }
 
         private void FixedUpdate()
@@ -163,11 +184,7 @@ namespace NaughtyCharacter
 
             _controlRotation = new Vector2(pitchAngle, yawAngle);
         }
-        public void SetMira(InputAction.CallbackContext callbackContext)
-        { 
-
-        }
-
+        
             private bool CheckGrounded()
         {
             Vector3 spherePosition = transform.position;
@@ -189,6 +206,7 @@ namespace NaughtyCharacter
 
             IsGrounded = isGrounded;
         }
+
 
         private void UpdateHorizontalSpeed(float deltaTime)
         {
@@ -233,6 +251,18 @@ namespace NaughtyCharacter
                 _verticalSpeed = Mathf.MoveTowards(_verticalSpeed, -GravitySettings.MaxFallSpeed, GravitySettings.Gravity * deltaTime);
             }
         }
+        private void UpdateSpeed()
+        {
+            if (_isRunning)
+            {
+                _horizontalSpeed = Mathf.MoveTowards(_horizontalSpeed, _maxRunSpeed, _acceleration * Time.deltaTime);
+            }
+            else
+            {
+                _horizontalSpeed = Mathf.MoveTowards(_horizontalSpeed, _defaultMovementSpeed, _deceleration * Time.deltaTime);
+            }
+        }
+
 
         private void OrientToTargetRotation(Vector3 horizontalMovement, float deltaTime)
         {

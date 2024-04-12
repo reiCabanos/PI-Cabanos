@@ -115,6 +115,7 @@ public class PlayerMove : MonoBehaviour
             _speedAnimY = _characterController.velocity.y;
             _anim.SetFloat("pulandoY", _speedAnimY);
             _anim.SetBool("IsRunning", _checkwalk);
+            _anim.SetBool("parado", true);
 
 
 
@@ -145,6 +146,7 @@ public class PlayerMove : MonoBehaviour
                 CorrerAuto();
 
                 _anim.SetFloat("correndo", 6);
+                _anim.SetBool("parado", false);
 
 
 
@@ -247,7 +249,7 @@ public class PlayerMove : MonoBehaviour
              RotacaoDaCamera();
             _pont1.SetActive(true);
             value *= -1;
-            StartCoroutine(TempoPlayer());
+            //StartCoroutine(TempoPlayer());
             _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
 
         }
@@ -276,9 +278,10 @@ public class PlayerMove : MonoBehaviour
         {
 
             _controle._stop=true;
-            _anim.SetBool("IsRunning", false);
+            _anim.SetFloat("correndo", 0);
+            _anim.SetBool("parado", true);
             //transform.position = new Vector3(436.14f, 9.340258f,990.23f );
-            transform.DORotate (new Vector3(transform.localEulerAngles.x, 37.18f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
+            transform.DORotate (new Vector3(transform.localEulerAngles.x, -117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
             _fim.DOScale(1, 0.5f);
             _fimG.Select();
 
@@ -356,7 +359,9 @@ public class PlayerMove : MonoBehaviour
     IEnumerator TempoPlayer()
     {
         _controle._stop = true;
-        yield return new WaitForSeconds(5);
+        _anim.SetFloat("correndo", 0);
+        _anim.SetBool("parado", true);
+        yield return new WaitForSeconds(3);
 
         _controle._stop = false;
 
@@ -364,7 +369,9 @@ public class PlayerMove : MonoBehaviour
     IEnumerator TempoRotacao()
     {
         _controle._stop = true;
-        yield return new WaitForSeconds(1);
+        _anim.SetFloat("correndo", 0);
+        _anim.SetBool("parado", true);
+        yield return new WaitForSeconds(0.5f);
         _controle._stop = false;
 
     }
@@ -374,6 +381,7 @@ public class PlayerMove : MonoBehaviour
     {
        
         _autoCorrer = true;
+        
     }
 
     public void FimGamer()

@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace NaughtyCharacter
 {
@@ -22,6 +24,8 @@ namespace NaughtyCharacter
             Character.SetMovementInput(GetMovementInput());
             Character.SetJumpInput(_playerInput.JumpInput);
         }
+
+        
 
         public override void OnCharacterFixedUpdate()
         {
@@ -48,6 +52,7 @@ namespace NaughtyCharacter
 
         private Vector3 GetMovementInput()
         {
+
             // Calculate the move direction relative to the character's yaw rotation
             Quaternion yawRotation = Quaternion.Euler(0.0f, Character.GetControlRotation().y, 0.0f);
             Vector3 forward = yawRotation * Vector3.forward;
@@ -59,7 +64,7 @@ namespace NaughtyCharacter
                 movementInput.Normalize();
             }
 
-            return movementInput;
+             return movementInput;
         }
     }
 }
