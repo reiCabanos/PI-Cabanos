@@ -28,9 +28,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float _velocidade;
     [SerializeField] float _timeValue;
     [SerializeField] float _smoothTime=0.0f; 
+    float _currentvelocity;
     float _timer;
     float _speedAnimY;
-    float _currentvelocity;
+   
     float value;
     float _moveDuration = 1f;
     

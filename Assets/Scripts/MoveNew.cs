@@ -42,8 +42,11 @@ public class MoveNew : MonoBehaviour
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
+    Vector3 _input;
+    [SerializeField] float _smoothTime = 0.0f;
+    public float _currentvelocity;
 
-    
+
 
     public GameObject _troca;
 
@@ -132,8 +135,10 @@ public class MoveNew : MonoBehaviour
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
         }
+      
 
-       
+
+
     }
 
     void MovimentoPlayer()
@@ -161,6 +166,9 @@ public class MoveNew : MonoBehaviour
             Vector3 m = value.ReadValue<Vector3>();
             _moveX = m.x;
             _moveZ = m.y;
+            var tartAngle = Mathf.Atan2(m.x, m.z) * Mathf.Rad2Deg;
+            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime * 1f);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
         }
         
 
@@ -181,20 +189,11 @@ public class MoveNew : MonoBehaviour
         _playerVelocity.y = _playerVelocity.y + _gravityValue * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("filho"))
-        {
-            _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
-            StartCoroutine(Dano());
-            _quantVida--;
-            _playerControle.CheckIcomVida(_quantVida);
-            
-
-
-
-        }
+        
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
@@ -214,16 +213,7 @@ public class MoveNew : MonoBehaviour
         }
     }
 
-   
-    IEnumerator Dano()
-    {
-        _checkMove = false;
-        yield return new WaitForSeconds(2);
-        transform.position = _posRestatPlayer.position;
-        yield return new WaitForSeconds(1);
-        _checkMove = true;
-      
-    }
+  
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
        
