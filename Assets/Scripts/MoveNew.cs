@@ -167,7 +167,7 @@ public class MoveNew : MonoBehaviour
             _moveX = m.x;
             _moveZ = m.y;
             var tartAngle = Mathf.Atan2(m.x, m.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime * 1f);
+            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime );
             transform.rotation = Quaternion.Euler(0, angle, 0);
         }
         
