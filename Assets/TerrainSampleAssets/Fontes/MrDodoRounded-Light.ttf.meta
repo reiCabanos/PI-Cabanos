@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 4fc41bfd30212f74b89b73c778313b92
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Mr Dodo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d852ef2536eb9124fac12d5a01fbc2f6, type: 3}
+  - {fileID: 12800000, guid: 769858cdd6f1d3549a5c5e12a5c64f7f, type: 3}
+  - {fileID: 12800000, guid: a2c2a37130b047d4cbba03e62fa25a5c, type: 3}
+  - {fileID: 12800000, guid: 6341d3202e4b5b84aa34507d18d94286, type: 3}
+  - {fileID: 12800000, guid: 2d0ef0e1b41b92e4f975c7d1848e7954, type: 3}
+  - {fileID: 12800000, guid: 4693a4ae4b7efdc489f9f4d0ac07f296, type: 3}
+  - {fileID: 12800000, guid: 469bb051382e10348a8f651da6a5585c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
