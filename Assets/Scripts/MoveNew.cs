@@ -45,6 +45,7 @@ public class MoveNew : MonoBehaviour
     Vector3 _input;
     [SerializeField] float _smoothTime = 0.0f;
     public float _currentvelocity;
+    
 
 
 
@@ -169,6 +170,7 @@ public class MoveNew : MonoBehaviour
             var tartAngle = Mathf.Atan2(m.x, m.z) * Mathf.Rad2Deg;
             var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime );
             transform.rotation = Quaternion.Euler(0, angle, 0);
+            
         }
         
 

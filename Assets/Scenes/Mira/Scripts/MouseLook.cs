@@ -16,6 +16,7 @@ public class MouseLook : MonoBehaviour
     public GameObject characterBody;
 
     public PlayerInputActions input;
+    public Vector2 move;
     #endregion
     
     private void OnEnable()
@@ -52,7 +53,7 @@ public class MouseLook : MonoBehaviour
         if (lockCursor)
             Cursor.lockState = CursorLockMode.Locked;
 
-        Vector2 mouseDelta = input.pActionMap.MouseLook.ReadValue<Vector2>();
+        Vector2 mouseDelta = move;
         mouseFinal += ScaleAndSmooth(mouseDelta);
 
         ClampValues();
