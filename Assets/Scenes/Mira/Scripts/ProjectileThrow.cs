@@ -4,16 +4,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(TrajectoryPredictor))]
 public class ProjectileThrow : MonoBehaviour
 {
-    TrajectoryPredictor trajectoryPredictor;
+    public TrajectoryPredictor trajectoryPredictor;
 
     [SerializeField]
-    Rigidbody objectToThrow;
-
+   public  Rigidbody objectToThrow;
+    public bool _sandaliaOn;
     [SerializeField, Range(0.0f, 50.0f)]
-    float force;
+   public float force;
 
     [SerializeField]
-    Transform StartPosition;
+    public Transform StartPosition;
 
     public InputAction fire;
 
@@ -42,6 +42,7 @@ public class ProjectileThrow : MonoBehaviour
     {
         ProjectileProperties properties = new ProjectileProperties();
         Rigidbody r = objectToThrow.GetComponent<Rigidbody>();
+        
 
         properties.direction = StartPosition.forward;
         properties.initialPosition = StartPosition.position;

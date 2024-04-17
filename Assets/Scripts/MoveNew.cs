@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class MoveNew : MonoBehaviour
 {
@@ -51,7 +52,8 @@ public class MoveNew : MonoBehaviour
 
     public GameObject _troca;
 
-
+    public Vector3 miraV;
+    public Transform _miraL;
 
 
     void Start()
@@ -59,7 +61,7 @@ public class MoveNew : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-       
+       _project=GetComponent<ProjectileThrow>();
 
 
     }
@@ -230,19 +232,19 @@ public class MoveNew : MonoBehaviour
     }
     public void SetAtirar(InputAction.CallbackContext callbackContext)
     {
-       /* 
-        if (_mira1 && _project._sandaliaOn) { 
+        
+        if (_mira1 && _project.objectToThrow) { 
             _anim.SetBool("atirar", true);
              Invoke("MiraFalse", 0.5f);
             Invoke("DesativarSandalia", 5f);
         }
-       */
+       
     }
 
     public void DesativarSandalia()
     {
-       // _project._sandalia.gameObject.SetActive(false);
-       // _project._sandaliaOn = true;
+        _project.objectToThrow.gameObject.SetActive(false);
+        _project._sandaliaOn = true;
     }
     void MiraFalse()
     {
@@ -252,7 +254,14 @@ public class MoveNew : MonoBehaviour
     {
         SceneManager.LoadScene("MiniGame1");
     }
-    
-    
+
+
+    public void SetLookMira(InputAction.CallbackContext callbackContext)
+    {
+
+        miraV = callbackContext.ReadValue<Vector3>();
+        _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+(- miraV.y*2), 0,0);
+
+    }
 
 }
