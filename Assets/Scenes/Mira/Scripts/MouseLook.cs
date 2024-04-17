@@ -16,11 +16,15 @@ public class MouseLook : MonoBehaviour
     public GameObject characterBody;
 
     public PlayerInputActions input;
+// Updated upstream
     public Vector2 move;
 
     public float inputY;
+//
+    public float y;
+//Stashed changes
     #endregion
-    
+
     private void OnEnable()
     {
         input = new PlayerInputActions();
@@ -45,7 +49,11 @@ public class MouseLook : MonoBehaviour
 
         //Lerp from last frame
         smoothMouse.x = Mathf.Lerp(smoothMouse.x, delta.x, 1f / smoothing.x);
+//Updated upstream
         smoothMouse.y = Mathf.Lerp(inputY, delta.y, 1f / smoothing.y);
+//
+        smoothMouse.y = Mathf.Lerp(y, delta.y, 1f / smoothing.y);
+//Stashed changes
 
         return smoothMouse;
     }

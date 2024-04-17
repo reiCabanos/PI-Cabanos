@@ -230,18 +230,19 @@ public class MoveNew : MonoBehaviour
     }
     public void SetAtirar(InputAction.CallbackContext callbackContext)
     {
+       /* 
         if (_mira1 && _project._sandaliaOn) { 
             _anim.SetBool("atirar", true);
              Invoke("MiraFalse", 0.5f);
             Invoke("DesativarSandalia", 5f);
         }
-
+       */
     }
 
     public void DesativarSandalia()
     {
-        _project._sandalia.gameObject.SetActive(false);
-        _project._sandaliaOn = true;
+       // _project._sandalia.gameObject.SetActive(false);
+       // _project._sandaliaOn = true;
     }
     void MiraFalse()
     {

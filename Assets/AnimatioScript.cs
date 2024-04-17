@@ -16,6 +16,6 @@ public class AnimatioScript : MonoBehaviour
     public void Atirar()
     {
       
-        _moveNew._project.Fire();
+       // _moveNew._project.Fire();
     }
 }

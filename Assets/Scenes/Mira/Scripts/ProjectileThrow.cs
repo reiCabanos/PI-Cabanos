@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,21 +16,8 @@ public class ProjectileThrow : MonoBehaviour
     Transform StartPosition;
 
     public InputAction fire;
-    [SerializeField] MoveNew _move;
-    public Transform _sandalia;
-     public bool _sandaliaOn;
-    
 
-    public void DesativarSandalia()
-    {
-        _sandalia.gameObject.SetActive(false);
-        _sandaliaOn = true;
-    }
-    private void Start()
-    {
-        _sandaliaOn=true;
-    }
-    public void OnEnable()
+    void OnEnable()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
 
@@ -40,25 +26,6 @@ public class ProjectileThrow : MonoBehaviour
 
         fire.Enable();
         fire.performed += ThrowObject;
-
-    }
-
-    public void Fire()
-    {
-        if (_sandaliaOn)
-        {
-            _sandaliaOn=false;
-            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
-            if (bullet != null)
-            {
-                bullet.transform.position = StartPosition.position;
-                bullet.transform.localRotation = Quaternion.identity;
-                bullet.SetActive(true);
-                Invoke("DesativarSandalia", 5f);
-                _sandalia = bullet.transform;
-            }
-            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
-        }
     }
 
     void Update()
@@ -87,16 +54,7 @@ public class ProjectileThrow : MonoBehaviour
 
     void ThrowObject(InputAction.CallbackContext ctx)
     {
-        if (_move._mira1)
-        { // Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
-            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
-            if (bullet != null)
-            {
-                bullet.transform.position = StartPosition.position;
-                bullet.transform.localRotation = Quaternion.identity;
-                bullet.SetActive(true);
-            }
-            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
-        }
+        Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
+        thrownObject.AddForce(StartPosition.forward * force, ForceMode.Impulse);
     }
 }
