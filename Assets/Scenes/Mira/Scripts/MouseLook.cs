@@ -17,6 +17,8 @@ public class MouseLook : MonoBehaviour
 
     public PlayerInputActions input;
     public Vector2 move;
+
+    public float inputY;
     #endregion
     
     private void OnEnable()
@@ -43,7 +45,7 @@ public class MouseLook : MonoBehaviour
 
         //Lerp from last frame
         smoothMouse.x = Mathf.Lerp(smoothMouse.x, delta.x, 1f / smoothing.x);
-        smoothMouse.y = Mathf.Lerp(smoothMouse.y, delta.y, 1f / smoothing.y);
+        smoothMouse.y = Mathf.Lerp(inputY, delta.y, 1f / smoothing.y);
 
         return smoothMouse;
     }
