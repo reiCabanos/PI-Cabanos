@@ -28,7 +28,7 @@ public class MoveNew : MonoBehaviour
     bool _checkGround;
     [SerializeField] bool _checkMove;
     [SerializeField] bool _checkwalk;
-    [SerializeField] Animator _anim;
+    [SerializeField] public Animator _anim;
     [SerializeField] Transform _posRestatPlayer;
     [SerializeField] Transform _mira;
     public bool _mira1;
@@ -261,6 +261,7 @@ public class MoveNew : MonoBehaviour
 
         miraV = callbackContext.ReadValue<Vector3>();
         _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+(- miraV.y*2), 0,0);
+       
 
     }
 

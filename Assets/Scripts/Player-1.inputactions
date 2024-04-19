@@ -399,6 +399,83 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "teclado",
+                    "id": "4148c40f-2410-407a-b5a5-65d284536446",
+                    "path": "3DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "4fa39e1f-0192-4a81-ab94-ec976809775a",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "f88bd630-564e-49b4-8c22-070802acca7e",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5e078c96-3a00-44c4-8e75-151f5fec540f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "c54fe708-3e34-434d-bd21-8476733bec13",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "forward",
+                    "id": "512e9347-27ae-4d96-a8ae-43af5c1b7460",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "backward",
+                    "id": "7a6c3c3d-faa6-469c-b75e-193dd6b11354",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LookMira",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "Jostick",
                     "id": "9e655a1e-c42f-4fd5-98ac-7df217ef4de9",
                     "path": "3DVector",

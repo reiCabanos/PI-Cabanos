@@ -17,6 +17,7 @@ public class ProjectileThrow : MonoBehaviour
 
     public InputAction fire;
 
+
     void OnEnable()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
@@ -57,5 +58,6 @@ public class ProjectileThrow : MonoBehaviour
     {
         Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
         thrownObject.AddForce(StartPosition.forward * force, ForceMode.Impulse);
+
     }
 }
