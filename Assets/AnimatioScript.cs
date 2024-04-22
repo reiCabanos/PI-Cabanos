@@ -6,6 +6,7 @@ using UnityEngine;
 public class AnimatioScript : MonoBehaviour
 {
     public MoveNew _moveNew;
+    public ProjectileThrow _project;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +17,6 @@ public class AnimatioScript : MonoBehaviour
     public void Atirar()
     {
       
-       // _moveNew._project.Fire();
+        //_moveNew._project.Fire();
     }
 }

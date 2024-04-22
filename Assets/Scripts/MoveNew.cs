@@ -46,6 +46,7 @@ public class MoveNew : MonoBehaviour
     Vector3 _input;
     [SerializeField] float _smoothTime = 0.0f;
     public float _currentvelocity;
+    bool test = true;
     
 
 
@@ -230,26 +231,34 @@ public class MoveNew : MonoBehaviour
 
 
     }
+    /*
     public void SetAtirar(InputAction.CallbackContext callbackContext)
     {
-        
-        if (_mira1 && _project.objectToThrow) { 
+        Debug.Log("gggJ");
+
+       if (_project._sandaliaOn && _project.objectToThrow) { 
             _anim.SetBool("atirar", true);
              Invoke("MiraFalse", 0.5f);
             Invoke("DesativarSandalia", 5f);
+            Debug.Log("gggJ");
         }
        
+       
     }
+    */
 
-    public void DesativarSandalia()
+   /* public void DesativarSandalia()
     {
         _project.objectToThrow.gameObject.SetActive(false);
         _project._sandaliaOn = true;
     }
-    void MiraFalse()
+   */
+
+    /*void MiraFalse()
     {
         _anim.SetBool("atirar", false);
     }
+    */
     public void TrocaScene()
     {
         SceneManager.LoadScene("MiniGame1");

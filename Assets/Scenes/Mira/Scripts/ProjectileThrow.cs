@@ -1,24 +1,41 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(TrajectoryPredictor))]
 public class ProjectileThrow : MonoBehaviour
 {
-    public TrajectoryPredictor trajectoryPredictor;
+    TrajectoryPredictor trajectoryPredictor;
 
     [SerializeField]
-   public  Rigidbody objectToThrow;
-    public bool _sandaliaOn;
+    Rigidbody objectToThrow;
+
     [SerializeField, Range(0.0f, 50.0f)]
-   public float force;
+    float force;
 
     [SerializeField]
-    public Transform StartPosition;
+    Transform StartPosition;
 
     public InputAction fire;
+    [SerializeField] MoveNew _move;
+    public Transform _sandalia;
+    public bool _sandaliaOn;
 
 
-    void OnEnable()
+    public void DesativarSandalia()
+    {
+        _sandalia.gameObject.SetActive(false);
+        _sandaliaOn = true;
+    }
+    void MiraFalse()
+    {
+        _move._anim.SetBool("atirar", false);
+    }
+        private void Start()
+    {
+        _sandaliaOn = true;
+    }
+    public void OnEnable()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
 
@@ -27,6 +44,25 @@ public class ProjectileThrow : MonoBehaviour
 
         fire.Enable();
         fire.performed += ThrowObject;
+
+    }
+
+    public void Fire()
+    {
+        if (_sandaliaOn)
+        {
+            _sandaliaOn = false;
+            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = StartPosition.position;
+                bullet.transform.localRotation = Quaternion.identity;
+                bullet.SetActive(true);
+                Invoke("DesativarSandalia", 5f);
+                _sandalia = bullet.transform;
+            }
+            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
+        }
     }
 
     void Update()
@@ -43,7 +79,6 @@ public class ProjectileThrow : MonoBehaviour
     {
         ProjectileProperties properties = new ProjectileProperties();
         Rigidbody r = objectToThrow.GetComponent<Rigidbody>();
-        
 
         properties.direction = StartPosition.forward;
         properties.initialPosition = StartPosition.position;
@@ -56,8 +91,25 @@ public class ProjectileThrow : MonoBehaviour
 
     void ThrowObject(InputAction.CallbackContext ctx)
     {
-        Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
-        thrownObject.AddForce(StartPosition.forward * force, ForceMode.Impulse);
+        if (_move._mira1)
+        { // Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
 
+            if (_sandaliaOn && objectToThrow)
+            {
+                _move._anim.SetBool("atirar", true);
+                Invoke("MiraFalse", 0.5f);
+                Invoke("DesativarSandalia", 5f);
+                
+            }
+            GameObject bullet = PoolingMira.SharedInstance.GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = StartPosition.position;
+                bullet.transform.localRotation = Quaternion.identity;
+                bullet.SetActive(true);
+            }
+            bullet.GetComponent<Rigidbody>().AddForce(StartPosition.forward * force, ForceMode.Impulse);
+        }
     }
+
 }

@@ -302,7 +302,7 @@
                 {
                     "name": "",
                     "id": "3dbbe73d-a431-44f7-8cf4-40e4bf45d6a1",
-                    "path": "<Mouse>/press",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
