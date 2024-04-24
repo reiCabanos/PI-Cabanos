@@ -55,7 +55,9 @@ public class MoveNew : MonoBehaviour
 
     public Vector3 miraV;
     public Transform _miraL;
-
+    [SerializeField] public string _tagCheckPoint;
+    public GameManager _manager;
+    public Vector3 _posSalvar;
 
     void Start()
     {
@@ -63,16 +65,18 @@ public class MoveNew : MonoBehaviour
         _playerPontos=Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
        _project=GetComponent<ProjectileThrow>();
+        _manager = Camera.main.GetComponent<GameManager>();
 
-
+        Salves();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (_gameController._gamerOver == false)
         {
-            
+           
 
             _checkGround = _controller.isGrounded;
             //     _orientation.eu = Vector3.zero;
@@ -132,6 +136,7 @@ public class MoveNew : MonoBehaviour
                 _moveSpeed = 2.57f;
             }
             Gravidade();
+            
         }
         else
         {
@@ -139,8 +144,10 @@ public class MoveNew : MonoBehaviour
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
         }
-      
 
+
+
+        
 
 
     }
@@ -216,6 +223,17 @@ public class MoveNew : MonoBehaviour
 
 
         }
+        
+    
+        if (other.gameObject.CompareTag(_tagCheckPoint))
+        {
+
+            Debug.Log(other.gameObject.name);
+            Debug.Log(other.transform.localPosition);
+            _manager.CheckPointSalvar(other.transform.localPosition);
+        }
+    
+
     }
 
   
@@ -272,6 +290,15 @@ public class MoveNew : MonoBehaviour
         _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+(- miraV.y*2), 0,0);
        
 
+    }
+    public void Salves()
+    {
+       
+
+        _posSalvar.x = PlayerPrefs.GetFloat("posX");
+        _posSalvar.y = PlayerPrefs.GetFloat("posY");
+        _posSalvar.z = PlayerPrefs.GetFloat("posZ");
+        transform.localPosition = _posSalvar;
     }
 
 }

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
          _fase = PlayerPrefs.GetInt("fase");
         */
         Carregar();
-        _posPlayer.transform.localPosition = _pos[_partFase].transform.position;
+       // _posPlayer.transform.localPosition = _pos[_partFase].transform.position;
         
     }
 
@@ -37,6 +37,14 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
+
+    }
+    public void CheckPointSalvar(Vector3 pos)
+    {
+        PlayerPrefs.SetFloat("posX", pos.x);
+        PlayerPrefs.SetFloat("posY", pos.y);
+        PlayerPrefs.SetFloat("posZ", pos.z);
+
 
     }
 }
