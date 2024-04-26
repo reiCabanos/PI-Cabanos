@@ -230,6 +230,7 @@ public class MoveNew : MonoBehaviour
 
             Debug.Log(other.gameObject.name);
             Debug.Log(other.transform.localPosition);
+            _manager.Salvar();
             _manager.CheckPointSalvar(other.transform.localPosition);
         }
     
@@ -293,12 +294,15 @@ public class MoveNew : MonoBehaviour
     }
     public void Salves()
     {
-       
 
-        _posSalvar.x = PlayerPrefs.GetFloat("posX");
-        _posSalvar.y = PlayerPrefs.GetFloat("posY");
-        _posSalvar.z = PlayerPrefs.GetFloat("posZ");
-        transform.localPosition = _posSalvar;
+
+        if (PlayerPrefs.GetInt("StartSalve") == 1)
+        {
+            _posSalvar.x = PlayerPrefs.GetFloat("posX");
+            _posSalvar.y = PlayerPrefs.GetFloat("posY");
+            _posSalvar.z = PlayerPrefs.GetFloat("posZ");
+            transform.localPosition = _posSalvar;
+        }
     }
 
 }

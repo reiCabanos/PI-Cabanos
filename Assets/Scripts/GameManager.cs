@@ -18,8 +18,14 @@ public class GameManager : MonoBehaviour
          _fase = PlayerPrefs.GetInt("fase");
         */
         Carregar();
-       // _posPlayer.transform.localPosition = _pos[_partFase].transform.position;
-        
+        // _posPlayer.transform.localPosition = _pos[_partFase].transform.position;
+        if (PlayerPrefs.GetInt("StartSalve") == 0)
+        {
+            PlayerPrefs.SetInt("StartSalve", 0);
+
+        }
+       
+
     }
 
     // Update is called once per frame
@@ -29,6 +35,7 @@ public class GameManager : MonoBehaviour
     }
     public void Salvar()
     {
+        PlayerPrefs.SetInt("StartSalve", 1);
         PlayerPrefs.SetInt("fase", _fase);
     }
     public void Carregar()
