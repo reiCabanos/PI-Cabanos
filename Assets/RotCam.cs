@@ -6,6 +6,7 @@ public class RotCam : MonoBehaviour
 {
     // Start is called before the first frame update
     Transform cam;
+    public Transform _transform;
     void Start()
     {
         cam = Camera.main.GetComponent<Transform>();
@@ -14,6 +15,6 @@ public class RotCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.eulerAngles= new Vector3(-cam.transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        //transform.eulerAngles= new Vector3(-cam.transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 }
