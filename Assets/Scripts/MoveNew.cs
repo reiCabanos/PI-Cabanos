@@ -58,6 +58,7 @@ public class MoveNew : MonoBehaviour
     [SerializeField] public string _tagCheckPoint;
     public GameManager _manager;
     public Vector3 _posSalvar;
+    public Transform _juF;
 
     void Start()
     {
@@ -155,7 +156,7 @@ public class MoveNew : MonoBehaviour
     void MovimentoPlayer()
     {
         //orientação do movimento
-        _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _moveSpeed;
+        _moveDir = (_juF.forward * _moveZ) * _moveSpeed;
 
         //movimento
         _controller.Move(new Vector3(_moveDir.x, _controller.velocity.y, _moveDir.z) * Time.deltaTime);
@@ -175,11 +176,11 @@ public class MoveNew : MonoBehaviour
         if (_checkMove)
         {
             Vector3 m = value.ReadValue<Vector3>();
-            _moveX = m.x;
+          //  _moveX = m.x;
             _moveZ = m.y;
             var tartAngle = Mathf.Atan2(m.x, m.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime*8 );
-            transform.rotation = Quaternion.Euler(0, angle, 0);
+            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime );
+            transform.rotation = Quaternion.Euler(0, angle*500, 0);
             
         }
         
