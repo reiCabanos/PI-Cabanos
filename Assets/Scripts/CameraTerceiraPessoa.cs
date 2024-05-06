@@ -41,7 +41,7 @@ public class CameraTerceiraPessoa : MonoBehaviour
         //Orientação da rotação
         if (_orientation != null)
         {
-            RotCam();
+           // RotCam();
         }
         //RotCam();
 

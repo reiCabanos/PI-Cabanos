@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,6 +60,8 @@ public class MoveNew : MonoBehaviour
     public GameManager _manager;
     public Vector3 _posSalvar;
     public Transform _juF;
+    public Vector3 moveVector;
+    public float rotationSpeed = 100f;
 
     void Start()
     {
@@ -74,7 +77,12 @@ public class MoveNew : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+
+
+        transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
+
+
         if (_gameController._gamerOver == false)
         {
            
@@ -175,12 +183,11 @@ public class MoveNew : MonoBehaviour
     {
         if (_checkMove)
         {
-            Vector3 m = value.ReadValue<Vector3>();
+            moveVector = value.ReadValue<Vector3>();
           //  _moveX = m.x;
-            _moveZ = m.y;
-            var tartAngle = Mathf.Atan2(m.x, m.z) * Mathf.Rad2Deg;
-            var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, tartAngle, ref _currentvelocity, _smoothTime );
-            transform.rotation = Quaternion.Euler(0, angle*500, 0);
+            _moveZ = moveVector.y;
+           // var tartAngle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
+           
             
         }
         
