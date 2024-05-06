@@ -29,7 +29,7 @@ public class ProjectileThrow : MonoBehaviour
     }
     void MiraFalse()
     {
-        _move._anim.SetBool("atirar", false);
+        _move._anim.SetBool("atirar", true);
     }
         private void Start()
     {

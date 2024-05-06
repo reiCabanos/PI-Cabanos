@@ -62,6 +62,7 @@ public class MoveNew : MonoBehaviour
     public Transform _juF;
     public Vector3 moveVector;
     public float rotationSpeed = 100f;
+   
 
     void Start()
     {
@@ -81,7 +82,7 @@ public class MoveNew : MonoBehaviour
 
 
         transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
-
+     
 
         if (_gameController._gamerOver == false)
         {
@@ -98,7 +99,8 @@ public class MoveNew : MonoBehaviour
             float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
             _anim.SetFloat("correndo", tempSpeed);
             _anim.SetBool("chekground", _controller.isGrounded);
-
+          
+            _anim.SetBool("mirando", _mira1);
             if (_controller.isGrounded == false)
             {
                 Gravidade();
@@ -181,16 +183,11 @@ public class MoveNew : MonoBehaviour
 
     public void SetMove(InputAction.CallbackContext value)
     {
-        if (_checkMove)
-        {
-            moveVector = value.ReadValue<Vector3>();
-          //  _moveX = m.x;
-            _moveZ = moveVector.y;
-           // var tartAngle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
-           
-            
-        }
-        
+
+        moveVector = value.ReadValue<Vector3>();
+        //  _moveX = m.x;
+        _moveZ = moveVector.y;
+
 
     }
 
@@ -253,7 +250,9 @@ public class MoveNew : MonoBehaviour
         _mira.gameObject.SetActive(_mira1);
         _miraFinal.gameObject.SetActive(_mira1);
         _checkMove = !_mira1;
-       
+        moveVector = Vector3.zero;
+        _moveZ=0;
+
 
 
 
