@@ -199,6 +199,7 @@ public class MoveNew : MonoBehaviour
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
         _checkwalk = value.performed;
+        Debug.Log("ccc");
     }
 
     private void Gravidade()

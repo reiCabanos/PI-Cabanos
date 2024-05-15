@@ -22,6 +22,7 @@ public class HudControles : MonoBehaviour
     public bool _sair;
     public Transform _painelControles;
     public Transform _painelBranco;
+    
 
 
     void Start()
@@ -32,15 +33,15 @@ public class HudControles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public void SetComecar(InputAction.CallbackContext value)
     {
         if(_ativar = value.performed)
         {
-            _sect.Select();
-            _telaIniciar.DOScale(0, 0.5f);
+            
+            _telaIniciar.DOScale(0, 0.2f);
             StartCoroutine(PainelControles());
             _telaHuds.DOScale(1, 1f);
             Debug.Log("controles");
@@ -53,8 +54,8 @@ public class HudControles : MonoBehaviour
         if (_ativarInventario = value.performed)
         {
             
-            _telaHuds.DOScale(0, 0.5f);
-            _telaCelular.DOScale(0, 0.5f);
+            _telaHuds.DOScale(0, 0.2f);
+            _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(1, 1f);
             _painelBranco.DOScale(1, 1f);
             Debug.Log("inventario");
@@ -70,8 +71,8 @@ public class HudControles : MonoBehaviour
     {
         if (_ativarCelular = value.performed)
         {
-            _telaHuds.DOScale(0, 0.5f);
-            _telaInventario.DOScale(0, 0.5f);
+            _telaHuds.DOScale(0, 0.2f);
+            _telaInventario.DOScale(0, 0.2f);
             _telaCelular.DOScale(1, 1f);
             _painelBranco.DOScale(1, 1f);
             Debug.Log("Celular");
@@ -88,9 +89,9 @@ public class HudControles : MonoBehaviour
         if (_sair = value.performed)
         {
             _telaHuds.DOScale(1, 1f);
-            _telaCelular.DOScale(0, 0.5f);
-            _telaInventario.DOScale(0, 0.5f);
-            _painelBranco.DOScale(0, 0.5f);
+            _telaCelular.DOScale(0, 0.2f);
+            _telaInventario.DOScale(0, 0.2f);
+            _painelBranco.DOScale(0, 0.2f);
             Debug.Log("sair");
         }
 
@@ -105,7 +106,7 @@ public class HudControles : MonoBehaviour
     {
         _painelControles.DOScale(1, 1f);
         yield return new WaitForSeconds(1.7f);
-        _painelControles.DOScale(0, 0.5f);
+        _painelControles.DOScale(0, 0.2f);
 
     }
 }
