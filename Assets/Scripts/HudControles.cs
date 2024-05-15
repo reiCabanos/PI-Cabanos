@@ -22,47 +22,51 @@ public class HudControles : MonoBehaviour
     public bool _sair;
     public Transform _painelControles;
     public Transform _painelBranco;
-    
+    public Transform _painelConfig;
+    public bool _ativaConfig;
+
+
 
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
     }
 
     public void SetComecar(InputAction.CallbackContext value)
     {
-        if(_ativar = value.performed)
+        if (_ativar = value.performed)
         {
-            
+
             _telaIniciar.DOScale(0, 0.2f);
             StartCoroutine(PainelControles());
             _telaHuds.DOScale(1, 1f);
             Debug.Log("controles");
         }
-      
-        
+
+
     }
     public void SetInventario(InputAction.CallbackContext value)
     {
         if (_ativarInventario = value.performed)
         {
-            
+
             _telaHuds.DOScale(0, 0.2f);
             _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(1, 1f);
             _painelBranco.DOScale(1, 1f);
+            _painelConfig.DOScale(0, 0.2f);
             Debug.Log("inventario");
         }
-        
-            
-        
+
+
+
 
 
     }
@@ -75,6 +79,7 @@ public class HudControles : MonoBehaviour
             _telaInventario.DOScale(0, 0.2f);
             _telaCelular.DOScale(1, 1f);
             _painelBranco.DOScale(1, 1f);
+            _painelConfig.DOScale(0, 0.2f);
             Debug.Log("Celular");
         }
 
@@ -92,6 +97,7 @@ public class HudControles : MonoBehaviour
             _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(0, 0.2f);
             _painelBranco.DOScale(0, 0.2f);
+            _painelConfig.DOScale(0, 0.2f);
             Debug.Log("sair");
         }
 
@@ -99,6 +105,24 @@ public class HudControles : MonoBehaviour
 
 
 
+    }
+    public void SetConfiguracao(InputAction.CallbackContext value)
+    {
+        if (_ativaConfig = value.performed)
+        {
+            _telaHuds.DOScale(0, 0.2f);
+            _telaCelular.DOScale(0, 0.2f);
+            _telaInventario.DOScale(0, 0.2f);
+            _telaIniciar.DOScale(0, 0.2f);
+            _painelBranco.DOScale(1, 1f);
+            _painelConfig.DOScale(1, 1f);
+
+            Debug.Log("sss");
+        }
+        
+
+
+        
     }
 
 
