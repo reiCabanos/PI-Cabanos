@@ -1,0 +1,94 @@
+{
+    "name": "Huds",
+    "maps": [
+        {
+            "name": "ControleDeHud",
+            "id": "22f168ce-24b3-4643-9fa0-d94276f86309",
+            "actions": [
+                {
+                    "name": "Comecar",
+                    "type": "Button",
+                    "id": "616468dd-3df7-49dc-91ba-f8156d04ca48",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "inventario",
+                    "type": "Button",
+                    "id": "d707c57d-d5ea-4be3-a01e-f304f94af146",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "celuar",
+                    "type": "Button",
+                    "id": "0cfe7f13-e439-410b-882e-a71dc0937733",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "sair",
+                    "type": "Button",
+                    "id": "261a9155-bf73-4271-af7c-7696a03dae4f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a9fa87ae-6762-4593-9a46-1004a9d7ede6",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Comecar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71dd656d-9b81-437b-9351-7b66f8e468d3",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "inventario",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d911fa8c-2bfb-486a-9db6-de5fa2a66552",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "celuar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b4674e0-7a85-4f55-bec8-a84014ace83e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sair",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
