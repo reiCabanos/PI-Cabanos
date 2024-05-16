@@ -65,8 +65,30 @@
                 },
                 {
                     "name": "",
+                    "id": "fc833027-8435-4763-84c8-049890258673",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Comecar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "71dd656d-9b81-437b-9351-7b66f8e468d3",
                     "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "inventario",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49f79a1e-f9e5-4991-a5de-60612278270f",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -87,6 +109,17 @@
                 },
                 {
                     "name": "",
+                    "id": "011a9b3b-5abb-47e3-80d4-f2eb8b713a97",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "celuar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "6b4674e0-7a85-4f55-bec8-a84014ace83e",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
@@ -98,8 +131,30 @@
                 },
                 {
                     "name": "",
+                    "id": "59dca163-2aaf-41de-9715-76f2571c57fd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sair",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3af3b67f-b6e7-4e92-9699-1daf20651a68",
                     "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Configuracao",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a5252e8-f1d8-4b01-91e0-c4eacb3d9856",
+                    "path": "<Keyboard>/home",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
