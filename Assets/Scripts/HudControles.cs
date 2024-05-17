@@ -21,9 +21,10 @@ public class HudControles : MonoBehaviour
     public bool _ativarCelular;
     public bool _sair;
     public Transform _painelControles;
-    public Transform _painelBranco;
+    public Transform _painelBluer;
     public Transform _painelConfig;
     public bool _ativaConfig;
+   
 
 
 
@@ -45,6 +46,7 @@ public class HudControles : MonoBehaviour
         {
 
             _telaIniciar.DOScale(0, 0.2f);
+            _painelBluer.DOScale(0, 0.2f);
             StartCoroutine(PainelControles());
             _telaHuds.DOScale(1, 1f);
             Debug.Log("controles");
@@ -60,7 +62,7 @@ public class HudControles : MonoBehaviour
             _telaHuds.DOScale(0, 0.2f);
             _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(1, 1f);
-            _painelBranco.DOScale(1, 1f);
+            _painelBluer.DOScale(1, 1f);
             _painelConfig.DOScale(0, 0.2f);
             Debug.Log("inventario");
         }
@@ -78,7 +80,7 @@ public class HudControles : MonoBehaviour
             _telaHuds.DOScale(0, 0.2f);
             _telaInventario.DOScale(0, 0.2f);
             _telaCelular.DOScale(1, 1f);
-            _painelBranco.DOScale(1, 1f);
+            _painelBluer.DOScale(1, 1f);
             _painelConfig.DOScale(0, 0.2f);
             Debug.Log("Celular");
         }
@@ -96,7 +98,7 @@ public class HudControles : MonoBehaviour
             _telaHuds.DOScale(1, 1f);
             _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(0, 0.2f);
-            _painelBranco.DOScale(0, 0.2f);
+            _painelBluer.DOScale(0, 0.2f);
             _painelConfig.DOScale(0, 0.2f);
             Debug.Log("sair");
         }
@@ -114,7 +116,7 @@ public class HudControles : MonoBehaviour
             _telaCelular.DOScale(0, 0.2f);
             _telaInventario.DOScale(0, 0.2f);
             _telaIniciar.DOScale(0, 0.2f);
-            _painelBranco.DOScale(1, 1f);
+            _painelBluer.DOScale(1, 1f);
             _painelConfig.DOScale(1, 1f);
 
             Debug.Log("sss");
