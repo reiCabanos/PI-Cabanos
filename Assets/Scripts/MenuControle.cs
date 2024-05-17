@@ -11,6 +11,7 @@ public class MenuControle : MonoBehaviour
     [SerializeField]GameObject _painelMenuInicial;
     [SerializeField]GameObject _painelOpcoes;
     public Transform _painelIniciar;
+    public Transform _painelMenu;
     void Start()
     {
         
@@ -38,8 +39,8 @@ public class MenuControle : MonoBehaviour
     }
     public void SairDoJogo()
     {
-        _painelIniciar.DOScale(1, 1f);
-
+        
+        SceneManager.LoadScene("Menu");
     }
 
 
