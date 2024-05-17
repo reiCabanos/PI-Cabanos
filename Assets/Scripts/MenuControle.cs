@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+
 
 public class MenuControle : MonoBehaviour
 {
     [SerializeField] private string _nomeDaScena;
     [SerializeField]GameObject _painelMenuInicial;
     [SerializeField]GameObject _painelOpcoes;
+    public Transform _painelIniciar;
     void Start()
     {
         
@@ -35,10 +38,10 @@ public class MenuControle : MonoBehaviour
     }
     public void SairDoJogo()
     {
-        Debug.Log("sair dom jogo");
-        Application.Quit();
+        _painelIniciar.DOScale(1, 1f);
 
     }
+
 
     
 }

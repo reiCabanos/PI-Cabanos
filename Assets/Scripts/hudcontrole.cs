@@ -7,9 +7,11 @@ public class hudcontrole : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] List<MenuControl> _MenuControls;
-
+    MenuControl _menu;
         void Start()
     {
+        _menu = Camera.main.GetComponent<MenuControl>();
+
         for (int i = 0; i < _MenuControls.Count; i++)
         {
             _MenuControls[i].transform.localScale = Vector3.zero;
