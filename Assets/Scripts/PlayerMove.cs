@@ -76,14 +76,15 @@ public class PlayerMove : MonoBehaviour
     public Button _fimG;
 
     public TextMeshProUGUI _coinCounterTex;
-    
-   
-   
+    public SkinnedMeshRenderer _skinnedMeshObject;
+
+
+
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
-       
 
+        SkinnedMeshRenderer skinnedMeshRenderer = _skinnedMeshObject.GetComponent<SkinnedMeshRenderer>();
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
@@ -173,11 +174,11 @@ public class PlayerMove : MonoBehaviour
 
         if (_checkwalk && _velocidade != 0)
         {
-            _speed = 6f;
+            _speed = 8f;
         }
         else
         {
-            _speed = 2.57f;
+            _speed = 4f;
         }
 
     }
@@ -362,8 +363,9 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
+        _skinnedMeshObject.enabled = false;
         yield return new WaitForSeconds(0.5f);
-
+        _skinnedMeshObject.enabled = true;
         _controle._stop = false;
 
     }
