@@ -77,7 +77,7 @@ public class PlayerMove : MonoBehaviour
     public Button _fimG;
 
     public TextMeshProUGUI _coinCounterTex;
-    public SkinnedMeshRenderer _skinnedMeshObject;
+   // public SkinnedMeshRenderer _skinnedMeshObject;
 
 
 

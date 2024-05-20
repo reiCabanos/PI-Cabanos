@@ -47,7 +47,6 @@ public class HudControles : MonoBehaviour
 
             _telaIniciar.DOScale(0, 0.2f);
             _painelBluer.DOScale(0, 0.2f);
-            
             _telaHuds.DOScale(1, 1f);
             Debug.Log("controles");
         }

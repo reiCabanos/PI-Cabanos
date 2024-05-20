@@ -10,7 +10,7 @@ public class hudcontrole : MonoBehaviour
     MenuControl _menu;
         void Start()
     {
-        _menu = Camera.main.GetComponent<MenuControl>();
+        //_menu = Camera.main.GetComponent<MenuControl>();
 
         for (int i = 0; i < _MenuControls.Count; i++)
         {

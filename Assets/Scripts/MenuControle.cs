@@ -23,7 +23,7 @@ public class MenuControle : MonoBehaviour
     }
     public void Jogar()
     {
-        SceneManager.LoadScene(_nomeDaScena);
+        SceneManager.LoadScene("MapaBeta");
 
     }
     public void AbrirOpcoes()
