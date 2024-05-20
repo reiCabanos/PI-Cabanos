@@ -59,6 +59,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform[] _scores; 
     [SerializeField] public Transform _coinNextPos;
     [SerializeField] Transform _t;
+    [SerializeField] public Transform p;
     public Transform _posT;
     [SerializeField] Transform _pontos;
 
@@ -84,7 +85,7 @@ public class PlayerMove : MonoBehaviour
     {
         _characterController=GetComponent<CharacterController>();
 
-        SkinnedMeshRenderer skinnedMeshRenderer = _skinnedMeshObject.GetComponent<SkinnedMeshRenderer>();
+       // SkinnedMeshRenderer skinnedMeshRenderer = _skinnedMeshObject.GetComponent<SkinnedMeshRenderer>();
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
@@ -363,9 +364,11 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
-        _skinnedMeshObject.enabled = false;
+        p.DOScale(0, 0f);
+        //_skinnedMeshObject.enabled = false;
         yield return new WaitForSeconds(0.5f);
-        _skinnedMeshObject.enabled = true;
+        //_skinnedMeshObject.enabled = true;
+        p.DOScale(0.5164886f, 0.5164886f);
         _controle._stop = false;
 
     }
