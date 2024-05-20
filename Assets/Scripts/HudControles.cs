@@ -7,7 +7,7 @@ using Button = UnityEngine.UI.Button;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 using DG.Tweening;
-using UnityEditor.ShaderGraph;
+/*using UnityEditor.ShaderGraph;*/
 
 public class HudControles : MonoBehaviour
 {

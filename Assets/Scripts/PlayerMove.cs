@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
+/*using UnityEditor.ShaderKeywordFilter;*/
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using System;
 using TMPro;
-using UnityEditor.ShaderGraph;
+/*using UnityEditor.ShaderGraph;*/
 
 public class PlayerMove : MonoBehaviour
 {
