@@ -129,7 +129,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme"",
+                    ""groups"": ""New control scheme;New control scheme1"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -670,6 +670,22 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""New control scheme1"",
+            ""bindingGroup"": ""New control scheme1"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -849,6 +865,15 @@ public partial class @Player1: IInputActionCollection2, IDisposable
         {
             if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
             return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
+        }
+    }
+    private int m_Newcontrolscheme1SchemeIndex = -1;
+    public InputControlScheme Newcontrolscheme1Scheme
+    {
+        get
+        {
+            if (m_Newcontrolscheme1SchemeIndex == -1) m_Newcontrolscheme1SchemeIndex = asset.FindControlSchemeIndex("New control scheme1");
+            return asset.controlSchemes[m_Newcontrolscheme1SchemeIndex];
         }
     }
     public interface IMovePlayerActions

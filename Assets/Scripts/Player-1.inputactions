@@ -107,7 +107,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "New control scheme",
+                    "groups": "New control scheme;New control scheme1",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -636,6 +636,22 @@
         {
             "name": "New control scheme",
             "bindingGroup": "New control scheme",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "New control scheme1",
+            "bindingGroup": "New control scheme1",
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
