@@ -38,20 +38,21 @@ public class JogoPontos : MonoBehaviour
 
             }
         }
-        else
+        /*else
         {
             ConvertToScore();
 
         }
+        */
 
 
     }
-    private void ConvertToScore()
+   /* private void ConvertToScore()
     {
 
         transform.position = Vector3.MoveTowards(transform.position, _playerMove._coinNextPos.position, Time.deltaTime * 100f);
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, Time.deltaTime * 5f);
-    }
+    }*/
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

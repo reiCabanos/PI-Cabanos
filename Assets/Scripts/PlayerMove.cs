@@ -62,6 +62,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] public Transform p;
     public Transform _posT;
     [SerializeField] Transform _pontos;
+    [SerializeField] Transform o;
 
     [SerializeField] int _quantVida = 3;
     [SerializeField] int _mod; 
@@ -75,6 +76,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] GameObject _pont1;
     
     public Button _fimG;
+    public bool _fimM;
 
     public TextMeshProUGUI _coinCounterTex;
    // public SkinnedMeshRenderer _skinnedMeshObject;
@@ -253,7 +255,7 @@ public class PlayerMove : MonoBehaviour
             _pont1.SetActive(true);
             value *= -1;
             //StartCoroutine(TempoPlayer());
-            _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
+           _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
 
         }
 
@@ -299,12 +301,13 @@ public class PlayerMove : MonoBehaviour
             _scores[_index].position = other.transform.position;
             if (_index < 4)
                 _index++;
+
             else
             {
                 _index = 0;
             }
-            other.GetComponent<Rigidbody>().isKinematic = true;
-            other.GetComponent<Collider>().isTrigger = true;
+           // other.GetComponent<Rigidbody>().isKinematic = true;
+           // other.GetComponent<Collider>().isTrigger = true;
             other.GetComponent<JogoPontos>()._scoreMode = true;
 
        
@@ -318,9 +321,11 @@ public class PlayerMove : MonoBehaviour
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());
-        _pontos.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        //_pontos.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
+        _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+
 
     }
    
@@ -389,7 +394,22 @@ public class PlayerMove : MonoBehaviour
         _autoCorrer = true;
         
     }
+    public void SetCorrer(InputAction.CallbackContext Value)
+    {
 
+        _autoCorrer = true;
+            o.DOScale(0, 0f);
+    
+       
+
+
+    }
+    public void SetFimg(InputAction.CallbackContext value)
+    {
+        _fimM = true;
+        SceneManager.LoadScene("MapaBeta");
+       
+    }
     public void FimGamer()
     {
         SceneManager.LoadScene("MapaBeta");

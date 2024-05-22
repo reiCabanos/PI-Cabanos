@@ -95,7 +95,7 @@ public class ProjectileThrow : MonoBehaviour
 
             if (_sandaliaOn && objectToThrow)
             {
-                _move._anim.SetBool("atirar", true);
+                _move._anim.SetBool("atirar2", true);
                 Invoke("MiraFalse", 0.5f);
                 Invoke("DesativarSandalia", 5f);
                 

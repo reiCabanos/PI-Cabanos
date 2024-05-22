@@ -296,7 +296,7 @@ public class MoveNew : MonoBehaviour
     {
 
         miraV = callbackContext.ReadValue<Vector3>();
-        _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+(- miraV.y*2), 0,0);
+        _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+( miraV.y*2), 0,0);
        
 
     }
