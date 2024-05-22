@@ -24,20 +24,22 @@ public class HudControles : MonoBehaviour
     public Transform _painelBluer;
     public Transform _painelConfig;
     public bool _ativaConfig;
-   
+    private RectTransform uiElement;
+
 
 
 
 
     void Start()
     {
-
+        uiElement = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
+        uiElement.anchoredPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
     }
 
     public void SetComecar(InputAction.CallbackContext value)
