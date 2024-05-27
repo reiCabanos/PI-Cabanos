@@ -147,7 +147,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -158,7 +158,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -169,7 +169,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -180,7 +180,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -202,7 +202,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -213,7 +213,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -224,7 +224,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -235,7 +235,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -268,7 +268,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -279,7 +279,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -290,7 +290,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""MoveWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -301,7 +301,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""MoveWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -323,7 +323,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Gamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -334,7 +334,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Gamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -345,7 +345,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Gamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -356,7 +356,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Gamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -389,7 +389,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Mira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -400,7 +400,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Mira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -455,18 +455,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
-                    ""action"": ""LookMira"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4cafe15d-decd-47f7-baba-1c9798fac3f4"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -477,7 +466,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -488,7 +477,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -499,7 +488,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -532,7 +521,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -543,7 +532,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""LookMira"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -620,7 +609,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -675,7 +664,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -686,7 +675,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""New control scheme;New control scheme1"",
+                    ""groups"": ""New control scheme"",
                     ""action"": ""Voltar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -706,23 +695,7 @@ public partial class @Player1: IInputActionCollection2, IDisposable
                 },
                 {
                     ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""New control scheme1"",
-            ""bindingGroup"": ""New control scheme1"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Gamepad>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                },
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
+                    ""isOptional"": true,
                     ""isOR"": false
                 }
             ]
@@ -923,15 +896,6 @@ public partial class @Player1: IInputActionCollection2, IDisposable
         {
             if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
             return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
-        }
-    }
-    private int m_Newcontrolscheme1SchemeIndex = -1;
-    public InputControlScheme Newcontrolscheme1Scheme
-    {
-        get
-        {
-            if (m_Newcontrolscheme1SchemeIndex == -1) m_Newcontrolscheme1SchemeIndex = asset.FindControlSchemeIndex("New control scheme1");
-            return asset.controlSchemes[m_Newcontrolscheme1SchemeIndex];
         }
     }
     public interface IMovePlayerActions
