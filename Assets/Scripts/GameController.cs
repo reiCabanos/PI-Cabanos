@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public bool _gamerOver;
+    public Transform _miniCam;
     void Start()
     {
         
