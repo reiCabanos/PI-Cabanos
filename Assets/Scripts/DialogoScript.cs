@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class DialogoScript : MonoBehaviour
 {
@@ -10,19 +11,18 @@ public class DialogoScript : MonoBehaviour
     public float textspeed;
     private int index;
 
-    // Start is called before the first frame update
+    public GameObject spriteGameObject;
+
     void Start()
     {
         textcomponet.text = string.Empty;
-        começarDialogo();
-
-
+        comecarDialogo();
+        AnimarSprite(); // Inicia a animação do vento imediatamente
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) /// AQUI MUDAR O BOTÃO PARA AVANÇAR O TEXTO 
+        if (Input.GetMouseButtonDown(0))
         {
             if (textcomponet.text == lines[index])
             {
@@ -34,15 +34,15 @@ public class DialogoScript : MonoBehaviour
                 textcomponet.text = lines[index];
             }
         }
-        
     }
 
-    void começarDialogo()
+    void comecarDialogo()
     {
         index = 0;
         StartCoroutine(Typeline());
     }
-     IEnumerator Typeline()
+
+    IEnumerator Typeline()
     {
         foreach (char c in lines[index].ToCharArray())
         {
@@ -56,13 +56,44 @@ public class DialogoScript : MonoBehaviour
         if (index < lines.Length - 1)
         {
             index++;
-            textcomponet.text =string.Empty;
-            StartCoroutine (Typeline());
+            textcomponet.text = string.Empty;
+            StartCoroutine(Typeline());
         }
         else
         {
             gameObject.SetActive(false);
         }
     }
-    
+
+    void AnimarSprite()
+    {
+        if (spriteGameObject != null)
+        {
+            Vector3 posicaoOriginal = spriteGameObject.transform.position;
+
+            Sequence sequencia = DOTween.Sequence();
+            sequencia.Append(spriteGameObject.transform
+                .DOMoveX(posicaoOriginal.x + 0.2f, 1f)
+                .SetEase(Ease.InOutSine))
+              .Join(spriteGameObject.transform
+                .DORotate(new Vector3(0, 0, 5), 1f)
+                .SetEase(Ease.InOutSine))
+              .Append(spriteGameObject.transform
+                .DOMoveY(posicaoOriginal.y + 0.1f, 0.8f)
+                .SetEase(Ease.InOutSine))
+              .Join(spriteGameObject.transform
+                .DORotate(new Vector3(0, 0, -5), 0.8f)
+                .SetEase(Ease.InOutSine))
+              .Append(spriteGameObject.transform
+                .DOMoveX(posicaoOriginal.x - 0.2f, 1f)
+                .SetEase(Ease.InOutSine))
+              .Join(spriteGameObject.transform
+                .DORotate(new Vector3(0, 0, 0), 1f)
+                .SetEase(Ease.InOutSine))
+              .Append(spriteGameObject.transform
+                .DOMoveY(posicaoOriginal.y, 0.8f)
+                .SetEase(Ease.InOutSine))
+              .SetLoops(-1, LoopType.Yoyo);
+        }
+    }
 }

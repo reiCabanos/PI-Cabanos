@@ -16,16 +16,22 @@ public class HudControles : MonoBehaviour
 
     private Transform _painelAtivo;
     private bool painelBloqueando = false; // Variável para controlar o bloqueio
+    private float moveDistance = 35f; // Distância do movimento lateral
+    private float moveDuration = 4f;  // Duração de cada movimento
+    private Tweener moveTween;
 
     void Start()
     {
         _painelAtivo = _telaIniciar;
         _telaIniciar.gameObject.SetActive(true);
-
         _telaHuds.gameObject.SetActive(false);
         _telaCelular.gameObject.SetActive(false);
         _telaInventario.gameObject.SetActive(false);
         _painelConfig.gameObject.SetActive(false);
+        // Adiciona a animação DOTween ao _telaIniciar
+        moveTween = _telaIniciar.DOLocalMoveX(moveDistance, moveDuration)
+                              .SetEase(Ease.InOutSine)
+                              .SetLoops(-1, LoopType.Yoyo); // Repete infinitamente, indo e voltando
     }
 
     void Update()
