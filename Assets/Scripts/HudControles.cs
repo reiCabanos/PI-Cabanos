@@ -1,13 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Button = UnityEngine.UI.Button;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 using DG.Tweening;
-/*using UnityEditor.ShaderGraph;*/
 
 public class HudControles : MonoBehaviour
 {
@@ -15,125 +11,122 @@ public class HudControles : MonoBehaviour
     public Transform _telaHuds;
     public Transform _telaCelular;
     public Transform _telaInventario;
-    public bool _ativar;
-    public Button _sect;
-    public bool _ativarInventario;
-    public bool _ativarCelular;
-    public bool _sair;
-    public Transform _painelControles;
     public Transform _painelBluer;
     public Transform _painelConfig;
-    public bool _ativaConfig;
-    private RectTransform uiElement;
 
-
-
-
+    private Transform _painelAtivo;
+    private bool painelBloqueando = false; // Variável para controlar o bloqueio
 
     void Start()
     {
-        uiElement = GetComponent<RectTransform>();
+        _painelAtivo = _telaIniciar;
+        _telaIniciar.gameObject.SetActive(true);
+
+        _telaHuds.gameObject.SetActive(false);
+        _telaCelular.gameObject.SetActive(false);
+        _telaInventario.gameObject.SetActive(false);
+        _painelConfig.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-        uiElement.anchoredPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width / 2f, Screen.height / 2f);
     }
 
     public void SetComecar(InputAction.CallbackContext value)
     {
-        if (_ativar = value.performed)
+        if (value.performed && _painelAtivo == _telaIniciar)
         {
-
-            _telaIniciar.DOScale(0, 0.2f);
-            _painelBluer.DOScale(0, 0.2f);
-            _telaHuds.DOScale(1, 1f);
-            Debug.Log("controles");
+            FecharPainel(_telaIniciar);
+            AbrirPainel(_telaHuds);
         }
-
-
     }
+
     public void SetInventario(InputAction.CallbackContext value)
     {
-        if (_ativarInventario = value.performed)
-        {
-
-            _telaHuds.DOScale(0, 0.2f);
-            _telaCelular.DOScale(0, 0.2f);
-            _telaInventario.DOScale(1, 1f);
-            _painelBluer.DOScale(1, 1f);
-            _painelConfig.DOScale(0, 0.2f);
-            Debug.Log("inventario");
-        }
-
-
-
-
-
+        if (value.performed) AlternarPainel(_telaInventario);
     }
 
     public void SetCelular(InputAction.CallbackContext value)
     {
-        if (_ativarCelular = value.performed)
-        {
-            _telaHuds.DOScale(0, 0.2f);
-            _telaInventario.DOScale(0, 0.2f);
-            _telaCelular.DOScale(1, 1f);
-            _painelBluer.DOScale(1, 1f);
-            _painelConfig.DOScale(0, 0.2f);
-            Debug.Log("Celular");
-        }
-
-
-
-
-
+        if (value.performed) AlternarPainel(_telaCelular);
     }
 
     public void SetSair(InputAction.CallbackContext value)
     {
-        if (_sair = value.performed)
+        if (value.performed)
         {
-            _telaHuds.DOScale(1, 1f);
-            _telaCelular.DOScale(0, 0.2f);
-            _telaInventario.DOScale(0, 0.2f);
-            _painelBluer.DOScale(0, 0.2f);
-            _painelConfig.DOScale(0, 0.2f);
-            Debug.Log("sair");
+            if (_painelAtivo == _telaCelular)
+            {
+                FecharPainel(_painelAtivo);
+                AbrirPainel(_telaHuds);
+            }
+            else if (_painelAtivo != _telaHuds)
+            {
+                FecharPainel(_painelAtivo);
+                AbrirPainel(_telaHuds);
+            }
+            else
+            {
+                // Lógica para sair do jogo (por exemplo, SceneManager.LoadScene("MenuPrincipal");)
+            }
         }
-
-
-
-
-
     }
-    public void SetConfiguracao(InputAction.CallbackContext value)
+
+    // ... (Outros métodos para lidar com outras ações de input)
+
+    private void AbrirPainel(Transform painel)
     {
-        if (_ativaConfig = value.performed)
+        painel.gameObject.SetActive(true);
+        painel.DOScale(1, 1f);
+        _painelAtivo = painel;
+
+        if (painel != _telaIniciar && painel != _telaHuds)
         {
-            _telaHuds.DOScale(0, 0.2f);
-            _telaCelular.DOScale(0, 0.2f);
-            _telaInventario.DOScale(0, 0.2f);
-            _telaIniciar.DOScale(0, 0.2f);
+            _painelBluer.gameObject.SetActive(true);
             _painelBluer.DOScale(1, 1f);
-            _painelConfig.DOScale(1, 1f);
-
-            Debug.Log("sss");
+            painelBloqueando = true; // Bloqueia outros painéis
         }
-        
-
-
-        
+        else
+        {
+            _painelBluer.DOScale(0, 0.2f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+            painelBloqueando = false; // Desbloqueia outros painéis ao abrir _telaHuds
+        }
     }
 
-
-    IEnumerator PainelControles()
+    private void FecharPainel(Transform painel)
     {
-        _painelControles.DOScale(1, 1f);
-        yield return new WaitForSeconds(1.7f);
-        _painelControles.DOScale(0, 0.2f);
+        painel.DOScale(0, 0.2f).OnComplete(() => painel.gameObject.SetActive(false));
 
+        if (_telaHuds.gameObject.activeSelf == false &&
+            _telaCelular.gameObject.activeSelf == false &&
+            _telaInventario.gameObject.activeSelf == false &&
+            _painelConfig.gameObject.activeSelf == false)
+        {
+            _painelBluer.DOScale(0, 0.2f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+        }
+    }
+
+    private void AlternarPainel(Transform painel)
+    {
+        if (painelBloqueando && painel != _telaHuds)
+        {
+            return; // Impede a abertura de outros painéis se um estiver bloqueando
+        }
+
+        if (_painelAtivo == painel)
+        {
+            FecharPainel(painel);
+            AbrirPainel(_telaHuds);
+            painelBloqueando = false; // Desbloqueia ao fechar o painel atual
+        }
+        else
+        {
+            FecharPainel(_painelAtivo);
+            AbrirPainel(painel);
+
+            // Define se o painel bloqueia outros (exceto _telaHuds)
+            painelBloqueando = (painel == _telaCelular || painel == _telaInventario || painel == _painelConfig);
+        }
     }
 }
