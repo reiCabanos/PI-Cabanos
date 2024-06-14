@@ -79,6 +79,7 @@ public class PlayerMove : MonoBehaviour
     public bool _fimM;
 
     public TextMeshProUGUI _coinCounterTex;
+    public bool checkPass;
    // public SkinnedMeshRenderer _skinnedMeshObject;
 
 
@@ -167,13 +168,15 @@ public class PlayerMove : MonoBehaviour
     }
     void Andar()
     {
-       
-
-        //orientação do movimento
         _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
 
-        //movimento
-        _characterController.Move(new Vector3(_moveDir.x, _characterController.velocity.y, _moveDir.z) * Time.deltaTime);
+        // Movimento do personagem
+        Vector3 move = new Vector3(_moveDir.x, _playerVelocity.y, _moveDir.z);
+        _characterController.Move(move * Time.deltaTime);
+
+        // Manter o personagem reto
+        Vector3 currentEulerAngles = transform.eulerAngles;
+        transform.eulerAngles = new Vector3(0, currentEulerAngles.y, 0);
 
         if (_checkwalk && _velocidade != 0)
         {
@@ -183,6 +186,19 @@ public class PlayerMove : MonoBehaviour
         {
             _speed = 4f;
         }
+        /*
+            _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
+            transform.position += _moveDir * Time.deltaTime;
+
+                if (_checkwalk && _velocidade != 0)
+                {
+                    _speed = 8f;
+                }
+                else
+                {
+                    _speed = 4f;
+                }
+        */
 
     }
     void RoationPlayer()
@@ -211,6 +227,7 @@ public class PlayerMove : MonoBehaviour
     public void SetJump(InputAction.CallbackContext value)
     {
         _checkJump = true;
+        _controle._stop = false;
     }
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
@@ -236,6 +253,13 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("PauseTag"))
+        {
+            _controle._stop = true;
+           
+        }
+
+
         if (other.gameObject.CompareTag("filho"))
         {
             StartCoroutine(TempoPlayer());
@@ -293,8 +317,9 @@ public class PlayerMove : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("teste"))
+        if (other.gameObject.CompareTag("teste") && !checkPass)
         {
+            checkPass = true;
             _scores[_index].gameObject.SetActive(true);
             other.transform.parent = _coinNextPos.parent;
             _t = other.transform;
@@ -306,11 +331,11 @@ public class PlayerMove : MonoBehaviour
             {
                 _index = 0;
             }
-           // other.GetComponent<Rigidbody>().isKinematic = true;
-           // other.GetComponent<Collider>().isTrigger = true;
-            other.GetComponent<JogoPontos>()._scoreMode = true;
+            // other.GetComponent<Rigidbody>().isKinematic = true;
+            // other.GetComponent<Collider>().isTrigger = true;
+            // other.GetComponent<JogoPontos>()._scoreMode = true;
+          
 
-       
 
             StartCoroutine(Desativar());
            
@@ -332,13 +357,14 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
-        
-       _moveDir = new Vector3(-1, 0, -1);
+        _moveDir = transform.forward * 1;
         _speed = 4f;
-        
-        _characterController.Move(new Vector3(value, _characterController.velocity.y, _moveDir.z) * Time.deltaTime * _speed);
+
+        _characterController.Move(_moveDir * Time.deltaTime * _speed);
         _checkwalk = true;
-        //_speed = 6f;
+
+       
+        
     }
     
     IEnumerator Dano()
@@ -361,6 +387,7 @@ public class PlayerMove : MonoBehaviour
         _scoreCounter++;
         _coinCounterTex.text = _scoreCounter.ToString();
         _t.gameObject.SetActive(false);
+        checkPass = false;
     }
 
 
