@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class MoveNew : MonoBehaviour
@@ -62,7 +63,15 @@ public class MoveNew : MonoBehaviour
     public Transform _juF;
     public Vector3 moveVector;
     public float rotationSpeed = 100f;
-   
+
+    [Header("Stamina")]
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaDrainRate = 10f;
+    public float staminaRecoveryRate = 5f;
+    public UnityEngine.UI.Slider staminaSlider;
+
+
 
     void Start()
     {
@@ -71,8 +80,18 @@ public class MoveNew : MonoBehaviour
         _gameController = Camera.main.GetComponent<GameController>();
        _project=GetComponent<ProjectileThrow>();
         _manager = Camera.main.GetComponent<GameManager>();
-
         Salves();
+        // ... (seu código de inicialização) ...
+        currentStamina = maxStamina;
+        if (staminaSlider != null)
+        {
+            staminaSlider.maxValue = maxStamina;
+            staminaSlider.value = maxStamina;
+        }
+        else
+        {
+            Debug.LogError("Slider staminaSlider não atribuído no Inspector!");
+        }
     }
 
     // Update is called once per frame
@@ -155,12 +174,41 @@ public class MoveNew : MonoBehaviour
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
         }
+        // ... (seu código para movimento, pulo, etc.) ...
+
+        if (_checkwalk && _moveSpeed != 0) // Correndo ou pulando
+        {
+            currentStamina -= staminaDrainRate * Time.deltaTime;
+        }
+        else // Parado ou andando
+        {
+            currentStamina += staminaRecoveryRate * Time.deltaTime;
+        }
+
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+        UpdateStaminaSlider();
+
+        if (currentStamina <= 0)
+        {
+           /* _checkMove = false;*/
+            _checkwalk = false; // Impede que continue correndo sem estamina
+            // ... (outras ações que você pode querer desativar)
+        }
+        else if (currentStamina > 20f) // Valor arbitrário, ajuste conforme necessário
+        {
+            _checkMove = true; // Restaura a habilidade de se mover quando a estamina se recuperar
+        }
 
 
 
-        
-
-
+    }
+    void UpdateStaminaSlider()
+    {
+        if (staminaSlider != null)
+        {
+            staminaSlider.value = currentStamina;
+            staminaSlider.DOValue(currentStamina, 0.2f); // Animação suave (opcional)
+        }
     }
 
     void MovimentoPlayer()
