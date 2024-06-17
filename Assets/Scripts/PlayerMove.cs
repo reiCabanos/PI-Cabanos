@@ -209,6 +209,9 @@ public class PlayerMove : MonoBehaviour
         if (_checkMove)
         {
             _controle._stop = false;
+            _tutorialM.DOScale(0, 0f);
+            _tutorialJ.DOScale(0, 0f);
+            _tutorialT.DOScale(0, 0f);
             Vector3 m = value.ReadValue<Vector3>();
             _moveX = m.x;
             _moveZ = m.y;
@@ -221,8 +224,12 @@ public class PlayerMove : MonoBehaviour
     public void SetJump(InputAction.CallbackContext value)
     {
         _controle._stop = false;
+        _tutorialM.DOScale(0, 0f);
+        _tutorialJ.DOScale(0, 0f);
+        _tutorialT.DOScale(0, 0f);
         _checkJump = true;
         
+
     }
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
@@ -256,13 +263,7 @@ public class PlayerMove : MonoBehaviour
             _tutorialM.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTag") && !_checkpass[1])
-        {
-             _checkpass[1]=true;
-            _tutorialM.DOScale(0, 0f);
-            
-
-        }
+       
         if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[2])
         {
             _controle._stop = true;
@@ -271,14 +272,7 @@ public class PlayerMove : MonoBehaviour
             _tutorialJ.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTagJ") && !_checkpass[3])
-        {
-
-            _checkpass[3] = true;
-            _tutorialJ.DOScale(0, 0f);
-
-
-        }
+        
 
         if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[4])
         {
@@ -288,13 +282,7 @@ public class PlayerMove : MonoBehaviour
             _tutorialT.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTagT") && !_checkpass[5])
-        {
-            _checkpass[5] = true;
-            _tutorialT.DOScale(0, 0f);
-
-
-        }
+        
 
 
         if (other.gameObject.CompareTag("filho"))
