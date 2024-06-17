@@ -70,6 +70,8 @@ public class MoveNew : MonoBehaviour
     public float staminaDrainRate = 10f;
     public float staminaRecoveryRate = 5f;
     public UnityEngine.UI.Slider staminaSlider;
+    public HudControles hudControles; // Referência ao script HudControles
+
 
 
 
@@ -101,9 +103,9 @@ public class MoveNew : MonoBehaviour
 
 
         transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
-     
 
-        if (_gameController._gamerOver == false)
+
+        if (_gameController._gamerOver == false && !hudControles.blockMovement)
         {
            
 
@@ -173,6 +175,7 @@ public class MoveNew : MonoBehaviour
             _anim.SetFloat("correndo", 0);
             _anim.SetFloat("pulandoY", 0);
             _anim.SetBool("IsRunning", false);
+            _moveZ = 0; // Zera o movimento para garantir que o personagem pare
         }
         // ... (seu código para movimento, pulo, etc.) ...
 

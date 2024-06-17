@@ -19,6 +19,14 @@ public class HudControles : MonoBehaviour
     private float moveDistance = 35f; // Distância do movimento lateral
     private float moveDuration = 4f;  // Duração de cada movimento
     private Tweener moveTween;
+    public bool blockMovement = true; // Variável para controlar o bloqueio do movimento
+
+    void Awake()
+    {
+        blockMovement = true; // Define blockMovement como true no Awake
+                              // ... (resto do seu código Start) ...
+    }
+
 
     void Start()
     {
@@ -45,6 +53,10 @@ public class HudControles : MonoBehaviour
         {
             FecharPainel(_telaIniciar);
             AbrirPainel(_telaHuds);
+
+            // Garante que blockMovement seja false após a transição para _telaHuds
+            blockMovement = false;
+            Debug.Log("PASSOU POR AQUI");
         }
     }
 
@@ -90,12 +102,17 @@ public class HudControles : MonoBehaviour
         if (painel != _telaIniciar && painel != _telaHuds)
         {
             _painelBluer.gameObject.SetActive(true);
-            _painelBluer.DOScale(1, 1f);
+            _painelBluer.DOScale(1, 0f);
             painelBloqueando = true; // Bloqueia outros painéis
+        }
+
+        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig)
+        {
+            blockMovement = true; // Define blockMovement como true aqui
         }
         else
         {
-            _painelBluer.DOScale(0, 0.2f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+            _painelBluer.DOScale(0, 0.0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
             painelBloqueando = false; // Desbloqueia outros painéis ao abrir _telaHuds
         }
     }
@@ -109,9 +126,12 @@ public class HudControles : MonoBehaviour
             _telaInventario.gameObject.activeSelf == false &&
             _painelConfig.gameObject.activeSelf == false)
         {
-            _painelBluer.DOScale(0, 0.2f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+            _painelBluer.DOScale(0, 0.0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
         }
+
+        blockMovement = false; // Desbloqueia o movimento ao fechar qualquer painel
     }
+
 
     private void AlternarPainel(Transform painel)
     {
