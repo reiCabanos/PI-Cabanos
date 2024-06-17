@@ -80,7 +80,11 @@ public class PlayerMove : MonoBehaviour
 
     public TextMeshProUGUI _coinCounterTex;
     public bool checkPass;
-   // public SkinnedMeshRenderer _skinnedMeshObject;
+    public float _speedMultiplier;
+    public Transform _tutorialM;
+    public Transform _tutorialJ;
+    public Transform _tutorialT; 
+    // public SkinnedMeshRenderer _skinnedMeshObject;
 
 
 
@@ -186,19 +190,7 @@ public class PlayerMove : MonoBehaviour
         {
             _speed = 4f;
         }
-        /*
-            _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
-            transform.position += _moveDir * Time.deltaTime;
-
-                if (_checkwalk && _velocidade != 0)
-                {
-                    _speed = 8f;
-                }
-                else
-                {
-                    _speed = 4f;
-                }
-        */
+       
 
     }
     void RoationPlayer()
@@ -215,6 +207,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_checkMove)
         {
+            _controle._stop = false;
             Vector3 m = value.ReadValue<Vector3>();
             _moveX = m.x;
             _moveZ = m.y;
@@ -226,12 +219,14 @@ public class PlayerMove : MonoBehaviour
 
     public void SetJump(InputAction.CallbackContext value)
     {
-        _checkJump = true;
         _controle._stop = false;
+        _checkJump = true;
+        
     }
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
         _checkwalk = value.performed;
+        
     }
     
     void Jump()
@@ -256,7 +251,42 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("PauseTag"))
         {
             _controle._stop = true;
-           
+            _tutorialM.DOScale(1, 1f);
+
+        }
+        if (other.gameObject.CompareTag("FechaPauseTag"))
+        {
+            
+            _tutorialM.DOScale(0, 0f);
+            
+
+        }
+        if (other.gameObject.CompareTag("PauseTagJ"))
+        {
+            _controle._stop = true;
+            _tutorialJ.DOScale(1, 1f);
+
+        }
+        if (other.gameObject.CompareTag("FechaPauseTagJ"))
+        {
+
+            _tutorialJ.DOScale(0, 0f);
+
+
+        }
+
+        if (other.gameObject.CompareTag("PauseTagT"))
+        {
+            _controle._stop = true;
+            _tutorialT.DOScale(1, 1f);
+
+        }
+        if (other.gameObject.CompareTag("FechaPauseTagT"))
+        {
+
+            _tutorialT.DOScale(0, 0f);
+
+
         }
 
 
@@ -331,22 +361,26 @@ public class PlayerMove : MonoBehaviour
             {
                 _index = 0;
             }
-            // other.GetComponent<Rigidbody>().isKinematic = true;
-            // other.GetComponent<Collider>().isTrigger = true;
-            // other.GetComponent<JogoPontos>()._scoreMode = true;
-          
+            
 
 
             StartCoroutine(Desativar());
            
 
         }
-        
+        if (other.gameObject.CompareTag("Speed"))
+        {
+            
+            _speed =_speed+_speedMultiplier;
+            Debug.Log("Aumentar velocidade");
+
+        }
+
+
     }
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());
-        //_pontos.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
         _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
