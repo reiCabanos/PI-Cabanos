@@ -83,7 +83,8 @@ public class PlayerMove : MonoBehaviour
     public float _speedMultiplier;
     public Transform _tutorialM;
     public Transform _tutorialJ;
-    public Transform _tutorialT; 
+    public Transform _tutorialT;
+    public bool[] _checkpass;
     // public SkinnedMeshRenderer _skinnedMeshObject;
 
 
@@ -248,42 +249,48 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PauseTag"))
+        if (other.gameObject.CompareTag("PauseTag") && !_checkpass[0])
         {
+            _checkpass[0] = true;
             _controle._stop = true;
             _tutorialM.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTag"))
+        if (other.gameObject.CompareTag("FechaPauseTag") && !_checkpass[1])
         {
-            
+             _checkpass[1]=true;
             _tutorialM.DOScale(0, 0f);
             
 
         }
-        if (other.gameObject.CompareTag("PauseTagJ"))
+        if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[2])
         {
             _controle._stop = true;
+
+            _checkpass[2] = true;
             _tutorialJ.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTagJ"))
+        if (other.gameObject.CompareTag("FechaPauseTagJ") && !_checkpass[3])
         {
 
+            _checkpass[3] = true;
             _tutorialJ.DOScale(0, 0f);
 
 
         }
 
-        if (other.gameObject.CompareTag("PauseTagT"))
+        if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[4])
         {
             _controle._stop = true;
+
+            _checkpass[4] = true;
             _tutorialT.DOScale(1, 1f);
 
         }
-        if (other.gameObject.CompareTag("FechaPauseTagT"))
+        if (other.gameObject.CompareTag("FechaPauseTagT") && !_checkpass[5])
         {
-
+            _checkpass[5] = true;
             _tutorialT.DOScale(0, 0f);
 
 
