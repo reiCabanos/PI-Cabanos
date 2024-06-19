@@ -14,6 +14,8 @@ using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 using System;
 using TMPro;
+using Image = UnityEngine.UI.Image;
+
 /*using UnityEditor.ShaderGraph;*/
 
 public class PlayerMove : MonoBehaviour
@@ -85,9 +87,10 @@ public class PlayerMove : MonoBehaviour
     public Transform _tutorialJ;
     public Transform _tutorialT;
     public bool[] _checkpass;
-    // public SkinnedMeshRenderer _skinnedMeshObject;
+    
+    
 
-
+  
 
     void Start()
     {
@@ -105,6 +108,9 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
+
+       
+
         if (_controle._stop == false)
         {
 
@@ -260,25 +266,26 @@ public class PlayerMove : MonoBehaviour
         {
             _checkpass[0] = true;
             _controle._stop = true;
+
             _tutorialM.DOScale(1, 1f);
 
         }
        
-        if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[2])
+        if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[1])
         {
             _controle._stop = true;
 
-            _checkpass[2] = true;
+            _checkpass[1] = true;
             _tutorialJ.DOScale(1, 1f);
 
         }
         
 
-        if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[4])
+        if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[2])
         {
             _controle._stop = true;
 
-            _checkpass[4] = true;
+            _checkpass[2] = true;
             _tutorialT.DOScale(1, 1f);
 
         }
@@ -334,7 +341,7 @@ public class PlayerMove : MonoBehaviour
             _controle._stop=true;
             _anim.SetFloat("correndo", 0);
             _anim.SetBool("parado", true);
-            //transform.position = new Vector3(436.14f, 9.340258f,990.23f );
+            
             transform.DORotate (new Vector3(transform.localEulerAngles.x, -117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
             _fim.DOScale(1, 0.5f);
             _fimG.Select();
@@ -396,14 +403,21 @@ public class PlayerMove : MonoBehaviour
         
     }
     
-    IEnumerator Dano()
+    public IEnumerator Dano()
     {
+
+     
+        
         _checkMove = false;
         yield return new WaitForSeconds(0.5f);
+
         transform.position = _posRestatPlayer.position;
+        _controle._stop = true;
         yield return new WaitForSeconds(0.5f);
-        _checkMove =true;
+        _controle._stop = false;
+        _checkMove = true;
        
+
     }
     IEnumerator Desativar()
     {
@@ -426,9 +440,7 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
         p.DOScale(0, 0f);
-        //_skinnedMeshObject.enabled = false;
         yield return new WaitForSeconds(0.5f);
-        //_skinnedMeshObject.enabled = true;
         p.DOScale(0.5164886f, 0.5164886f);
         _controle._stop = false;
 
@@ -443,7 +455,10 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-
+    public void TempoReset()
+    {
+        
+    }
     public void Corretrue()
     {
        
