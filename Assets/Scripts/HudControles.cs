@@ -20,6 +20,14 @@ public class HudControles : MonoBehaviour
     private float moveDuration = 4f;  // Duração de cada movimento
     private Tweener moveTween;
     public bool blockMovement = true; // Variável para controlar o bloqueio do movimento
+    
+    public Transform MiniMap;
+    public Transform _painelNovo; // Novo painel a ser exibido
+    public float tempoExibicaoPainel = 5f; // Tempo de exibição do painel (ajustável no Inspetor)
+    private bool painelNovoExibido = false; // Controla se o painel já foi exibido
+    public float tempoExibicaoPainelNovo = 10f; // Tempo em segundos para ocultar o painel (ajuste no Inspetor)
+    
+
 
     void Awake()
     {
@@ -53,10 +61,36 @@ public class HudControles : MonoBehaviour
         {
             FecharPainel(_telaIniciar);
             AbrirPainel(_telaHuds);
-
-            // Garante que blockMovement seja false após a transição para _telaHuds
             blockMovement = false;
-            Debug.Log("PASSOU POR AQUI");
+
+            // Inicia a corrotina para exibir o painel novo
+            StartCoroutine(ExibirPainelNovo());
+        }
+    }
+
+    private IEnumerator ExibirPainelNovo()
+    {
+        yield return new WaitForSeconds(tempoExibicaoPainel); // Aguarda o tempo definido
+
+
+        if (!painelNovoExibido) // Verifica se o painel ainda não foi exibido
+        {
+            AbrirPainel(_painelNovo);
+            painelNovoExibido = true; // Marca o painel como exibido
+
+            // Inicia a corrotina para ocultar o painel após o tempo definido
+            StartCoroutine(OcultarPainelNovo());
+        }
+    }
+
+    private IEnumerator OcultarPainelNovo()
+    {
+        yield return new WaitForSeconds(tempoExibicaoPainelNovo); // Aguarda o tempo de exibição
+
+        if (painelNovoExibido) // Verifica se o painel está sendo exibido
+        {
+            FecharPainel(_painelNovo);
+            painelNovoExibido = false;
         }
     }
 
@@ -96,7 +130,18 @@ public class HudControles : MonoBehaviour
     private void AbrirPainel(Transform painel)
     {
         painel.gameObject.SetActive(true);
-        painel.DOScale(1, 1f);
+
+        // Lógica específica para o paneltutorial
+        if (painel == _painelNovo)
+        {
+            painel.DOScale(1, 1.1f); // Aparece com escala 1.1
+            MiniMap.DOScale(0, 0.0f); // Esconde o MiniMap
+        }
+        else
+        {
+            painel.DOScale(1, 1f); // Outros painéis abrem com escala 1
+        }
+
         _painelAtivo = painel;
 
         if (painel != _telaIniciar && painel != _telaHuds)
@@ -106,7 +151,7 @@ public class HudControles : MonoBehaviour
             painelBloqueando = true; // Bloqueia outros painéis
         }
 
-        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig)
+        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel  == _painelNovo)
         {
             blockMovement = true; // Define blockMovement como true aqui
         }
@@ -119,7 +164,18 @@ public class HudControles : MonoBehaviour
 
     private void FecharPainel(Transform painel)
     {
-        painel.DOScale(0, 0.2f).OnComplete(() => painel.gameObject.SetActive(false));
+        // Lógica específica para o paneltutorial
+        if (painel == _painelNovo)
+        {
+            painel.DOScale(0, 0.0f).OnComplete(() => painel.gameObject.SetActive(false)); // Desaparece com escala 0
+            MiniMap.DOScale(1, 1.1f); // Mostra o MiniMap novamente
+            _painelBluer.DOScale(0, 0.0f);
+
+        }
+        else
+        {
+            painel.DOScale(0, 0.2f).OnComplete(() => painel.gameObject.SetActive(false)); // Outros painéis fecham com escala 0
+        }
 
         if (_telaHuds.gameObject.activeSelf == false &&
             _telaCelular.gameObject.activeSelf == false &&
@@ -130,6 +186,13 @@ public class HudControles : MonoBehaviour
         }
 
         blockMovement = false; // Desbloqueia o movimento ao fechar qualquer painel
+
+        // Reinicia o controle se o painel paneltutorial for fechado
+        if (painel == _painelNovo)
+        {
+            painelNovoExibido = false;
+        }
+
     }
 
 
