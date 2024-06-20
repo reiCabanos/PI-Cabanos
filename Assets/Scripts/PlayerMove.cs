@@ -89,9 +89,12 @@ public class PlayerMove : MonoBehaviour
     public bool[] _checkpass;
     public TextMeshProUGUI textoContagem;
     private float tempoInicial = 3.0f;
-    private float tempoRestante = 3.0f;
+    public float tempoRestante = 3.0f;
     private int contagem = 3; // Valor inicial da contagem
     private string textoFinal = "GO!"; // Texto final a ser exibido
+    public bool isTriggerAtivo;
+    public  bool isPausado = true;
+    public Transform _temp;
 
 
 
@@ -323,7 +326,8 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.CompareTag("i"))
         {
-            
+            isTriggerAtivo = true;
+            isPausado = false; // Retomando a contagem regressiva
             Parada();
 
         }
@@ -385,6 +389,19 @@ public class PlayerMove : MonoBehaviour
 
 
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("i"))
+        {
+            tempoRestante = 3.0f;
+            isTriggerAtivo = false;
+            isPausado = true;
+           
+
+        }
+
+    }
+
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());
@@ -465,34 +482,45 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
-        while (tempoRestante > 0.0f)
+        _temp.DOScale(1, 1f);
+        while (tempoRestante > 0.0f  )
         {
-            // Formata o tempo restante para exibir na tela
-            string tempoFormatado = tempoRestante.ToString("0");
+            if (!isPausado)
+            {
 
-            // Atualiza o texto na tela
-            textoContagem.text = tempoFormatado;
+                // Formata o tempo restante para exibir na tela
+                string tempoFormatado = tempoRestante.ToString("0");
 
-            // Decrementa o tempo restante a cada segundo
-            tempoRestante -= 1.0f;
+                // Atualiza o texto na tela
+                textoContagem.text = tempoFormatado;
 
-            // Espera 1 segundo antes de executar o próximo loop
-            yield return new WaitForSeconds(1.0f);
+                // Decrementa o tempo restante a cada segundo
+                tempoRestante -= 1.0f;
+
+
+                // Espera 1 segundo antes de executar o próximo loop
+                yield return new WaitForSeconds(2.0f);
+            }
         }
 
         // Contagem regressiva finalizada!
         textoContagem.text = textoFinal;
         _controle._stop = false;
+        _temp.DOScale(0, 0f);
         Debug.Log("Contagem regressiva finalizada!");
 
         
     }
     public void Parada()
     {
-        StartCoroutine(Tempo());
-       
-        Debug.Log("Contagem regressiva finalizada!");
+        if (isTriggerAtivo)
+        {
+
+            StartCoroutine(Tempo());
+            Debug.Log("Contagem regressiva finalizada!");
+        }
     }
+    
 
 
     public void Corretrue()
