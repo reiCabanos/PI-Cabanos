@@ -87,16 +87,22 @@ public class PlayerMove : MonoBehaviour
     public Transform _tutorialJ;
     public Transform _tutorialT;
     public bool[] _checkpass;
-    
-    
+    public TextMeshProUGUI textoContagem;
+    private float tempoInicial = 3.0f;
+    private float tempoRestante = 3.0f;
+    private int contagem = 3; // Valor inicial da contagem
+    private string textoFinal = "GO!"; // Texto final a ser exibido
 
-  
+
+
+
+
 
     void Start()
     {
         _characterController=GetComponent<CharacterController>();
 
-       // SkinnedMeshRenderer skinnedMeshRenderer = _skinnedMeshObject.GetComponent<SkinnedMeshRenderer>();
+       
         _timer = _timeValue;
         _anim = GetComponent<Animator>();
        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
@@ -295,10 +301,10 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("filho"))
         {
             StartCoroutine(TempoPlayer());
-           _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
+            _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
-
+           
             _isReseting = true;
 
             _quantVida--;
@@ -317,9 +323,8 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.CompareTag("i"))
         {
-            _moveCamera.localEulerAngles = new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z);
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z);
-
+            
+            Parada();
 
         }
         if (other.gameObject.CompareTag("item"))
@@ -394,7 +399,7 @@ public class PlayerMove : MonoBehaviour
     public void CorrerAuto()
     {
         _moveDir = transform.forward * 1;
-        _speed = 4f;
+        _speed = 2f;
 
         _characterController.Move(_moveDir * Time.deltaTime * _speed);
         _checkwalk = true;
@@ -410,11 +415,8 @@ public class PlayerMove : MonoBehaviour
         
         _checkMove = false;
         yield return new WaitForSeconds(0.5f);
-
         transform.position = _posRestatPlayer.position;
-        _controle._stop = true;
         yield return new WaitForSeconds(0.5f);
-        _controle._stop = false;
         _checkMove = true;
        
 
@@ -439,6 +441,7 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
+
         p.DOScale(0, 0f);
         yield return new WaitForSeconds(0.5f);
         p.DOScale(0.5164886f, 0.5164886f);
@@ -454,11 +457,44 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = false;
 
     }
-
-    public void TempoReset()
+    IEnumerator Tempo()
     {
+        tempoInicial = tempoRestante;
+        contagem = 3;
+        textoFinal = "GO!";
+        _controle._stop = true;
+        _anim.SetFloat("correndo", 0);
+        _anim.SetBool("parado", true);
+        while (tempoRestante > 0.0f)
+        {
+            // Formata o tempo restante para exibir na tela
+            string tempoFormatado = tempoRestante.ToString("0");
+
+            // Atualiza o texto na tela
+            textoContagem.text = tempoFormatado;
+
+            // Decrementa o tempo restante a cada segundo
+            tempoRestante -= 1.0f;
+
+            // Espera 1 segundo antes de executar o próximo loop
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        // Contagem regressiva finalizada!
+        textoContagem.text = textoFinal;
+        _controle._stop = false;
+        Debug.Log("Contagem regressiva finalizada!");
+
         
     }
+    public void Parada()
+    {
+        StartCoroutine(Tempo());
+       
+        Debug.Log("Contagem regressiva finalizada!");
+    }
+
+
     public void Corretrue()
     {
        
