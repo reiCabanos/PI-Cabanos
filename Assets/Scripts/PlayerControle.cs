@@ -1,12 +1,15 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 /*using UnityEditor.ShaderGraph;*/
 using UnityEngine;
 using UnityEngine.InputSystem;
 /*using UnityEngine.Rendering.HighDefinition;*/
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
+
 
 public class PlayerControle : MonoBehaviour
 {
@@ -22,13 +25,120 @@ public class PlayerControle : MonoBehaviour
     //public MoveNew _moveNew
     public PlayerMove _playerMove;
     public ControlePersonagem _controle;
+
+    public string[] _textButons;
+    public string[] _textTutors;
+
+    public TextMeshProUGUI _textProTutor;
+    public TextMeshProUGUI _textProButon;
+    public TextMeshProUGUI _textoContagem;
+    public Transform _panelTutor;
+    public Button _ButtomNuul;
+
+    public Image[] _imgTutors;
+    public Image _imgT;
+
+    public int _conText;
+
+
     void Start()
     {
-        _controle = Camera.main.GetComponent<ControlePersonagem>();
+        TextoTutor(0, 0);
+         _controle = Camera.main.GetComponent<ControlePersonagem>();
+        _imgT.enabled = false;
+        _ButtomNuul.Select();
+    }
+
+    public void TextoTutor(int value, int value2)
+    {
+      //  _textProButon.transform.parent.gameObject.SetActive(false); 
+        if (value2 == 0)//texto jogo
+        {
+            _textProButon.text = _textButons[value];
+            _textProTutor.text = _textTutors[value2];
+          
+        }
+        if (value2 == 1)//tutorial movimento
+        {
+            _imgT.enabled = true;
+            _imgT.sprite = _imgTutors[0].sprite;
+        }
+        if (value2 == 2)//tutorial jump
+        {
+            _imgT.enabled = true;
+            _imgT.sprite = _imgTutors[1].sprite;
+        }
+        if (value2 == 3)//tutorial tabua
+        {
+            _imgT.enabled = true;
+            _imgT.sprite = _imgTutors[2].sprite;
+        }
+        else
+        {
+            _textProButon.transform.parent.gameObject.SetActive(true);
+          
+            _textProButon.text = _textButons[value];
+            _textProTutor.text = _textTutors[value2];
+
+        }
+      
+
+
+        StartCoroutine(TempoTutorON());
     }
 
 
+    IEnumerator TempoTutorON()
+    {
+        _panelTutor.DOScale(1.5f, .25f);
+        yield return new WaitForSeconds(.25f);
+        _panelTutor.DOScale(1f, .25f);   
+   
+    }
 
+    public void TempoTutorOff()
+    {
+        _conText++;
+        if (_conText < 4)
+        {
+            TextoTutor(0, _conText);
+            TempoTutorON();
+        }
+        if (_conText == 4)
+        {
+            StartCoroutine(TempoCont());
+
+
+        }
+     
+    }
+
+
+    void TutorFechar()
+    {
+        _panelTutor.transform.localScale = Vector3.zero;
+        _controle._stop = false;
+    }
+
+    IEnumerator TempoCont()
+    {
+        _imgT.enabled = false;
+        _textoContagem.text = "" + 3;
+        yield return new WaitForSeconds(1);
+        _textoContagem.text = "" + 2;
+        yield return new WaitForSeconds(1);
+        _textoContagem.text = "" + 1;
+        yield return new WaitForSeconds(1);
+        _textoContagem.text = "";
+
+        _textProButon.text = "";
+        _textProTutor.text =  "";
+        //começar correr
+        TutorFechar();
+
+
+
+    }
 
     void Update()
     {
@@ -74,8 +184,8 @@ public class PlayerControle : MonoBehaviour
     }
     public void GamerReiniciar()
     {
-        SceneManager.LoadScene("MapaBeta");
-        _controle._stop=false;
+     //   SceneManager.LoadScene("MapaBeta");
+     //   _controle._stop=false;
     }
     
 }

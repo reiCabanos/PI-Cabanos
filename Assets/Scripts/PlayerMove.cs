@@ -94,7 +94,9 @@ public class PlayerMove : MonoBehaviour
     private string textoFinal = "GO!"; // Texto final a ser exibido
     public bool isTriggerAtivo;
     public  bool isPausado = true;
+    public bool isPausadoButton;
     public Transform _temp;
+
 
 
 
@@ -223,7 +225,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_checkMove)
         {
-            _controle._stop = false;
+          //  isPausadoButton = false;
             _tutorialM.DOScale(0, 0f);
             _tutorialJ.DOScale(0, 0f);
             _tutorialT.DOScale(0, 0f);
@@ -238,7 +240,7 @@ public class PlayerMove : MonoBehaviour
 
     public void SetJump(InputAction.CallbackContext value)
     {
-        _controle._stop = false;
+      //  isPausadoButton = false;
         _tutorialM.DOScale(0, 0f);
         _tutorialJ.DOScale(0, 0f);
         _tutorialT.DOScale(0, 0f);
@@ -274,36 +276,37 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("PauseTag") && !_checkpass[0])
         {
             _checkpass[0] = true;
-            _controle._stop = true;
+         //   _controle._stop = true;
 
             _tutorialM.DOScale(1, 1f);
-
+            isPausadoButton = true;
         }
        
         if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[1])
         {
-            _controle._stop = true;
+          //  _controle._stop = true;
 
             _checkpass[1] = true;
             _tutorialJ.DOScale(1, 1f);
-
+            isPausadoButton = true;
         }
         
 
         if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[2])
         {
-            _controle._stop = true;
+          //  _controle._stop = true;
 
             _checkpass[2] = true;
             _tutorialT.DOScale(1, 1f);
-
+            isPausadoButton = true;
         }
         
 
 
         if (other.gameObject.CompareTag("filho"))
         {
-            StartCoroutine(TempoPlayer());
+            StopPlayer();
+          /*  StartCoroutine(TempoPlayer());
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
@@ -312,6 +315,8 @@ public class PlayerMove : MonoBehaviour
 
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
+          */
+
         }
         if (other.gameObject.CompareTag("p2"))
         {
@@ -319,8 +324,8 @@ public class PlayerMove : MonoBehaviour
              RotacaoDaCamera();
             _pont1.SetActive(true);
             value *= -1;
-            //StartCoroutine(TempoPlayer());
-           _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
+            
+          // _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
 
         }
 
@@ -329,6 +334,7 @@ public class PlayerMove : MonoBehaviour
             isTriggerAtivo = true;
             isPausado = false; // Retomando a contagem regressiva
             Parada();
+            _playerControle.TextoTutor(1,1);//texto q caiu
 
         }
         if (other.gameObject.CompareTag("item"))
@@ -379,13 +385,7 @@ public class PlayerMove : MonoBehaviour
            
 
         }
-        if (other.gameObject.CompareTag("Speed"))
-        {
-            
-            _speed =_speed+_speedMultiplier;
-            Debug.Log("Aumentar velocidade");
-
-        }
+       
 
 
     }
@@ -409,6 +409,14 @@ public class PlayerMove : MonoBehaviour
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
         _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
 
+
+    }
+    public void RotacaoEsquerda()
+    {
+        StartCoroutine(TempoRotacao());
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+        _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
 
     }
    
@@ -453,16 +461,15 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    IEnumerator TempoPlayer()
+    void StopPlayer()
     {
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
 
-        p.DOScale(0, 0f);
-        yield return new WaitForSeconds(0.5f);
-        p.DOScale(0.5164886f, 0.5164886f);
-        _controle._stop = false;
+       // p.DOScale(0, 0f);
+      //  p.DOScale(0.5164886f, 0.5164886f);
+      //  _controle._stop = false;
 
     }
     IEnumerator TempoRotacao()
@@ -483,25 +490,12 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
         _temp.DOScale(1, 1f);
-        while (tempoRestante > 0.0f  )
-        {
-            if (!isPausado)
-            {
-
-                // Formata o tempo restante para exibir na tela
-                string tempoFormatado = tempoRestante.ToString("0");
-
-                // Atualiza o texto na tela
-                textoContagem.text = tempoFormatado;
-
-                // Decrementa o tempo restante a cada segundo
-                tempoRestante -= 1.0f;
-
-
-                // Espera 1 segundo antes de executar o próximo loop
-                yield return new WaitForSeconds(2.0f);
-            }
-        }
+        textoContagem.text = ""+ 3;
+        yield return new WaitForSeconds(1);
+        textoContagem.text = "" + 2;
+        yield return new WaitForSeconds(1);
+        textoContagem.text = "" + 1;
+        yield return new WaitForSeconds(1);
 
         // Contagem regressiva finalizada!
         textoContagem.text = textoFinal;
@@ -516,7 +510,7 @@ public class PlayerMove : MonoBehaviour
         if (isTriggerAtivo)
         {
 
-            StartCoroutine(Tempo());
+         //   StartCoroutine(Tempo());
             Debug.Log("Contagem regressiva finalizada!");
         }
     }
