@@ -261,7 +261,7 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.CompareTag("filho"))
         {
-            StopPlayer();
+            StopPlayer(true) ;
            // StartCoroutine(TempoPlayer());
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
@@ -412,11 +412,14 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    void StopPlayer()
+    public void StopPlayer(bool value)
     {
-        _controle._stop = true;
-        _anim.SetFloat("correndo", 0);
-        _anim.SetBool("parado", true);
+        if (value)
+        {
+            _anim.SetFloat("correndo", 0);
+        }
+        _controle._stop = value;     
+        _anim.SetBool("parado", value);
        
 
        

@@ -34,12 +34,17 @@ public class PlayerControle : MonoBehaviour
     public TextMeshProUGUI _textoContagem;
     public Transform _panelTutor;
     public Button _ButtomNuul;
+    public Button _btAvanca;
 
     public Image[] _imgTutors;
     public Image _imgT;
 
     public int _conText;
-   
+    bool _fimTutor;
+
+    bool _fimGame;
+
+
 
     void Start()
     {
@@ -72,11 +77,12 @@ public class PlayerControle : MonoBehaviour
         {
             _imgT.enabled = true;
             _imgT.sprite = _imgTutors[2].sprite;
+          
         }
         else
         {
             _textProButon.transform.parent.gameObject.SetActive(true);
-          
+         
             _textProButon.text = _textButons[value];
             _textProTutor.text = _textTutors[value2];
 
@@ -98,20 +104,29 @@ public class PlayerControle : MonoBehaviour
 
     public void TempoTutorOff()
     {
-        _conText++;
-        if (_conText < 4)
+        if (!_fimTutor)
         {
-            TextoTutor(0, _conText);
-            TempoTutorON();
+            _conText++;
+            if (_conText < 4)
+            {
+                TextoTutor(0, _conText);
+                TempoTutorON();
+            }
+            if (_conText == 4)
+            {
+                TextoTutor(1, 1);
+                StartCoroutine(TempoCont());
+
+            }
         }
-        if (_conText == 4)
+        else
         {
-            TextoTutor(1, 1);
-            StartCoroutine(TempoCont());
-
-
-
+           
+            _playerMove.StopPlayer(false);
+            TutorFechar();
+            
         }
+       
      
     }
     public void Recomeca()
@@ -119,18 +134,19 @@ public class PlayerControle : MonoBehaviour
         _conText++;
 
 
-        if (_conText ==4 && _playerMove._isReseting == true)
+        if (_conText ==4 && _playerMove._isReseting == true && !_fimGame)
         {
-            TextoTutor(0, 4);
+            TextoTutor(2, 4);
+            _btAvanca.interactable = true;
             TempoTutorON();
            
         }
        else if (_conText >4  && _playerMove._isReseting == true)
        {
             TextoTutor(2, 1);
+            _fimTutor = true;
+            _btAvanca.interactable = false;
             StartCoroutine(TempoCont());
-
-
 
         }
 
@@ -146,6 +162,8 @@ public class PlayerControle : MonoBehaviour
     IEnumerator TempoCont()
     {
         _imgT.enabled = false;
+        _fimTutor = true;
+        _btAvanca.interactable = false;
         _textoContagem.text = "" + 3;
         yield return new WaitForSeconds(1);
         _textoContagem.text = "" + 2;
@@ -163,10 +181,6 @@ public class PlayerControle : MonoBehaviour
 
     }
 
-    void Update()
-    {
-
-    }
     public void HudCamera1()
     {
         _canvas.worldCamera = _camera2[0];
@@ -180,18 +194,13 @@ public class PlayerControle : MonoBehaviour
 
         if (vida <= 0)
         {
+            _fimGame = true;
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
             HudCamera2();
             //_controle._stop = true;
             _reiniciar.Select();
             
-
-
-
-
-
-
         }
         else if (vida == 1)
         {
@@ -207,8 +216,8 @@ public class PlayerControle : MonoBehaviour
     }
     public void GamerReiniciar()
     {
-     //   SceneManager.LoadScene("MapaBeta");
-     //   _controle._stop=false;
+        SceneManager.LoadScene("MapaBeta");
+      // _controle._stop=false;
     }
     
 }
