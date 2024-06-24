@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class HudControles : MonoBehaviour
 {
@@ -159,6 +160,15 @@ public class HudControles : MonoBehaviour
         {
             _painelBluer.DOScale(0, 0.0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
             painelBloqueando = false; // Desbloqueia outros painéis ao abrir _telaHuds
+        }
+       
+        if (painel == _telaCelular)
+        {
+            Button primeiroBotao = _telaCelular.GetComponentInChildren<Button>();
+            if (primeiroBotao != null)
+            {
+                EventSystem.current.SetSelectedGameObject(primeiroBotao.gameObject);
+            }
         }
     }
 

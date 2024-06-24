@@ -8,6 +8,8 @@ public class hudcontrole : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] List<MenuControl> _MenuControls;
     MenuControl _menu;
+
+
         void Start()
     {
         //_menu = Camera.main.GetComponent<MenuControl>();
