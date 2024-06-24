@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] bool _autoCorrer; 
     bool _isStandingStill = false; 
     public  bool _isReseting = false;
-    public int _contC=1;
+   
    
 
 
@@ -85,7 +85,7 @@ public class PlayerMove : MonoBehaviour
     public bool checkPass;
     public bool isPausadoButton;
     public Transform _temp;
-    
+   
 
 
 
@@ -287,8 +287,8 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.CompareTag("i") && _isReseting == true)
         {
-
-            _playerControle._conText = 0;
+            
+            _playerControle._conText = 3;
 
 
             _playerControle.Recomeca();
@@ -347,7 +347,19 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("i"))
+        {
+
+            _isReseting = false;
+
+        
+
+
+        }
+    }
+
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());

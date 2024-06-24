@@ -119,13 +119,14 @@ public class PlayerControle : MonoBehaviour
         _conText++;
 
 
-        if (_conText++ == 1 && _playerMove._isReseting == true)
+        if (_conText ==4 && _playerMove._isReseting == true)
         {
             TextoTutor(0, 4);
             TempoTutorON();
+           
         }
-        if (_conText++ > 3 && _playerMove._isReseting == true)
-        {
+       else if (_conText >4  && _playerMove._isReseting == true)
+       {
             TextoTutor(2, 1);
             StartCoroutine(TempoCont());
 
