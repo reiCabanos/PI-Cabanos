@@ -43,9 +43,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] bool _checkMove;
     [SerializeField] bool _autoCorrer; 
     bool _isStandingStill = false; 
-    bool _isReseting = false;
-  
+    public  bool _isReseting = false;
+    public int _contC=1;
    
+
+
     CharacterController _characterController;
     Animator _anim;
 
@@ -55,7 +57,6 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] Transform _orientation;
     [SerializeField] Transform _posRestatPlayer;
-    [SerializeField] Transform _posRestatPlayer2;
     public Transform _moveCamera;
     public Transform _fim;
     [SerializeField] private Transform[] _scores; 
@@ -82,21 +83,9 @@ public class PlayerMove : MonoBehaviour
 
     public TextMeshProUGUI _coinCounterTex;
     public bool checkPass;
-    public float _speedMultiplier;
-    public Transform _tutorialM;
-    public Transform _tutorialJ;
-    public Transform _tutorialT;
-    public bool[] _checkpass;
-    public TextMeshProUGUI textoContagem;
-    private float tempoInicial = 3.0f;
-    public float tempoRestante = 3.0f;
-    private int contagem = 3; // Valor inicial da contagem
-    private string textoFinal = "GO!"; // Texto final a ser exibido
-    public bool isTriggerAtivo;
-    public  bool isPausado = true;
     public bool isPausadoButton;
     public Transform _temp;
-
+    
 
 
 
@@ -105,7 +94,8 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        _characterController=GetComponent<CharacterController>();
+        
+        _characterController =GetComponent<CharacterController>();
 
        
         _timer = _timeValue;
@@ -225,10 +215,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_checkMove)
         {
-          //  isPausadoButton = false;
-            _tutorialM.DOScale(0, 0f);
-            _tutorialJ.DOScale(0, 0f);
-            _tutorialT.DOScale(0, 0f);
+          
             Vector3 m = value.ReadValue<Vector3>();
             _moveX = m.x;
             _moveZ = m.y;
@@ -240,10 +227,7 @@ public class PlayerMove : MonoBehaviour
 
     public void SetJump(InputAction.CallbackContext value)
     {
-      //  isPausadoButton = false;
-        _tutorialM.DOScale(0, 0f);
-        _tutorialJ.DOScale(0, 0f);
-        _tutorialT.DOScale(0, 0f);
+      
         _checkJump = true;
         
 
@@ -273,40 +257,12 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PauseTag") && !_checkpass[0])
-        {
-            _checkpass[0] = true;
-         //   _controle._stop = true;
-
-            _tutorialM.DOScale(1, 1f);
-            isPausadoButton = true;
-        }
-       
-        if (other.gameObject.CompareTag("PauseTagJ") && !_checkpass[1])
-        {
-          //  _controle._stop = true;
-
-            _checkpass[1] = true;
-            _tutorialJ.DOScale(1, 1f);
-            isPausadoButton = true;
-        }
         
-
-        if (other.gameObject.CompareTag("PauseTagT") && !_checkpass[2])
-        {
-          //  _controle._stop = true;
-
-            _checkpass[2] = true;
-            _tutorialT.DOScale(1, 1f);
-            isPausadoButton = true;
-        }
-        
-
 
         if (other.gameObject.CompareTag("filho"))
         {
             StopPlayer();
-          /*  StartCoroutine(TempoPlayer());
+           // StartCoroutine(TempoPlayer());
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
@@ -315,7 +271,7 @@ public class PlayerMove : MonoBehaviour
 
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
-          */
+          
 
         }
         if (other.gameObject.CompareTag("p2"))
@@ -325,16 +281,18 @@ public class PlayerMove : MonoBehaviour
             _pont1.SetActive(true);
             value *= -1;
             
-          // _posRestatPlayer2 = other.GetComponent<Resetar>()._posRestat;
+         
 
         }
 
-        if (other.gameObject.CompareTag("i"))
+        if (other.gameObject.CompareTag("i") && _isReseting == true)
         {
-            isTriggerAtivo = true;
-            isPausado = false; // Retomando a contagem regressiva
-            Parada();
-            _playerControle.TextoTutor(1,1);//texto q caiu
+
+            _playerControle._conText = 0;
+
+
+            _playerControle.Recomeca();
+
 
         }
         if (other.gameObject.CompareTag("item"))
@@ -389,19 +347,7 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("i"))
-        {
-            tempoRestante = 3.0f;
-            isTriggerAtivo = false;
-            isPausado = true;
-           
-
-        }
-
-    }
-
+    
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());
@@ -411,14 +357,7 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-    public void RotacaoEsquerda()
-    {
-        StartCoroutine(TempoRotacao());
-        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-        transform.DORotate(new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
-        _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-
-    }
+    
    
 
     public void CorrerAuto()
@@ -466,10 +405,9 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = true;
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", true);
+       
 
-       // p.DOScale(0, 0f);
-      //  p.DOScale(0.5164886f, 0.5164886f);
-      //  _controle._stop = false;
+       
 
     }
     IEnumerator TempoRotacao()
@@ -481,46 +419,12 @@ public class PlayerMove : MonoBehaviour
         _controle._stop = false;
 
     }
-    IEnumerator Tempo()
-    {
-        tempoInicial = tempoRestante;
-        contagem = 3;
-        textoFinal = "GO!";
-        _controle._stop = true;
-        _anim.SetFloat("correndo", 0);
-        _anim.SetBool("parado", true);
-        _temp.DOScale(1, 1f);
-        textoContagem.text = ""+ 3;
-        yield return new WaitForSeconds(1);
-        textoContagem.text = "" + 2;
-        yield return new WaitForSeconds(1);
-        textoContagem.text = "" + 1;
-        yield return new WaitForSeconds(1);
-
-        // Contagem regressiva finalizada!
-        textoContagem.text = textoFinal;
-        _controle._stop = false;
-        _temp.DOScale(0, 0f);
-        Debug.Log("Contagem regressiva finalizada!");
-
-        
-    }
-    public void Parada()
-    {
-        if (isTriggerAtivo)
-        {
-
-         //   StartCoroutine(Tempo());
-            Debug.Log("Contagem regressiva finalizada!");
-        }
-    }
     
-
-
+    
     public void Corretrue()
     {
        
-        _autoCorrer = true;
+        _autoCorrer = true; 
         
     }
     public void SetCorrer(InputAction.CallbackContext Value)
@@ -528,8 +432,8 @@ public class PlayerMove : MonoBehaviour
 
         _autoCorrer = true;
             o.DOScale(0, 0f);
-    
-       
+
+     
 
 
     }

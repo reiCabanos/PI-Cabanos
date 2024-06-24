@@ -39,7 +39,7 @@ public class PlayerControle : MonoBehaviour
     public Image _imgT;
 
     public int _conText;
-
+   
 
     void Start()
     {
@@ -106,11 +106,33 @@ public class PlayerControle : MonoBehaviour
         }
         if (_conText == 4)
         {
+            TextoTutor(1, 1);
             StartCoroutine(TempoCont());
+
 
 
         }
      
+    }
+    public void Recomeca()
+    {
+        _conText++;
+
+
+        if (_conText++ == 1 && _playerMove._isReseting == true)
+        {
+            TextoTutor(0, 4);
+            TempoTutorON();
+        }
+        if (_conText++ > 3 && _playerMove._isReseting == true)
+        {
+            TextoTutor(2, 1);
+            StartCoroutine(TempoCont());
+
+
+
+        }
+
     }
 
 
@@ -135,7 +157,7 @@ public class PlayerControle : MonoBehaviour
         _textProTutor.text =  "";
         //começar correr
         TutorFechar();
-
+        _playerMove.Corretrue();
 
 
     }
