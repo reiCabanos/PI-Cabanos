@@ -85,7 +85,7 @@ public class PlayerMove : MonoBehaviour
     public bool checkPass;
     public bool isPausadoButton;
     public Transform _temp;
-   
+    public GameObject _pont2;
 
 
 
@@ -284,6 +284,39 @@ public class PlayerMove : MonoBehaviour
          
 
         }
+        if (other.gameObject.CompareTag("point3"))
+        {
+
+            SegundaRotacao();
+            _pont2.SetActive(true);
+            value *= -1;
+
+
+
+        }
+        if (other.gameObject.CompareTag("point4"))
+        {
+
+            UltimaRotacao();
+            value *= -1;
+
+
+
+        }
+        if (other.gameObject.CompareTag("point5"))
+        {
+
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, 99.946f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+
+
+        }
+        if (other.gameObject.CompareTag("point6"))
+        {
+
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, 90.651f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+
+
+        }
 
         if (other.gameObject.CompareTag("i") && _isReseting == true)
         {
@@ -365,12 +398,29 @@ public class PlayerMove : MonoBehaviour
          StartCoroutine(TempoRotacao());
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
-        _fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        //_fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
 
 
     }
-    
-   
+    public void SegundaRotacao()
+    {
+        StartCoroutine(TempoRotacao());
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 3.104f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, 3.075f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+        
+
+
+    }
+    public void UltimaRotacao()
+    {
+        StartCoroutine(TempoRotacao());
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 91.403f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, 85.815f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+
+
+
+    }
+
 
     public void CorrerAuto()
     {
@@ -428,8 +478,7 @@ public class PlayerMove : MonoBehaviour
     IEnumerator TempoRotacao()
     {
         _controle._stop = true;
-        _anim.SetFloat("correndo", 0);
-        _anim.SetBool("parado", true);
+        _anim.SetFloat("correndo", 0); 
         yield return new WaitForSeconds(0.2f);
         _controle._stop = false;
 
