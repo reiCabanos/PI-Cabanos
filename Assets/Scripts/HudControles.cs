@@ -27,7 +27,10 @@ public class HudControles : MonoBehaviour
     public float tempoExibicaoPainel = 5f; // Tempo de exibição do painel (ajustável no Inspetor)
     private bool painelNovoExibido = false; // Controla se o painel já foi exibido
     public float tempoExibicaoPainelNovo = 10f; // Tempo em segundos para ocultar o painel (ajuste no Inspetor)
-    
+
+    public Button botaoCelular; // Variável pública para seta o botão do painel _telaCelular 
+
+
 
 
     void Awake()
@@ -161,14 +164,11 @@ public class HudControles : MonoBehaviour
             _painelBluer.DOScale(0, 0.0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
             painelBloqueando = false; // Desbloqueia outros painéis ao abrir _telaHuds
         }
-       
+
         if (painel == _telaCelular)
         {
-            Button primeiroBotao = _telaCelular.GetComponentInChildren<Button>();
-            if (primeiroBotao != null)
-            {
-                EventSystem.current.SetSelectedGameObject(primeiroBotao.gameObject);
-            }
+            // Se botaoCelular estiver definido, seleciona ele; caso contrário, seleciona o primeiro botão encontrado
+            EventSystem.current.SetSelectedGameObject(botaoCelular != null ? botaoCelular.gameObject : _telaCelular.GetComponentInChildren<Button>()?.gameObject);
         }
     }
 
