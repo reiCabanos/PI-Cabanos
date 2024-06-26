@@ -86,6 +86,7 @@ public class PlayerMove : MonoBehaviour
     public bool isPausadoButton;
     public Transform _temp;
     public GameObject _pont2;
+    public float speedBoostMultiplier = 1.5f;
 
 
 
@@ -317,6 +318,13 @@ public class PlayerMove : MonoBehaviour
 
 
         }
+        if (other.gameObject.CompareTag("point7"))
+        {
+
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, 92.368f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+
+
+        }
 
         if (other.gameObject.CompareTag("i") && _isReseting == true)
         {
@@ -330,11 +338,11 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.gameObject.CompareTag("item"))
         {
-            _playerPontos.SomarPontos(1);
+           _playerPontos.SomarPontos(1);
 
             other.GetComponent<ColetarItens>().DestroyItens();
 
-
+           
 
 
         }
@@ -373,8 +381,10 @@ public class PlayerMove : MonoBehaviour
 
 
             StartCoroutine(Desativar());
-           
 
+ 
+            _speed *= speedBoostMultiplier;
+           // StartCoroutine(SpeedBoostTimer());
         }
        
 
@@ -461,6 +471,11 @@ public class PlayerMove : MonoBehaviour
         checkPass = false;
     }
 
+    IEnumerator SpeedBoostTimer()
+    {
+        yield return new WaitForSeconds(5f); // Adjust the duration here (5 seconds in this example)
+        _speed /= speedBoostMultiplier; // Remove speed boost
+    }
 
     public void StopPlayer(bool value)
     {
