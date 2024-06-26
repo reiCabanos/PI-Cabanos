@@ -191,7 +191,7 @@ public class PlayerMove : MonoBehaviour
         // Manter o personagem reto
         Vector3 currentEulerAngles = transform.eulerAngles;
         transform.eulerAngles = new Vector3(0, currentEulerAngles.y, 0);
-
+        /*
         if (_checkwalk && _velocidade != 0)
         {
             _speed = 8f;
@@ -200,7 +200,7 @@ public class PlayerMove : MonoBehaviour
         {
             _speed = 4f;
         }
-       
+       */
 
     }
     void RoationPlayer()
@@ -338,13 +338,14 @@ public class PlayerMove : MonoBehaviour
 
 
         }
-        if (other.gameObject.CompareTag("item") )
+        if (other.gameObject.CompareTag("item") && _autoCorrer==true )
         {
             // _playerPontos.SomarPontos(1);
 
             // other.GetComponent<ColetarItens>().DestroyItens();
 
-           
+            _speed = _speed + 0.5f;
+            Debug.Log("dddssddda");
 
         }
         
@@ -384,8 +385,7 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Desativar());
 
  
-            //_speed *= speedBoostMultiplier;
-           // StartCoroutine(SpeedBoostTimer());
+           
         }
        
 
@@ -436,7 +436,7 @@ public class PlayerMove : MonoBehaviour
     public void CorrerAuto()
     {
         _moveDir = transform.forward * 1;
-        _speed = 2f;
+        //_speed = 2f;
 
         _characterController.Move(_moveDir * Time.deltaTime * _speed);
         _checkwalk = true;
@@ -472,11 +472,6 @@ public class PlayerMove : MonoBehaviour
         checkPass = false;
     }
 
-    IEnumerator SpeedBoostTimer()
-    {
-        yield return new WaitForSeconds(5f); // Adjust the duration here (5 seconds in this example)
-        _speed /= speedBoostMultiplier; // Remove speed boost
-    }
 
     public void StopPlayer(bool value)
     {
