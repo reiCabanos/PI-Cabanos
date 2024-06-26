@@ -87,6 +87,7 @@ public class PlayerMove : MonoBehaviour
     public Transform _temp;
     public GameObject _pont2;
     public float speedBoostMultiplier = 1.5f;
+    public TextMeshProUGUI _lifeText;
 
 
 
@@ -272,7 +273,8 @@ public class PlayerMove : MonoBehaviour
 
             _quantVida--;
             _playerControle.CheckIcomVida(_quantVida);
-          
+            _lifeText.text = _quantVida.ToString(); 
+
 
         }
         if (other.gameObject.CompareTag("p2"))
@@ -336,14 +338,13 @@ public class PlayerMove : MonoBehaviour
 
 
         }
-        if (other.gameObject.CompareTag("item"))
+        if (other.gameObject.CompareTag("item") )
         {
-           _playerPontos.SomarPontos(1);
+            // _playerPontos.SomarPontos(1);
 
-            other.GetComponent<ColetarItens>().DestroyItens();
+            // other.GetComponent<ColetarItens>().DestroyItens();
 
            
-
 
         }
         
@@ -383,7 +384,7 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Desativar());
 
  
-            _speed *= speedBoostMultiplier;
+            //_speed *= speedBoostMultiplier;
            // StartCoroutine(SpeedBoostTimer());
         }
        
