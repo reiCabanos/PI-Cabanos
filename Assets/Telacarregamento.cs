@@ -1,15 +1,32 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Telacarregamento : MonoBehaviour
-{
-    // Configuração da transição
+{ 
+    
     [Header("Configurações de Fade")]
-    public ImageFadeAnimation fadeImage; // Referência ao script que controla a animação de fade da imagem
-    public float tempoTransicao = 1f;    // Duração da transição (deve ser igual à duração do fade)
+    public ImageFadeAnimation fadeImage;
+    public float tempoTransicao = 1f;
 
-    // Verifica se o botão do mouse foi pressionado
+    [Header("Configurações de Carregamento")]
+    public float tempoMinimoExibicao = 2f; // Tempo mínimo de exibição
+
+    [Header("Sprite de Carregamento")]
+    public GameObject spriteCarregamento;
+
+    public PlayerInput playerInput;
+
+    void Start()
+    {
+        if (spriteCarregamento != null)
+        {
+            spriteCarregamento.SetActive(false);
+        }
+    }
+
     void Update()
     {
         // Input.GetMouseButtonDown(0) detecta o clique inicial do botão esquerdo do mouse
@@ -32,11 +49,43 @@ public class Telacarregamento : MonoBehaviour
     // Corrotina para aguardar o término da animação antes de carregar a próxima cena
     IEnumerator CarregarProximaCena()
     {
-        // Aguarda o tempo definido na variável 'tempoTransicao' (que deve ser igual à duração da animação)
+        // Ativa o sprite de carregamento
+        spriteCarregamento.SetActive(true);
+
+        // Desativa o input
+        playerInput.enabled = false;
+
         yield return new WaitForSeconds(tempoTransicao);
 
-        // Chama a função para carregar a próxima cena após o término da animação
-        Loadnextlevel();
+        int proximaCena = SceneManager.GetActiveScene().buildIndex + 1;
+
+        // Lógica para lidar com a última cena (opcional)
+        if (proximaCena >= SceneManager.sceneCountInBuildSettings)
+        {
+            proximaCena = 0;
+        }
+
+        // Carrega a próxima cena de forma assíncrona
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(proximaCena);
+
+        // Aguarda até que a cena termine de carregar
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Aguarda o tempo mínimo de exibição (se necessário)
+        float tempoRestante = tempoMinimoExibicao - tempoTransicao;
+        if (tempoRestante > 0)
+        {
+            yield return new WaitForSeconds(tempoRestante);
+        }
+
+        // Desativa o sprite de carregamento após o término do carregamento
+        spriteCarregamento.SetActive(false);
+
+        // Reabilita o input
+        playerInput.enabled = true;
     }
 
     // Função para carregar a próxima cena
