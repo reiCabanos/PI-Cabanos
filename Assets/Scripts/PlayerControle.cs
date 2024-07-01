@@ -220,4 +220,5 @@ public class PlayerControle : MonoBehaviour
       // _controle._stop=false;
     }
     
+
 }

@@ -223,7 +223,7 @@ public class PlayerMove : MonoBehaviour
             _moveZ = m.y;
         }
 
-
+        Debug.Log("jjkçll");
     }
 
 
@@ -231,15 +231,22 @@ public class PlayerMove : MonoBehaviour
     {
       
         _checkJump = true;
-        
 
+        Debug.Log("jummp");
     }
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
         _checkwalk = value.performed;
         
     }
-    
+    public void SetAvanca(InputAction.CallbackContext value)
+    {
+
+        _playerControle.TempoTutorOff();
+
+        Debug.Log("Avançass");
+    }
+
     void Jump()
     {
         if (_checkGround==true && _checkJump)
