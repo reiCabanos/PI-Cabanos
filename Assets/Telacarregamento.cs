@@ -21,19 +21,21 @@ public class Telacarregamento : MonoBehaviour
 
     void Start()
     {
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
         if (spriteCarregamento != null)
         {
             spriteCarregamento.SetActive(false);
         }
     }
 
-    void Update()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Input.GetMouseButtonDown(0) detecta o clique inicial do botão esquerdo do mouse
-        if (Input.GetMouseButtonDown(0))
-        {
-            IniciarTransicao(); // Inicia o processo de transição de cena
-        }
+        // Inicia a animação de fade out na imagem
+        fadeImage.IniciarAnimacao();
+
+        // Inicia uma corrotina para aguardar o término da animação antes de carregar a próxima cena
+        StartCoroutine(CarregarProximaCena());
     }
 
     // Função para iniciar a transição de cena
