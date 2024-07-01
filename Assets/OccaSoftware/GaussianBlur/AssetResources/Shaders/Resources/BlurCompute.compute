@@ -1,0 +1,97 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel BlurX
+#pragma kernel BlurY
+
+#include "BlurCommon.hlsl"
+
+#define THREADSIZE 16
+
+RWTexture2D<float4> _CullingSource;
+RWTexture2D<float4> _BlurSource;
+RWTexture2D<float4> _CameraSortingLayerTexture;
+RWTexture2D<float3> _BlurTargetX;
+RWTexture2D<float3> _BlurTargetY;
+
+int _ScreenSizeX;
+int _ScreenSizeY;
+int _IgnoreLessBlurredPixels;
+
+
+[numthreads(THREADSIZE, THREADSIZE,1)]
+void BlurX (uint3 id : SV_DispatchThreadID)
+{
+    float3 color = float3(0,0,0);
+    float sum = 0;
+    float4 source = _CullingSource[id.xy].rgba;
+    int radius = source.a;
+    
+    float oneOver2Sigma2 = GetOneOver2Sigma2(radius);
+    
+    if(radius < 1)
+    {
+        _BlurTargetX[id.xy] = _BlurSource[id.xy].rgb;
+        return;
+    }
+    
+    for(int i = -radius; i <= radius; i++)
+    {
+        int2 samplePoint = id.xy + uint2(i, 0);
+        
+        if(samplePoint.x < 0 || samplePoint.x > _ScreenSizeX)
+            continue;
+        
+        if(_IgnoreLessBlurredPixels && _CullingSource[samplePoint].a < radius)
+        {
+            continue;
+        }
+
+        float weight = OptimizedGaussian(i, oneOver2Sigma2);
+       
+        color += _BlurSource[samplePoint].rgb * weight;
+        sum += weight;
+    }
+
+    color /= sum;
+    
+    _BlurTargetX[id.xy] = color;
+}
+
+
+[numthreads(THREADSIZE, THREADSIZE,1)]
+void BlurY (uint3 id : SV_DispatchThreadID)
+{
+    float3 color = float3(0,0,0);
+    float sum = 0;
+    float4 source = _CullingSource[id.xy].rgba;
+    float3 tint = source.rgb;
+    int radius = source.a;
+    
+    float oneOver2Sigma2 = GetOneOver2Sigma2(radius);
+    
+    if(radius < 1)
+    {
+        _BlurTargetY[id.xy] = _BlurTargetX[id.xy] * source.rgb;
+        return;
+    }
+    
+    
+    for(int i = -radius; i <= radius; i++)
+    {
+        int2 samplePoint = id.xy + uint2(0, i);
+        
+        if(samplePoint.y < 0 || samplePoint.y > _ScreenSizeY)
+            continue;
+        
+        if(_IgnoreLessBlurredPixels && _CullingSource[samplePoint].a < radius)
+        {
+            continue;
+        }
+        
+        float weight = OptimizedGaussian(i, oneOver2Sigma2);
+        color += _BlurTargetX[samplePoint].rgb * weight;
+        sum += weight;
+    }
+    color /= sum;
+    
+    _BlurTargetY[id.xy] = color * tint;
+}
