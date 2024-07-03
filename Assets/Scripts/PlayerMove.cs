@@ -365,7 +365,7 @@ public class PlayerMove : MonoBehaviour
             _anim.SetFloat("correndo", 0);
             _anim.SetBool("parado", true);
             
-            transform.DORotate (new Vector3(transform.localEulerAngles.x, -117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
+            //transform.DORotate (new Vector3(transform.localEulerAngles.x, -117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
             _fim.DOScale(1, 0.5f);
             _fimG.Select();
 
