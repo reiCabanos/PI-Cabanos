@@ -9,10 +9,12 @@ public class StayInside : MonoBehaviour
     public float _minimapSize;
     Vector3 _tempV3;
     public GameController controller;
+    
     void Start()
     {
         controller=Camera.main.GetComponent<GameController>();
         _miniMapaCam = controller._miniCam;
+        
     }
 
     // Update is called once per frame

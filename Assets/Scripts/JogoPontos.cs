@@ -9,9 +9,11 @@ public class JogoPontos : MonoBehaviour
     public bool _scoreMode;
     public PlayerMove _playerMove;
     public GameObject _p;
+    public GameObject _p2;
     void Start()
     {
         _playerMove = GetComponent<PlayerMove>();
+        _p2.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -63,6 +65,7 @@ public class JogoPontos : MonoBehaviour
             GetComponent<Collider>().enabled = false;
             Invoke("InActiveCoin", 0.5f);
             _p.gameObject.SetActive(true);
+            _p2.gameObject.SetActive(false);
 
 
 
