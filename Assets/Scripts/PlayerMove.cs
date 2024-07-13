@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] Transform _pontos;
     [SerializeField] Transform o;
 
-    [SerializeField] int _quantVida = 3;
+    public  int _quantVida = 3;
     [SerializeField] int _mod; 
     private int _index; 
     public int _scoreCounter;
@@ -79,6 +79,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] GameObject _pont1;
     
     public Button _fimG;
+    public Button _comecarNovamente;
     public bool _fimM;
 
     public TextMeshProUGUI _coinCounterTex;
@@ -88,6 +89,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject _pont2;
     public float speedBoostMultiplier = 1.5f;
     public TextMeshProUGUI _lifeText;
+    public Transform _inicialRestat;
 
 
 
@@ -191,16 +193,7 @@ public class PlayerMove : MonoBehaviour
         // Manter o personagem reto
         Vector3 currentEulerAngles = transform.eulerAngles;
         transform.eulerAngles = new Vector3(0, currentEulerAngles.y, 0);
-        /*
-        if (_checkwalk && _velocidade != 0)
-        {
-            _speed = 8f;
-        }
-        else
-        {
-            _speed = 4f;
-        }
-       */
+        
 
     }
     void RoationPlayer()
@@ -365,8 +358,9 @@ public class PlayerMove : MonoBehaviour
             _anim.SetFloat("correndo", 0);
             _anim.SetBool("parado", true);
             
-            //transform.DORotate (new Vector3(transform.localEulerAngles.x, -117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InQuad); 
+         
             _fim.DOScale(1, 0.5f);
+            _comecarNovamente.Select();
             _fimG.Select();
 
 
@@ -529,5 +523,61 @@ public class PlayerMove : MonoBehaviour
     {
         SceneManager.LoadScene("MapaBeta");
     }
+    public void ReiniciarJogo()
+    {
+        
+        _playerControle.TextoTutorRecomecar();
+        // Restaurar a posição inicial do personagem
+        transform.position = _inicialRestat.position;
+
+        // Restaurar a rotação inicial do personagem
+        transform.rotation = Quaternion.identity;
+
+        // Restaurar a velocidade do personagem
+        _playerVelocity = Vector3.zero;
+
+        // Restaurar a vida do personagem
+        _quantVida = 3;
+        _playerControle.AtualizarVidaHUD();
+
+        // Restaurar o estado de movimento do personagem
+        _checkMove = true;
+
+        // Restaurar o estado de corrida automática
+        _autoCorrer = false;
+
+        // Restaurar a pontuação do jogo
+        _scoreCounter = 0;
+        _playerControle.AtualizarPontuacaoHUD();
+
+        // Desativar todos os itens coletados
+        foreach (Transform item in _pontos)
+        {
+            item.gameObject.SetActive(true);
+        }
+
+        // Redefinir o índice do item coletado
+        _index = 0;
+
+        // Redefinir a variável de controle da fase
+        _isReseting = false;
+
+        // Redefinir a variável de fim de jogo
+        _fimM = false;
+
+        // Reativar o controle do personagem
+        _controle._stop = false;
+
+        // Restaurar a animação do personagem
+        _anim.SetFloat("correndo", 0);
+        _anim.SetBool("parado", false);
+
+        // Ocultar a tela de fim de jogo
+        _fim.DOScale(0, 0.5f);
+
+        // Selecionar o botão de reinício
+        _playerControle._reiniciar.Select();
+    }
+
 
 }

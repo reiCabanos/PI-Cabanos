@@ -43,6 +43,9 @@ public class PlayerControle : MonoBehaviour
     bool _fimTutor;
 
     bool _fimGame;
+   
+    public TextMeshProUGUI _textoPontuaca;
+    public TextMeshProUGUI _textoVida;
 
 
 
@@ -52,6 +55,7 @@ public class PlayerControle : MonoBehaviour
          _controle = Camera.main.GetComponent<ControlePersonagem>();
         _imgT.enabled = false;
         _ButtomNuul.Select();
+        //_textoPontuacao = GameObject.Find("TextoPontuacao").GetComponent<Text>();
     }
 
     public void TextoTutor(int value, int value2)
@@ -101,7 +105,12 @@ public class PlayerControle : MonoBehaviour
         _panelTutor.DOScale(1f, .25f);   
    
     }
-
+    public void TextoTutorRecomecar()
+    {
+        _conText = 0;
+        
+        TextoTutor(0, 0);
+    }
     public void TempoTutorOff()
     {
         if (!_fimTutor)
@@ -212,7 +221,30 @@ public class PlayerControle : MonoBehaviour
         {
             _iConVida[2].DOScale(0, 0.5f);
         }
+        else if (vida == 3)
+        {
+            _iConVida[3].DOScale(0, 0.5f);
+        }
 
+    }
+    public void AtualizarVidaHUD()
+    {
+        for (int i = 0; i < _iConVida.Length; i++)
+        {
+            if (i < _playerMove._quantVida)
+            {
+                _iConVida[i].DOScale(1, 0.5f);
+                _textoVida.text = _playerMove._quantVida.ToString();
+            }
+            else
+            {
+                _iConVida[i].DOScale(0, 0.5f);
+            }
+        }
+    }
+    public void AtualizarPontuacaoHUD()
+    {
+        _textoPontuaca.text = _playerMove._scoreCounter.ToString();
     }
     public void GamerReiniciar()
     {
