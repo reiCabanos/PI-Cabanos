@@ -90,6 +90,7 @@ public class PlayerMove : MonoBehaviour
     public float speedBoostMultiplier = 1.5f;
     public TextMeshProUGUI _lifeText;
     public Transform _inicialRestat;
+    public GameObject _panel1;
 
 
 
@@ -525,16 +526,19 @@ public class PlayerMove : MonoBehaviour
     }
     public void ReiniciarJogo()
     {
-        
-        _playerControle.TextoTutorRecomecar();
+
+        _playerControle.TentarNovamente();
+
         // Restaurar a posição inicial do personagem
         transform.position = _inicialRestat.position;
-
+        _pont1.SetActive(false);
+        _pont2.SetActive(false);
         // Restaurar a rotação inicial do personagem
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
         transform.rotation = Quaternion.identity;
-
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         // Restaurar a velocidade do personagem
-        _playerVelocity = Vector3.zero;
+        _speed = 2;
 
         // Restaurar a vida do personagem
         _quantVida = 3;
@@ -576,7 +580,7 @@ public class PlayerMove : MonoBehaviour
         _fim.DOScale(0, 0.5f);
 
         // Selecionar o botão de reinício
-        _playerControle._reiniciar.Select();
+       // _playerControle._reiniciar.Select();
     }
 
 

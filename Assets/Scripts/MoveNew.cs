@@ -40,13 +40,13 @@ public class MoveNew : MonoBehaviour
     PlayerPontos _playerPontos;
 
 
-    [SerializeField] int _quantVida = 3;
+   // [SerializeField] int _quantVida = 3;
 
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
     Vector3 _input;
-    [SerializeField] float _smoothTime = 0.0f;
+   // [SerializeField] float _smoothTime = 0.0f;
     public float _currentvelocity;
     bool test = true;
     

@@ -22,7 +22,7 @@ public class PlayerControle : MonoBehaviour
     public Button _reiniciar;
     public Transform _player;
     public GameController _gameController;
-    //public MoveNew _moveNew
+   
     public PlayerMove _playerMove;
     public ControlePersonagem _controle;
 
@@ -41,7 +41,9 @@ public class PlayerControle : MonoBehaviour
 
     public int _conText;
     bool _fimTutor;
-
+    public int _cont;
+   
+    
     bool _fimGame;
    
     public TextMeshProUGUI _textoPontuaca;
@@ -105,12 +107,7 @@ public class PlayerControle : MonoBehaviour
         _panelTutor.DOScale(1f, .25f);   
    
     }
-    public void TextoTutorRecomecar()
-    {
-        _conText = 0;
-        
-        TextoTutor(0, 0);
-    }
+   
     public void TempoTutorOff()
     {
         if (!_fimTutor)
@@ -137,6 +134,19 @@ public class PlayerControle : MonoBehaviour
         }
        
      
+    }
+    public void TentarNovamente()
+    {
+        _cont++;
+       
+       if (_cont>=1)
+        {
+            TextoTutor(2, 1);
+            _fimTutor = true;
+            _btAvanca.interactable = false;
+            StartCoroutine(TempoCont());
+
+        }
     }
     public void Recomeca()
     {
@@ -186,7 +196,8 @@ public class PlayerControle : MonoBehaviour
         //começar correr
         TutorFechar();
         _playerMove.Corretrue();
-
+        _btAvanca.interactable = true;
+       
 
     }
 
