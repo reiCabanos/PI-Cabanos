@@ -23,18 +23,12 @@ public class ItemPlayercontrole : MonoBehaviour
         if (collision.gameObject.CompareTag("item"))
         {
             ItensControl _itemObj = collision.GetComponent<ItensControl>();
-            for (int i = 0; 1 < _gridItem._itemArmas.Count; i++)
-            {
-                if (_gridItem._itemArmas[i].GetComponent<SlotItem>()._ocupado == false)
-                {
-                    _gridItem._itemArmas[i].sprite = _itemObj._itemInventario._img;
-                    _gridItem._itemArmas[i].GetComponent<SlotItem>()._ocupado = true;
-                   // collision.gameObject.SetActive(false);
-                    break;
-                }
+            int tipoItem = _itemObj._itemInventario._tipo;
+            
+                
+                    _gridItem._itemArmas[tipoItem].GetComponent<SlotItem>()._slotNumber++;
+                    _gridItem._itemArmas[tipoItem].GetComponent<SlotItem>().NumberItem();
 
-
-            }
 
 
             Debug.Log(_itemObj._itemInventario._nome);
