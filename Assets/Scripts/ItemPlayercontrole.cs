@@ -24,10 +24,14 @@ public class ItemPlayercontrole : MonoBehaviour
         {
             ItensControl _itemObj = collision.GetComponent<ItensControl>();
             int tipoItem = _itemObj._itemInventario._tipo;
-            
-                
+          /*  _gridItem._itemArmas[0].CheckSlot = true;*/
+
+
+
+
                     _gridItem._itemArmas[tipoItem].GetComponent<SlotItem>()._slotNumber++;
                     _gridItem._itemArmas[tipoItem].GetComponent<SlotItem>().NumberItem();
+                     
 
 
 

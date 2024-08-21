@@ -6,5 +6,5 @@ public class ItensControl : MonoBehaviour
 {
     // Start is called before the first frame update
     public ItemInventario _itemInventario;
-
+   
 }
