@@ -7,6 +7,8 @@ public class ItemPlayercontrole : MonoBehaviour
     // Start is called before the first frame update
 
     GridItem _gridItem;
+    public ItemInventario _itemPlayercontrole;// no scrip é itens Dados
+    public SpriteRenderer _spriteRenderer;
 
 
 
