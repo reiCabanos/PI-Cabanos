@@ -47,7 +47,7 @@ public class SlotControl : MonoBehaviour
 
     public void PegarColetavel()
     {
-        _contItem++;
+        /*_contItem++;*/
         _textCont.text = "" + _contItem;
 
     }

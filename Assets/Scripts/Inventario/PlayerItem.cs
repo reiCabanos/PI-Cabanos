@@ -14,7 +14,7 @@ public class PlayerItem : MonoBehaviour
         _control = Camera.main.GetComponent<InventarioControl>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("ItemTag"))
         {
