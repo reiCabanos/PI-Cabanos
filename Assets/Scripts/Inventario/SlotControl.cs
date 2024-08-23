@@ -5,24 +5,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotItem : MonoBehaviour
+public class SlotControl : MonoBehaviour
 {
-    /// <summary>
-    ///  ESSE AQUI É O SLOTCONTROL 
-    /// </summary>
-    // Start is called before the first frame update
-    public bool _ocupado;
+    bool _checkSlot;
     [SerializeField] bool _checkColetavel;
-
-    public int _slotNumber; // CONtItens ITENS ORIGINAL 
     [SerializeField] Image _imgItem;
-    public ItemInventario _ItemInventario;
+    public ItemDados _itemDados;
     Button _btSlot;
     [SerializeField] List<Button> _bts;
-    
 
+    public int _contItem;
+    public TextMeshProUGUI _textCont;
 
-    public TextMeshProUGUI _textNumber;
 
     private void Start()
     {
@@ -38,29 +32,30 @@ public class SlotItem : MonoBehaviour
 
     public bool CheckSlot
     {
-        get { return _ocupado; }
-        set { _ocupado = value; }
+        get { return _checkSlot; }
+        set { _checkSlot = value; }
     }
 
     public void ImageSlot(Sprite image)
     {
         _imgItem.sprite = image;
     }
-    public void DadosSlot(ItemInventario _dados)
+    public void DadosSlot(ItemDados _dados)
     {
-        _ItemDados = _dados;
+        _itemDados = _dados;
     }
 
-
-    public void NumberItem() /// ORGINAL É PegarColetavel 
+    public void PegarColetavel()
     {
-        _slotNumber++;
-        _textNumber.text = "" + _slotNumber;
+        _contItem++;
+        _textCont.text = "" + _contItem;
+
     }
+
 
     public void BtsON(bool on)
     {
-        if (_ocupado == true) //  _checkSlot original ; 
+        if (_checkSlot == true)
         {
 
             for (int i = 0; i < _bts.Count; i++)
@@ -83,7 +78,4 @@ public class SlotItem : MonoBehaviour
 
     }
 
-
 }
-
-
