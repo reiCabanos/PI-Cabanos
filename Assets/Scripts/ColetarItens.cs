@@ -9,7 +9,7 @@ public class ColetarItens : MonoBehaviour
     [SerializeField] private int _valor;
     [SerializeField] MeshRenderer  _testura;
     [SerializeField] GameObject _partSaida;
-    [SerializeField] Transform _posTaboa;
+   
     public virtual void Start()
     {
         _testura = GetComponent<MeshRenderer>();
@@ -64,12 +64,5 @@ public class ColetarItens : MonoBehaviour
             _partSaida = value;
         }
     }
-    public virtual Transform PosTaboa
-    {
-        get { return _posTaboa; }
-        set
-        {
-            _posTaboa = value;
-        }
-    }
+    
 }

@@ -64,6 +64,10 @@ public class MoveNew : MonoBehaviour
     public Vector3 moveVector;
     public float rotationSpeed = 100f;
 
+    InventarioControl _control;
+    public ItemDados _itemDados;
+    public SpriteRenderer _spriteRenderer;
+
     [Header("Stamina")]
     public float maxStamina = 100f;
     public float currentStamina;
@@ -78,7 +82,8 @@ public class MoveNew : MonoBehaviour
     void Start()
     {
         _controller = GetComponent<CharacterController>();
-        _playerPontos=Camera.main.GetComponent<PlayerPontos>();
+        _control = Camera.main.GetComponent<InventarioControl>();
+        _playerPontos =Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
        _project=GetComponent<ProjectileThrow>();
         _manager = Camera.main.GetComponent<GameManager>();
@@ -268,6 +273,7 @@ public class MoveNew : MonoBehaviour
             _playerPontos.SomarPontos(1);
             
             other.GetComponent<ColetarItens>().DestroyItens();
+           
            
 
 
