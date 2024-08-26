@@ -8,7 +8,7 @@ public class ItensControlle : MonoBehaviour
     [SerializeField] int _numbTabuas;
     [SerializeField] List<Transform> _posFrutas;
     [SerializeField] List<Transform> _posTabuas;
-    [SerializeField] List<Transform> _posRaios;
+   
 
 
     private void Start()
@@ -33,24 +33,9 @@ public class ItensControlle : MonoBehaviour
            
 
         }
-        for (int i = 0; i < _posRaios.Count; i++)
-        {
-            Debug.Log("g");
-            RaiosOn(i);
-
-
-        }
+        
     }
-    void RaiosOn(int value)
-    {
-        GameObject bullet = RaiosPool.SharedInstance.GetPooledObject();
-        if (bullet != null)
-        {
-            bullet.transform.position = _posRaios[value].transform.position;
-            //bullet.transform.rotation = turret.transform.rotation;
-            bullet.SetActive(true);
-        }
-    }
+    
     void TabuasOn(int value)
     {
         GameObject bullet = TabuaPool.SharedInstance.GetPooledObject();

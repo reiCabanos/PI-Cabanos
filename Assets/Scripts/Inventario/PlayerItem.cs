@@ -16,7 +16,7 @@ public class PlayerItem : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("ItemTag"))
+        if (collision.gameObject.CompareTag("item"))
         {
             ItemControl itemControl = collision.gameObject.GetComponent<ItemControl>();
 
@@ -44,6 +44,8 @@ public class PlayerItem : MonoBehaviour
             {
                 _control._SlotColetaveis[1].PegarColetavel();
             }
+            Debug.Log("Tocou no item");
         }
+       
     }
 }

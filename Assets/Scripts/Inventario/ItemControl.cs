@@ -16,7 +16,7 @@ public class ItemControl : MonoBehaviour
         if (_checkColetavel == false)
         {
             _image = GetComponent<SpriteRenderer>();
-            _image.sprite = _itemDados.ImageItem;
+           // _image.sprite = _itemDados.ImageItem;
         }
     }
 
