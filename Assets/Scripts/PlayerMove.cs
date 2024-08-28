@@ -324,7 +324,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("point7"))
         {
 
-            transform.DORotate(new Vector3(transform.localEulerAngles.x, 92.368f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, 271.7f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
 
 
         }
@@ -427,8 +427,8 @@ public class PlayerMove : MonoBehaviour
     public void UltimaRotacao()
     {
         StartCoroutine(TempoRotacao());
-        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 91.403f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-        transform.DORotate(new Vector3(transform.localEulerAngles.x, 85.815f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 185.974f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, 174.85f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
 
 
 
