@@ -317,7 +317,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("point6"))
         {
 
-            transform.DORotate(new Vector3(transform.localEulerAngles.x, 90.651f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, 3.995f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
 
 
         }
