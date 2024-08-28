@@ -292,7 +292,7 @@ public class PlayerMove : MonoBehaviour
         {
 
             SegundaRotacao();
-            _pont2.SetActive(true);
+           // _pont2.SetActive(true);
             value *= -1;
 
 
@@ -418,8 +418,8 @@ public class PlayerMove : MonoBehaviour
     public void SegundaRotacao()
     {
         StartCoroutine(TempoRotacao());
-        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 3.104f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-        transform.DORotate(new Vector3(transform.localEulerAngles.x, 3.075f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -89.966f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, -94.987f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
         
 
 
