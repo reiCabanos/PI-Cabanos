@@ -310,14 +310,14 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("point5"))
         {
 
-            transform.DORotate(new Vector3(transform.localEulerAngles.x, 99.946f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, -439.518f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
 
 
         }
         if (other.gameObject.CompareTag("point6"))
         {
 
-            transform.DORotate(new Vector3(transform.localEulerAngles.x, 3.995f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+            transform.DORotate(new Vector3(transform.localEulerAngles.x, -86.897f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
 
 
         }
@@ -409,8 +409,8 @@ public class PlayerMove : MonoBehaviour
     public void RotacaoDaCamera()
     {
          StartCoroutine(TempoRotacao());
-        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -270, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-        transform.DORotate (new Vector3(transform.localEulerAngles.x, 117.454f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 14.791f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        transform.DORotate (new Vector3(transform.localEulerAngles.x, -333.951f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
         //_fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
 
 
