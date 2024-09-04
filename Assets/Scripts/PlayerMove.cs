@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] float _moveX;
     [SerializeField] float _moveZ;
-    [SerializeField] float _speed;
+    public float _speed;
     [SerializeField] float _jumpForce;
     [SerializeField] float _gravityValue = -9.8f;
     [SerializeField] float _girarSpeed;
@@ -34,14 +34,14 @@ public class PlayerMove : MonoBehaviour
     float _timer;
     float _speedAnimY;
    
-    float value;
+    public float value;
     float _moveDuration = 1f;
     
     [SerializeField] bool _checkJump;
     [SerializeField] bool _checkGround; 
     [SerializeField] bool _checkwalk;
     [SerializeField] bool _checkMove;
-    [SerializeField] bool _autoCorrer; 
+    public bool _autoCorrer; 
     bool _isStandingStill = false; 
     public  bool _isReseting = false;
    
@@ -49,7 +49,7 @@ public class PlayerMove : MonoBehaviour
 
 
     CharacterController _characterController;
-    Animator _anim;
+   public Animator _anim;
 
     public Vector3 _playerVelocity;
     Vector3 _moveDir;
