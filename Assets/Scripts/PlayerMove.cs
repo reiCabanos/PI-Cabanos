@@ -185,16 +185,13 @@ public class PlayerMove : MonoBehaviour
     }
     void Andar()
     {
-        _moveDir = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
-
-        // Movimento do personagem
-        Vector3 move = new Vector3(_moveDir.x, _playerVelocity.y, _moveDir.z);
+        Vector3 move = (_orientation.forward * _moveZ + _orientation.right * _moveX) * _speed;
+        move.y = _playerVelocity.y;
         _characterController.Move(move * Time.deltaTime);
 
-        // Manter o personagem reto
-        Vector3 currentEulerAngles = transform.eulerAngles;
-        transform.eulerAngles = new Vector3(0, currentEulerAngles.y, 0);
-        
+        // Mantém o player alinhado com o eixo Y
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+
 
     }
     void RoationPlayer()
@@ -243,19 +240,23 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
-        if (_checkGround==true && _checkJump)
+        if (_checkGround && _checkJump)
         {
-            _checkGround = false;
-            _playerVelocity.y = 0;
-            _playerVelocity.y = Mathf.Sqrt(_jumpForce /5 * -3.0f *_gravityValue);
+            _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);
+            _checkJump = false;
         }
     }
     void Gravity()
     {
-      
-        _playerVelocity.y += _gravityValue * Time.deltaTime;
-        _characterController.Move( _playerVelocity *Time.deltaTime);
-      
+
+        if (!_checkGround)
+        {
+            _playerVelocity.y += _gravityValue * Time.deltaTime;
+        }
+
+        _characterController.Move(_playerVelocity * Time.deltaTime);
+
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -437,14 +438,11 @@ public class PlayerMove : MonoBehaviour
 
     public void CorrerAuto()
     {
-        _moveDir = transform.forward * 1;
-        //_speed = 2f;
-
-        _characterController.Move(_moveDir * Time.deltaTime * _speed);
+        _characterController.Move(transform.forward * _speed * Time.deltaTime);
         _checkwalk = true;
 
-       
-        
+
+
     }
     
     public IEnumerator Dano()
