@@ -31,6 +31,7 @@ public class HudControles : MonoBehaviour
     public float tempoExibicaoPainelNovo = 10f; // Tempo em segundos para ocultar o painel (ajuste no Inspetor)
 
     public Button botaoCelular; // Variável pública para seta o botão do painel _telaCelular 
+    public SideMenuController _siderMenu;
 
 
 
@@ -118,6 +119,8 @@ public class HudControles : MonoBehaviour
             {
                 FecharPainel(_painelAtivo);
                 AbrirPainel(_telaHuds);
+                
+
             }
             else if (_painelAtivo != _telaHuds)
             {
@@ -208,7 +211,7 @@ public class HudControles : MonoBehaviour
     }
 
 
-    private void AlternarPainel(Transform painel)
+    public void AlternarPainel(Transform painel)
     {
         if (painelBloqueando && painel != _telaHuds)
         {

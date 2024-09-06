@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;  // Para o novo Input System
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class SideMenuController : MonoBehaviour
 {
@@ -8,7 +9,12 @@ public class SideMenuController : MonoBehaviour
     public float moveDuration = 0.5f;  // Duração da animação
     public float moveDistance = -295f;  // Distância que o menu percorre (pode ajustar conforme necessário)
 
-    private bool isMenuVisible = false;  // Controla se o menu está visível ou não
+    public bool isMenuVisible;  // Controla se o menu está visível ou não
+
+    public Button _btMochila;
+    public Button _btCelular;
+
+    public HudControles hudcontrole;
 
     private void Update()
     {
@@ -21,8 +27,8 @@ public class SideMenuController : MonoBehaviour
     private void Start()
     {
         // Inicializa o menu fora da tela (oculto)
-        PanelMenu.anchoredPosition = new Vector2(-moveDistance, PanelMenu.anchoredPosition.y);
-        isMenuVisible = false;  // Garante que o menu começa oculto
+       // PanelMenu.anchoredPosition = new Vector2(-moveDistance, PanelMenu.anchoredPosition.y);
+        isMenuVisible = true;  // Garante que o menu começa oculto
     }
     public void SetRight(InputAction.CallbackContext context)
     {
@@ -31,6 +37,8 @@ public class SideMenuController : MonoBehaviour
             // Esconde o menu (move para fora da tela)
             PanelMenu.DOAnchorPosX(-moveDistance, moveDuration);
             isMenuVisible = false;
+            _btMochila.Select();
+            _btCelular.Select();
         }
     }
     public void SetLeft(InputAction.CallbackContext context)
