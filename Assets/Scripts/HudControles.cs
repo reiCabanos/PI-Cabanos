@@ -21,7 +21,9 @@ public class HudControles : MonoBehaviour
     private float moveDuration = 4f;  // Duração de cada movimento
     private Tweener moveTween;
     public bool blockMovement = true; // Variável para controlar o bloqueio do movimento
-    
+    public GameObject _panelSliderMenu;
+
+
     public Transform MiniMap;
     public Transform _painelNovo; // Novo painel a ser exibido
     public float tempoExibicaoPainel = 5f; // Tempo de exibição do painel (ajustável no Inspetor)
@@ -66,7 +68,7 @@ public class HudControles : MonoBehaviour
             FecharPainel(_telaIniciar);
             AbrirPainel(_telaHuds);
             blockMovement = false;
-
+            _panelSliderMenu.gameObject.SetActive(true);
             // Inicia a corrotina para exibir o painel novo
             StartCoroutine(ExibirPainelNovo());
         }

@@ -8,7 +8,7 @@ public class ItensControlle : MonoBehaviour
     [SerializeField] int _numbTabuas;
     [SerializeField] List<Transform> _posFrutas;
     [SerializeField] List<Transform> _posTabuas;
-   
+
 
 
     private void Start()

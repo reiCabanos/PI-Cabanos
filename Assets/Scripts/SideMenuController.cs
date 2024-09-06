@@ -1,39 +1,64 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;  // Para o novo Input System
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 public class SideMenuController : MonoBehaviour
 {
-    public RectTransform sideMenu;  // Referência ao menu lateral
-    public Button[] menuButtons;    // Array com os botões do menu
-    public float slideDuration = 0.5f;  // Duração da animação de deslizamento
-    private bool isMenuOpen = false; // Estado atual do menu (aberto ou fechado)
-    public float slideDistance = 250f;  // Distância que o menu desliza
+    public RectTransform PanelMenu;  // O painel lateral que será movido
+    public float moveDuration = 0.5f;  // Duração da animação
+    public float moveDistance = -295f;  // Distância que o menu percorre (pode ajustar conforme necessário)
 
+    private bool isMenuVisible = false;  // Controla se o menu está visível ou não
+
+    private void Update()
+    {
+
+        //ShowHideMenu();
+        
+
+
+    }
     private void Start()
     {
-        // Coloca o menu fora da tela no início
-        sideMenu.anchoredPosition = new Vector2(-slideDistance, sideMenu.anchoredPosition.y);
+        // Inicializa o menu fora da tela (oculto)
+        PanelMenu.anchoredPosition = new Vector2(-moveDistance, PanelMenu.anchoredPosition.y);
+        isMenuVisible = false;  // Garante que o menu começa oculto
+    }
+    public void SetRight(InputAction.CallbackContext context)
+    {
+        if (context.performed && isMenuVisible)
+        {
+            // Esconde o menu (move para fora da tela)
+            PanelMenu.DOAnchorPosX(-moveDistance, moveDuration);
+            isMenuVisible = false;
+        }
+    }
+    public void SetLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isMenuVisible)
+        {
+            // Mostra o menu (move para dentro da tela)
+            PanelMenu.DOAnchorPosX(-295f, moveDuration);
+            isMenuVisible = true;
+            Debug.Log("fff");
+        }
+        
     }
 
-    public void ToggleMenu()
+    public void ShowHideMenu()
     {
-        isMenuOpen = !isMenuOpen;
+        if (isMenuVisible && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // Esconde o menu (move para fora da tela)
+            PanelMenu.DOAnchorPosX(-moveDistance, moveDuration);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // Mostra o menu (move para dentro da tela)
+            PanelMenu.DOAnchorPosX(-295f, moveDuration);
+        }
 
-        // Animação para abrir ou fechar o menu
-        float targetPositionX = isMenuOpen ? 0 : -slideDistance;
-        sideMenu.DOAnchorPosX(targetPositionX, slideDuration).SetEase(Ease.InOutSine);
-    }
-
-    public void OnMenuButtonPressed(int buttonIndex)
-    {
-        // Lógica para quando um botão do menu é pressionado
-        Debug.Log("Botão pressionado: " + menuButtons[buttonIndex].name);
-
-        // Adicione sua lógica aqui, como mudar de cena ou abrir outra tela
+        // Alterna o estado do menu
+        isMenuVisible = !isMenuVisible;
     }
 }
