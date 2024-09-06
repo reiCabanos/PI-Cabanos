@@ -32,7 +32,7 @@ public class HudControles : MonoBehaviour
 
     public Button botaoCelular; // Variável pública para seta o botão do painel _telaCelular 
     public SideMenuController _siderMenu;
-
+    //
 
 
 
