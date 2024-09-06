@@ -215,7 +215,7 @@ public class HudControles : MonoBehaviour
     {
         if (painelBloqueando && painel != _telaHuds)
         {
-            return; // Impede a abertura de outros painéis se um estiver bloqueando
+            //return; // Impede a abertura de outros painéis se um estiver bloqueando
         }
 
         if (_painelAtivo == painel)
