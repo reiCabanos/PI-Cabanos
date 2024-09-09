@@ -25,13 +25,14 @@ public class HudControles : MonoBehaviour
 
 
     public Transform MiniMap;
-    public Transform _painelNovo; // Novo painel a ser exibido
+    public Transform _painelNovo; // Novo painel a ser exibido h
     public float tempoExibicaoPainel = 5f; // Tempo de exibição do painel (ajustável no Inspetor)
     private bool painelNovoExibido = false; // Controla se o painel já foi exibido
     public float tempoExibicaoPainelNovo = 10f; // Tempo em segundos para ocultar o painel (ajuste no Inspetor)
 
     public Button botaoCelular; // Variável pública para seta o botão do painel _telaCelular 
     public SideMenuController _siderMenu;
+    public Button botaoFecharPainelNovo;
     //
 
 
@@ -55,6 +56,11 @@ public class HudControles : MonoBehaviour
         moveTween = _telaIniciar.DOLocalMoveX(moveDistance, moveDuration)
                               .SetEase(Ease.InOutSine)
                               .SetLoops(-1, LoopType.Yoyo); // Repete infinitamente, indo e voltando
+                                                            // Associa o botão fechar com o método FecharPainel
+        if (botaoFecharPainelNovo != null)
+        {
+            botaoFecharPainelNovo.onClick.AddListener(() => FecharPainel(_painelNovo));
+        }
     }
 
     void Update()
@@ -114,6 +120,11 @@ public class HudControles : MonoBehaviour
     public void SetSair(InputAction.CallbackContext value)
     {
         if (value.performed)
+            if (_painelAtivo == _painelNovo)
+            {
+                // Fecha o painel novo
+                FecharPainel(_painelNovo);
+            }
         {
             if (_painelAtivo == _telaCelular)
             {
@@ -206,6 +217,7 @@ public class HudControles : MonoBehaviour
         if (painel == _painelNovo)
         {
             painelNovoExibido = false;
+
         }
 
     }
