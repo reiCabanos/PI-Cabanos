@@ -13,7 +13,7 @@ public class TrasicaoDeCena_teste : MonoBehaviour
         //verifica se o loading ja foi instanciado
         if (GameObject.Find("=LOADING=") == null)
         {
-            GameObject loading = Instantiate(Resources.Load<GameObject>("Scripts/Loading"));
+            GameObject loading = Instantiate(Resources.Load<GameObject>("TelaTransicao/Loading"));
             loading.name = "=LOADING=";
         }
     }

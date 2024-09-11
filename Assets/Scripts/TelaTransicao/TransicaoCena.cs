@@ -6,13 +6,14 @@ public class TransicaoCena : MonoBehaviour
 {
     public GameObject m_PauseScreen;
     public bool m_isPaused = false;
+    public GameObject loadingPrefab;
 
     private void Awake()
     {
         //verifica se o loading ja foi instanciado
         if (GameObject.Find("=LOADING=") == null)
         {
-            GameObject loading = Instantiate(Resources.Load<GameObject>("Scripts/Loading"));
+            GameObject loading = Instantiate(loadingPrefab);
             loading.name = "=LOADING=";
         }
     }
