@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class TrasicaoDeCena_teste : MonoBehaviour
+public class TransicaoCena : MonoBehaviour
 {
     public GameObject m_PauseScreen;
     public bool m_isPaused = false;
