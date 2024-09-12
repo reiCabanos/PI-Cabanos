@@ -63,9 +63,10 @@ public class TransicaoCena : MonoBehaviour
     /// <summary>
     /// Vai para o proximo level
     /// </summary>
-    public void NextLevel(int indexLevel)
+   /* public void NextLevel(int indexLevel)
     {
         m_PauseScreen.SetActive(false);
         LoadingController.Instance.NextLevel(indexLevel);
     }
+   */
 }
