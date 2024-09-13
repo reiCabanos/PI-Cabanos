@@ -2,49 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransicaoCena : MonoBehaviour
+public class ControllerDeCenas : MonoBehaviour
 {
     public GameObject m_PauseScreen;
     public bool m_isPaused = false;
     public GameObject loadingPrefab;
 
+    // Referência estática para o painel de loading
+    private static GameObject loadingInstance;
+
     private void Awake()
     {
-        //verifica se o loading ja foi instanciado
-        if (GameObject.Find("=LOADING=") == null)
+        // Verifica se o painel de loading já foi instanciado
+        if (loadingInstance == null)
         {
-            GameObject loading = Instantiate(loadingPrefab);
-            loading.name = "=LOADING=";
+            // Instancia o prefab de loading e armazena a referência estática
+            loadingInstance = Instantiate(loadingPrefab);
+            DontDestroyOnLoad(loadingInstance); // Impede que o loading seja destruído ao mudar de cena
         }
     }
 
     void Update()
     {
-        //PauseGame();
+        PauseGame();
     }
 
     /// <summary>
-    /// Pausa o jogo se botão "cancel" for pressionado
+    /// Pausa o jogo se botão "Cancel" for pressionado
     /// </summary>
     private void PauseGame()
     {
-        //Se botão com nome "Cancel" for pressionado
         if (Input.GetButtonDown("Cancel"))
         {
-            //verifica se o jogo está pausado
             if (!m_isPaused)
             {
-                //pausa jogo
                 m_isPaused = true;
-
                 m_PauseScreen.SetActive(true);
                 Time.timeScale = 0f;
             }
             else
             {
-                //despausa jogo
                 m_isPaused = false;
-
                 m_PauseScreen.SetActive(false);
                 Time.timeScale = 1f;
             }
@@ -61,12 +59,11 @@ public class TransicaoCena : MonoBehaviour
     }
 
     /// <summary>
-    /// Vai para o proximo level
+    /// Vai para o próximo level
     /// </summary>
-    public void NextLevel(int indexLevel)
+   /* public void NextLevel(int indexLevel)
     {
         m_PauseScreen.SetActive(false);
         LoadingController.Instance.NextLevel(indexLevel);
-    }
-   
+    }*/
 }
