@@ -89,7 +89,7 @@ public class SceneHandler : MonoBehaviour
             if (asyncLoad.progress >= 0.9f)
             {
                 // Pequeno atraso antes de ativar a cena
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
                 asyncLoad.allowSceneActivation = true; // Ativar a cena
             }
             yield return null;
