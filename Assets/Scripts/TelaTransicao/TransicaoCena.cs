@@ -57,6 +57,7 @@ public class TransicaoCena : MonoBehaviour
     public void RestartLevel()
     {
         m_PauseScreen.SetActive(false);
+        PauseGame();
         LoadingController.Instance.ReloadLevel();
     }
 

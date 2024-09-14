@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     [Header("Botões")]
     [SerializeField] private Button botaoIniciar; // Referência ao botão iniciar
     [SerializeField] private Button botaoSair;    // Referência ao botão para sair do jogo
-
+    
     [Header("Scene Settings")]
     [SerializeField] private string nomeDaCena; // Nome da cena a ser carregada (definido pelo Inspetor)
 
@@ -72,6 +72,7 @@ public class MenuManager : MonoBehaviour
             Debug.LogError("Nome da cena não está definido no Inspetor!");
         }
     }
+   
 
     // Corrotina que garante que a tela de carregamento seja exibida antes do carregamento da cena
     private IEnumerator ExibirTelaDeCarregamentoECarregarCena()
@@ -86,7 +87,9 @@ public class MenuManager : MonoBehaviour
         yield return null;
 
         // Inicia o carregamento assíncrono da cena
+       
         AsyncOperation operacao = SceneManager.LoadSceneAsync(nomeDaCena);
+
 
         // Enquanto a cena está carregando
         while (!operacao.isDone)
