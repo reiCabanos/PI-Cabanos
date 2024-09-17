@@ -110,6 +110,8 @@ public class HudControles : MonoBehaviour
     public void SetInventario(InputAction.CallbackContext value)
     {
         if (value.performed) AlternarPainel(_telaInventario);
+       
+        
     }
 
     public void SetCelular(InputAction.CallbackContext value)
@@ -227,7 +229,7 @@ public class HudControles : MonoBehaviour
     {
         if (painelBloqueando && painel != _telaHuds)
         {
-            //return; // Impede a abertura de outros painéis se um estiver bloqueando
+            //sreturn; // Impede a abertura de outros painéis se um estiver bloqueando
         }
 
         if (_painelAtivo == painel)

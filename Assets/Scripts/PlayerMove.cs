@@ -283,7 +283,7 @@ public class PlayerMove : MonoBehaviour
         {
 
              RotacaoDaCamera();
-            _pont1.SetActive(true);
+            _pont1.SetActive(false);
             value *= -1;
             
          
@@ -293,7 +293,7 @@ public class PlayerMove : MonoBehaviour
         {
 
             SegundaRotacao();
-           // _pont2.SetActive(true);
+            _pont2.SetActive(false);
             value *= -1;
 
 
