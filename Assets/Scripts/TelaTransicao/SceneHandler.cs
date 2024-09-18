@@ -56,7 +56,7 @@ public class SceneHandler : MonoBehaviour
         while (currentTime < delay)
         {
             currentTime += Time.deltaTime;
-            float progress = Mathf.Lerp(100, 0, currentTime / delay); 
+            float progress = Mathf.Lerp(0, 100, currentTime / delay); 
             transitionSlider.value = progress;
             UpdateSliderText(Mathf.CeilToInt(progress)); 
             yield return null;
