@@ -52,25 +52,40 @@ public class SideMenuController : MonoBehaviour
         }
         
     }
-
-    public void ShowHideMenu()
+    public void HideMenu()
     {
         if (isMenuVisible)
         {
             // Esconde o menu (move para fora da tela)
             PanelMenu.DOAnchorPosX(-moveDistance, moveDuration);
+            isMenuVisible = false;
         }
-        
-        // Alterna o estado do menu
-        isMenuVisible = !isMenuVisible;
     }
-    public void MenuShow()
+
+    public void ShowMenu()
     {
-         if (!isMenuVisible)
+        if (!isMenuVisible)
+        {
+            // Mostra o menu (move para dentro da tela)
+            PanelMenu.DOAnchorPosX(0, moveDuration);
+            isMenuVisible = true;
+        }
+    }
+
+    public void ShowHideMenu()
+    {
+        if (isMenuVisible && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // Esconde o menu (move para fora da tela)
+            PanelMenu.DOAnchorPosX(-moveDistance, moveDuration);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             // Mostra o menu (move para dentro da tela)
             PanelMenu.DOAnchorPosX(-295f, moveDuration);
         }
 
+        // Alterna o estado do menu
+        isMenuVisible = !isMenuVisible;
     }
 }

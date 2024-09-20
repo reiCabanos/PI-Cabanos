@@ -31,7 +31,8 @@ public class HudControles : MonoBehaviour
     public float tempoExibicaoPainelNovo = 10f; // Tempo em segundos para ocultar o painel (ajuste no Inspetor)
 
     public Button botaoCelular; // Variável pública para seta o botão do painel _telaCelular 
-    public SideMenuController _siderMenu;
+    public SideMenuController sideMenuController;  // Referência ao SideMenuController
+    
     public Button botaoFecharPainelNovo;
     //
 
@@ -110,7 +111,7 @@ public class HudControles : MonoBehaviour
     public void SetInventario(InputAction.CallbackContext value)
     {
         if (value.performed) AlternarPainel(_telaInventario);
-        _siderMenu.MenuShow();
+       
 
 
 
