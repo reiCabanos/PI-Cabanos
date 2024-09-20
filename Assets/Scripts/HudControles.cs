@@ -110,8 +110,10 @@ public class HudControles : MonoBehaviour
     public void SetInventario(InputAction.CallbackContext value)
     {
         if (value.performed) AlternarPainel(_telaInventario);
-       
-        
+        _siderMenu.MenuShow();
+
+
+
     }
 
     public void SetCelular(InputAction.CallbackContext value)
