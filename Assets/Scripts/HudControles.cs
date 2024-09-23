@@ -34,6 +34,7 @@ public class HudControles : MonoBehaviour
     public SideMenuController sideMenuController;  // Referência ao SideMenuController
     
     public Button botaoFecharPainelNovo;
+
     //
 
 
