@@ -8,16 +8,18 @@ public class TrigerDialogo : MonoBehaviour
     public Dialogo _dialogo;
     public PainelTutorial _painelTutorial;
     private bool isDialogActive;
+    public HudControles _hudControles;
 
     void Start()
     {
         _painelTutorial = Camera.main.GetComponent<PainelTutorial>();
+        _hudControles = Camera.main.GetComponent<PainelTutorial>().hudControles;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // Quando o jogador entra no trigger, o diálogo é exibido
-        if (other.gameObject.CompareTag("DialogoTriger"))
+        if (other.gameObject.CompareTag("DialogoTriger") && _hudControles._telaDiaIni)
         {
             _painelTutorial.PainelOn(true, _dialogo);
             isDialogActive = true;  // Marca o diálogo como ativo

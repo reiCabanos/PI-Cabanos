@@ -12,6 +12,7 @@ public class PainelTutorial : MonoBehaviour
     public Transform _painelTutor;
     public List<Dialogo> dialogos = new List<Dialogo>();
     public DialogoScript dialogoScript; // Referência ao DialogoScript
+    public HudControles hudControles;
 
     public void PainelOn(bool value, Dialogo dialogo)
     {
