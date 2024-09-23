@@ -134,7 +134,7 @@ public class MenuManager : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             float progress = Mathf.Clamp01(currentTime / transitionTime);
-            float sliderValue = Mathf.Lerp(0, 100, progress);
+            float sliderValue = Mathf.Lerp(100, 0, progress);
 
             // Atualiza o valor do slider e do texto
             if (sliderDeCarregamento != null)
