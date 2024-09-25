@@ -42,7 +42,7 @@ public class HudControles : MonoBehaviour
 
     void Start()
     {
-        _telaDiaIni = true;
+        _telaDiaIni=true;
         _painelAtivo = _telaIniciar;
         _telaIniciar.gameObject.SetActive(true);
         _telaHuds.gameObject.SetActive(false);
@@ -73,7 +73,7 @@ public class HudControles : MonoBehaviour
             FecharPainel(_telaIniciar);
             AbrirPainel(_telaHuds);
             blockMovement = false;
-           // _panelSliderMenu.gameObject.SetActive(true);
+            _panelSliderMenu.gameObject.SetActive(true);
             StartCoroutine(ExibirPainelNovo());
         }
     }
