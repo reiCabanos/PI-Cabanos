@@ -42,13 +42,14 @@ public class HudControles : MonoBehaviour
 
     void Start()
     {
+        _telaDiaIni = true;
         _painelAtivo = _telaIniciar;
         _telaIniciar.gameObject.SetActive(true);
         _telaHuds.gameObject.SetActive(false);
         _telaCelular.gameObject.SetActive(false);
         _telaInventario.gameObject.SetActive(false);
         _painelConfig.gameObject.SetActive(false);
-       // _painelDialogo.gameObject.SetActive(false); // Inicia o painel de diálogo como inativo
+        _painelDialogo.gameObject.SetActive(true); // Inicia o painel de diálogo como inativo
 
         moveTween = _telaIniciar.DOLocalMoveX(moveDistance, moveDuration)
                               .SetEase(Ease.InOutSine)
@@ -120,7 +121,7 @@ public class HudControles : MonoBehaviour
         {
             _telaDiaIni = true;
             if (_painelAtivo == _painelNovo) FecharPainel(_painelNovo);
-            else if (_painelAtivo == _telaCelular || _painelAtivo ) // Adicionado o painel de diálogo à condição
+            else if (_painelAtivo == _telaCelular || _painelAtivo == _painelDialogo) // Adicionado o painel de diálogo à condição
             {
                 FecharPainel(_painelAtivo);
                 AbrirPainel(_telaHuds);
@@ -137,7 +138,7 @@ public class HudControles : MonoBehaviour
     {
         painel.gameObject.SetActive(true);
 
-        if (painel == _painelNovo || painel ) // Inclui a lógica para o novo painel
+        if (painel == _painelNovo || painel == _painelDialogo) // Inclui a lógica para o novo painel
         {
             painel.DOScale(1, 1.1f);
             MiniMap.DOScale(0, 0.0f);
@@ -156,7 +157,7 @@ public class HudControles : MonoBehaviour
             painelBloqueando = true;
         }
 
-        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel == _painelNovo || painel )
+        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel == _painelNovo || painel == _painelDialogo)
         {
             blockMovement = true;
         }
@@ -174,7 +175,7 @@ public class HudControles : MonoBehaviour
 
     private void FecharPainel(Transform painel)
     {
-        if (painel == _painelNovo || painel ) // Inclui a lógica de fechamento para o novo painel
+        if (painel == _painelNovo || painel == _painelDialogo) // Inclui a lógica de fechamento para o novo painel
         {
             painel.DOScale(0, 0.0f).OnComplete(() => painel.gameObject.SetActive(false));
             MiniMap.DOScale(1, 1.1f);
@@ -195,7 +196,7 @@ public class HudControles : MonoBehaviour
 
         blockMovement = false;
 
-        if (painel == _painelNovo || painel )
+        if (painel == _painelNovo || painel == _painelDialogo)
         {
             painelNovoExibido = false;
         }
