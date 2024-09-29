@@ -308,8 +308,12 @@ public class MoveNew : MonoBehaviour
         _mira.gameObject.SetActive(_mira1);
         _miraFinal.gameObject.SetActive(_mira1);
         _checkMove = !_mira1;
+       
+
+        _moveSpeed = 0f;
         moveVector = Vector3.zero;
         _moveZ=0;
+      
 
 
 
@@ -331,18 +335,7 @@ public class MoveNew : MonoBehaviour
     }
     */
 
-   /* public void DesativarSandalia()
-    {
-        _project.objectToThrow.gameObject.SetActive(false);
-        _project._sandaliaOn = true;
-    }
-   */
-
-    /*void MiraFalse()
-    {
-        _anim.SetBool("atirar", false);
-    }
-    */
+   
     public void TrocaScene()
     {
         SceneManager.LoadScene("MiniGame1");

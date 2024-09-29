@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-//using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using static UnityEngine.GraphicsBuffer;
@@ -32,22 +31,9 @@ public class Gun : MonoBehaviour
     private float rTimer;
     [SerializeField] private Transform barrelCheckPos;
 
-    private AimDownSights aimDownSights;
-    private FPS_Controller fpsController;
-    private AimGunAtRaycast aimGunAtRaycast;
-    [SerializeField] private bool canADS = true;
-    [Header("Lower is higer zoom")]
-    [SerializeField] private float adsZoom = 60f;
-    [SerializeField] private Vector3 adsOffset = Vector3.zero;
-    private bool isAimingDownSight = false;
-    private Vector3 posToShootFrom;
 
     private void Awake()
     {
-        aimGunAtRaycast = FindObjectOfType<AimGunAtRaycast>();
-        fpsController = GetComponentInParent<FPS_Controller>();
-        aimDownSights = GetComponentInParent<AimDownSights>();
-
         //set ammo
         maxGunAmmo = ammoCount;
         curGunAmmo = maxGunAmmo;
@@ -58,10 +44,6 @@ public class Gun : MonoBehaviour
         objectPool.poolSize = ammoCount; //set size of pool
         objectPool.gameObject.name = gunName + " AmmoPool";
     }
-    private void OnEnable()
-    {
-        isAimingDownSight = false;
-    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -69,39 +51,9 @@ public class Gun : MonoBehaviour
     }
     void Update()
     {
-        PlayerManager.aimingDownSights = isAimingDownSight;
         PlayerManager.currentAmmo = curGunAmmo;
         PlayerManager.currentMaxAmmo = ammoCount;
         PlayerManager.isReloading = isReloading;
-
-        if (canADS)
-        {
-            if (Input.GetMouseButton(1) && isReloading == false)
-            {
-                if (isAimingDownSight == false)
-                {
-                    float result = Mathf.InverseLerp(0, 60, adsZoom);
-                    fpsController.lookSpeed = result * (fpsController.lookSpeed);
-
-                    aimDownSights.mainCamera.fieldOfView = adsZoom;
-                    aimDownSights.gunCamera.fieldOfView = adsZoom;
-                    aimGunAtRaycast.enabled = false;
-                    aimDownSights.gunRoot.transform.position = aimDownSights.adsPos.transform.position + adsOffset;
-                    aimDownSights.gunRoot.transform.rotation = Quaternion.LookRotation(aimDownSights.adsPos.transform.forward);
-
-                    isAimingDownSight = true;
-                }
-            }
-            else
-            {
-                DisableAds();
-            }
-        }
-        else
-        {
-            DisableAds();
-        }
-
 
         if (canShoot == false)
         {
@@ -114,23 +66,13 @@ public class Gun : MonoBehaviour
             }
         }
 
-        //reloading
         if (isReloading == true)
         {
             rTimer += Time.deltaTime;
-            //while reloading
-            aimGunAtRaycast.enabled = false;
-            aimDownSights.gunRoot.transform.position = aimDownSights.reloadPos.transform.position + adsOffset;
-            aimDownSights.gunRoot.transform.rotation = Quaternion.LookRotation(aimDownSights.reloadPos.transform.forward);
 
-            //when reloading is done
             if (rTimer > reloadTime)
             {
                 isReloading = false;
-
-                aimDownSights.gunRoot.transform.position = aimDownSights.gunPos.transform.position;
-                aimGunAtRaycast.enabled = true;
-
                 curGunAmmo = maxGunAmmo;
                 rTimer = 0;
             }
@@ -167,7 +109,7 @@ public class Gun : MonoBehaviour
         if (isAuto)
         {
 
-            if (canShoot && isReloading == false && Input.GetMouseButton(0))
+            if (canShoot && Input.GetMouseButton(0))
             {
                 if (useHitscan)
                 {
@@ -183,7 +125,7 @@ public class Gun : MonoBehaviour
         else
         {
 
-            if (canShoot && isReloading == false && Input.GetMouseButtonDown(0))
+            if (canShoot && Input.GetMouseButtonDown(0))
             {
                 if (useHitscan)
                 {
@@ -217,20 +159,10 @@ public class Gun : MonoBehaviour
 
         curGunAmmo--;
     }
+
     private void FireHitscan()
     {
-
-        if (isAimingDownSight)
-        {
-            posToShootFrom = Camera.main.transform.position;
-        }
-        else
-        {
-            posToShootFrom = transform.position;
-
-        }
-
-        if (Physics.Raycast(posToShootFrom, transform.forward, out RaycastHit hit, hitscanRage, hitscanlayers))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, hitscanRage, hitscanlayers))
         {
             if (hit.collider.GetComponent<EnemyHealth>() != null)
             {
@@ -240,23 +172,6 @@ public class Gun : MonoBehaviour
         }
 
         curGunAmmo--;
+      
     }
-
-    private void DisableAds()
-    {
-        //reset look speed
-        fpsController.lookSpeed = fpsController.startLookSpeed;
-
-        //reset the fov
-        aimDownSights.mainCamera.fieldOfView = 60f;
-        aimDownSights.gunCamera.fieldOfView = 60f;
-        //reset gun pos
-        aimDownSights.gunRoot.transform.position = aimDownSights.gunPos.transform.position;
-        aimGunAtRaycast.enabled = true;
-
-        isAimingDownSight = false;
-
-    }
-
-
 }
