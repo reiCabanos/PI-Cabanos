@@ -300,7 +300,7 @@ public class MoveNew : MonoBehaviour
 
     }
 
-  
+  /*
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
        
@@ -319,6 +319,7 @@ public class MoveNew : MonoBehaviour
 
 
     }
+  */
     /*
     public void SetAtirar(InputAction.CallbackContext callbackContext)
     {
