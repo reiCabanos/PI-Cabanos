@@ -21,6 +21,8 @@ public class FPS_Controller : MonoBehaviour
     CharacterController characterController;
 
     private float speed;
+    public Transform objectToMove;
+    
     //physics push
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -113,14 +115,19 @@ public class FPS_Controller : MonoBehaviour
         #region Handles Rotation and Movement
         characterController.Move(moveVelocity * Time.deltaTime); // Use the smoothly updated velocity
 
+       
+
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * (lookSpeed);
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-           // transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * (lookSpeed), 0);
 
-            //criar um variavel transfome do playerMirar e adicionar em transform
+            // Girando o objeto pai junto com a câmera
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            objectToMove.rotation = Quaternion.Euler(rotationX, objectToMove.rotation.y, 0);
+           
+
+
         }
         #endregion
     }
