@@ -246,15 +246,6 @@ public class HudControles : MonoBehaviour
     // Funções para controlar o menu lateral
     public void OcultarMenuLateral()
     {
-
-        /*
-        if (isMenuVisible)
-        {
-            PanelMenu.DOAnchorPosX(-sideMenuMoveDistance, sideMenuMoveDuration);
-            isMenuVisible = false;
-            meuBotao.Select();
-        }
-        */
         if (PanelMenu != null && isMenuVisible)
         {
             // Exibir mensagem de log para garantir que a função foi chamada
@@ -267,55 +258,59 @@ public class HudControles : MonoBehaviour
 
             // Atualiza o estado do menu
             isMenuVisible = false;
-           
+            meuBotao.Select();  // Seleciona o botão, se necessário
         }
         else
         {
             Debug.LogWarning("O menu lateral já está oculto ou não foi atribuído.");
         }
-
     }
 
     public void MostrarMenuLateral()
     {
         if (!isMenuVisible)
         {
+            // Exibe o menu lateral, movendo-o para dentro da tela
             PanelMenu.DOAnchorPosX(-295f, sideMenuMoveDuration);
             isMenuVisible = true;
         }
     }
+
     public void SetLeft(InputAction.CallbackContext context)
     {
-        if (context.performed )
+        if (context.performed)
         {
             MostrarMenuLateral();
-
-
-            Debug.Log("fff");
+            Debug.Log("Menu lateral exibido.");
         }
-
     }
+
     public void SetRight(InputAction.CallbackContext context)
     {
-        if (context.performed )
+        if (context.performed)
         {
             OcultarMenuLateral();
-            
-            // Esconde o menu (move para fora da tela)
-
+            Debug.Log("Menu lateral ocultado.");
         }
-
     }
+
     public void AbrirPainelEOcultarMenuLateral(Transform painel)
     {
         Debug.Log("Chamando AlternarPainel...");
-        
+
         // Exibe o painel desejado
         AlternarPainel(painel);
 
-        // Após alternar o painel, oculta o menu lateral
-        Debug.Log("Chamando OcultarMenuLateral...");
-        OcultarMenuLateral();
-       
+        // Verifica se o menu lateral está visível antes de tentar ocultá-lo
+        if (isMenuVisible)
+        {
+            Debug.Log("Menu lateral visível. Chamando OcultarMenuLateral...");
+            OcultarMenuLateral();
+        }
+        else
+        {
+            Debug.Log("Menu lateral já está oculto.");
+        }
     }
+
 }
