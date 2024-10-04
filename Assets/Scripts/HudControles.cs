@@ -31,9 +31,19 @@ public class HudControles : MonoBehaviour
     public float tempoExibicaoPainelNovo = 10f;
 
     public Button botaoCelular;
-    public SideMenuController sideMenuController;
     public Button botaoFecharPainelNovo;
     public bool _telaDiaIni;
+
+    // Variáveis para controle do painel lateral (animação)
+    public RectTransform PanelMenu;  // O painel lateral que será movido
+    private bool isMenuVisible = true;  // Controla se o menu está visível ou não
+   // private float sideMenuMoveDistance = -295f;  // Distância de movimento do menu
+    private float sideMenuMoveDuration = 0.5f;  // Duração da animação
+    private float sideMenuMoveDistance = 295f;
+
+    // Variáveis para o botão que alterna um painel específico
+    public Button meuBotao;  // O botão que seleciona o painel
+    public Transform painelQueSeraSelecionado;  // O painel a ser selecionado
 
     void Awake()
     {
@@ -42,14 +52,14 @@ public class HudControles : MonoBehaviour
 
     void Start()
     {
-        _telaDiaIni=true;
+        _telaDiaIni = true;
         _painelAtivo = _telaIniciar;
         _telaIniciar.gameObject.SetActive(true);
         _telaHuds.gameObject.SetActive(false);
         _telaCelular.gameObject.SetActive(false);
         _telaInventario.gameObject.SetActive(false);
         _painelConfig.gameObject.SetActive(false);
-        _painelDialogo.gameObject.SetActive(true); // Inicia o painel de diálogo como inativo
+        _painelDialogo.gameObject.SetActive(false); // Inicia o painel de diálogo como inativo
 
         moveTween = _telaIniciar.DOLocalMoveX(moveDistance, moveDuration)
                               .SetEase(Ease.InOutSine)
@@ -58,6 +68,12 @@ public class HudControles : MonoBehaviour
         if (botaoFecharPainelNovo != null)
         {
             botaoFecharPainelNovo.onClick.AddListener(() => FecharPainel(_painelNovo));
+        }
+
+        // Vincular o botão para alternar o painel
+        if (meuBotao != null)
+        {
+            meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
         }
     }
 
@@ -171,6 +187,12 @@ public class HudControles : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(botaoCelular != null ? botaoCelular.gameObject : _telaCelular.GetComponentInChildren<Button>()?.gameObject);
         }
+
+        // Oculte o menu lateral se outro painel for aberto
+        if (painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel == _painelDialogo)
+        {
+            OcultarMenuLateral();
+        }
     }
 
     private void FecharPainel(Transform painel)
@@ -219,5 +241,81 @@ public class HudControles : MonoBehaviour
 
             painelBloqueando = (painel == _telaCelular || painel == _telaInventario || painel == _painelConfig);
         }
+    }
+
+    // Funções para controlar o menu lateral
+    public void OcultarMenuLateral()
+    {
+
+        /*
+        if (isMenuVisible)
+        {
+            PanelMenu.DOAnchorPosX(-sideMenuMoveDistance, sideMenuMoveDuration);
+            isMenuVisible = false;
+            meuBotao.Select();
+        }
+        */
+        if (PanelMenu != null && isMenuVisible)
+        {
+            // Exibir mensagem de log para garantir que a função foi chamada
+            Debug.Log("Ocultando o menu lateral...");
+
+            // Move o painel lateral para fora da tela usando a animação
+            PanelMenu.DOAnchorPosX(sideMenuMoveDistance, sideMenuMoveDuration)
+                     .SetEase(Ease.InOutSine)
+                     .OnComplete(() => Debug.Log("Menu lateral ocultado."));
+
+            // Atualiza o estado do menu
+            isMenuVisible = false;
+           
+        }
+        else
+        {
+            Debug.LogWarning("O menu lateral já está oculto ou não foi atribuído.");
+        }
+
+    }
+
+    public void MostrarMenuLateral()
+    {
+        if (!isMenuVisible)
+        {
+            PanelMenu.DOAnchorPosX(-295f, sideMenuMoveDuration);
+            isMenuVisible = true;
+        }
+    }
+    public void SetLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed )
+        {
+            MostrarMenuLateral();
+
+
+            Debug.Log("fff");
+        }
+
+    }
+    public void SetRight(InputAction.CallbackContext context)
+    {
+        if (context.performed )
+        {
+            OcultarMenuLateral();
+            
+            // Esconde o menu (move para fora da tela)
+
+        }
+
+    }
+    public void AbrirPainelEOcultarMenuLateral(Transform painel)
+    {
+        Debug.Log("Chamando AlternarPainel...");
+        
+        // Exibe o painel desejado
+        AlternarPainel(painel);
+
+        // Após alternar o painel, oculta o menu lateral
+        Debug.Log("Chamando OcultarMenuLateral...");
+        OcultarMenuLateral();
+       
     }
 }
