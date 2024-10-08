@@ -56,7 +56,7 @@
                     "id": "80d425db-0f71-4219-98f9-181c3206e0a4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -365,7 +365,7 @@
                     "name": "",
                     "id": "e031de89-d0a6-4657-9bf9-7db5bb65adb5",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Mira",
@@ -376,7 +376,7 @@
                     "name": "",
                     "id": "2ae2c314-05f7-48d4-98b9-e64e4157885a",
                     "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Mira",

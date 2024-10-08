@@ -119,13 +119,19 @@ public class FPS_Controller : MonoBehaviour
 
         if (canMove)
         {
-            rotationX += -Input.GetAxis("Mouse Y") * (lookSpeed);
+            // Atualizando a rotação no eixo X
+            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
 
-            // Girando o objeto pai junto com a câmera
+            // Girando a câmera no eixo X
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            objectToMove.rotation = Quaternion.Euler(rotationX, objectToMove.rotation.y, 0);
-           
+
+            // Mantendo o valor original do eixo Y de objectToMove
+            float currentYRotation = objectToMove.rotation.eulerAngles.y;
+
+            // Aplicando a nova rotação somente nos eixos X e Z
+            objectToMove.rotation = Quaternion.Euler(rotationX, currentYRotation, 0);
+
 
 
         }

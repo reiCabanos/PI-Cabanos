@@ -75,7 +75,7 @@ public class MoveNew : MonoBehaviour
     public float staminaRecoveryRate = 5f;
     public UnityEngine.UI.Slider staminaSlider;
     public HudControles hudControles; // Referência ao script HudControles
-
+    public Transform playerCamera;
 
 
 
@@ -267,7 +267,16 @@ public class MoveNew : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+
+        if (other.gameObject.CompareTag("testes"))
+        {
+            playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
+
+
+
+
+
+        }
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
@@ -300,44 +309,54 @@ public class MoveNew : MonoBehaviour
 
     }
 
-  
+
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
-       
-        _mira1 = callbackContext.performed;
-        _mira.gameObject.SetActive(_mira1);
-        _miraFinal.gameObject.SetActive(_mira1);
-        _checkMove = !_mira1;
-       
-
-        _moveSpeed = 0f;
-        moveVector = Vector3.zero;
-        _moveZ=0;
       
+        if (callbackContext.performed)
+        {
+            _mira1 = true;
+            _mira.gameObject.SetActive(_mira1);
+            _miraFinal.gameObject.SetActive(_mira1);
+            _checkMove = !_mira1;
+            _moveSpeed = 0f;
+            moveVector = Vector3.zero;
+            _moveZ = 0;
+        } 
+        else if (callbackContext.canceled)
+        {
+            _mira1 = false;
+            _mira.gameObject.SetActive(_mira1);
+            _miraFinal.gameObject.SetActive(_mira1);
+            _checkMove = _mira1;
+
+            
+            playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
+            Debug.Log("A tecla de mira foi liberada."); 
 
 
-
-
-    }
-  
-    /*
-    public void SetAtirar(InputAction.CallbackContext callbackContext)
-    {
-        Debug.Log("gggJ");
-
-       if (_project._sandaliaOn && _project.objectToThrow) { 
-            _anim.SetBool("atirar", true);
-             Invoke("MiraFalse", 0.5f);
-            Invoke("DesativarSandalia", 5f);
-            Debug.Log("gggJ");
         }
-       
-       
     }
-    */
 
-   
-    public void TrocaScene()
+
+        /*
+        public void SetAtirar(InputAction.CallbackContext callbackContext)
+        {
+            Debug.Log("gggJ");
+
+           if (_project._sandaliaOn && _project.objectToThrow) { 
+                _anim.SetBool("atirar", true);
+                 Invoke("MiraFalse", 0.5f);
+                Invoke("DesativarSandalia", 5f);
+                Debug.Log("gggJ");
+            }
+
+
+        }
+        */
+
+
+        public void TrocaScene()
     {
         SceneManager.LoadScene("MiniGame1");
     }
