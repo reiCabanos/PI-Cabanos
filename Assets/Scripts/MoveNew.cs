@@ -318,7 +318,7 @@ public class MoveNew : MonoBehaviour
             _mira1 = true;
             _mira.gameObject.SetActive(_mira1);
             _miraFinal.gameObject.SetActive(_mira1);
-            _checkMove = !_mira1;
+            _checkMove = _mira1;
             _moveSpeed = 0f;
             moveVector = Vector3.zero;
             _moveZ = 0;
@@ -328,7 +328,7 @@ public class MoveNew : MonoBehaviour
             _mira1 = false;
             _mira.gameObject.SetActive(_mira1);
             _miraFinal.gameObject.SetActive(_mira1);
-            _checkMove = _mira1;
+            _checkMove = !_mira1;
 
             
             playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
@@ -339,25 +339,10 @@ public class MoveNew : MonoBehaviour
     }
 
 
-        /*
-        public void SetAtirar(InputAction.CallbackContext callbackContext)
-        {
-            Debug.Log("gggJ");
-
-           if (_project._sandaliaOn && _project.objectToThrow) { 
-                _anim.SetBool("atirar", true);
-                 Invoke("MiraFalse", 0.5f);
-                Invoke("DesativarSandalia", 5f);
-                Debug.Log("gggJ");
-            }
+       
 
 
-        }
-        */
-
-
-        public void TrocaScene()
-    {
+        public void TrocaScene(){
         SceneManager.LoadScene("MiniGame1");
     }
 
