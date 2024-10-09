@@ -25,19 +25,14 @@ public class HudControles : MonoBehaviour
     public GameObject _panelSliderMenu;
 
     public Transform MiniMap;
-    public Transform _painelNovo;
     public float tempoExibicaoPainel = 5f;
-    private bool painelNovoExibido = false;
-    public float tempoExibicaoPainelNovo = 10f;
 
     public Button botaoCelular;
-    public Button botaoFecharPainelNovo;
     public bool _telaDiaIni;
 
     // Variáveis para controle do painel lateral (animação)
     public RectTransform PanelMenu;  // O painel lateral que será movido
     private bool isMenuVisible = true;  // Controla se o menu está visível ou não
-   // private float sideMenuMoveDistance = -295f;  // Distância de movimento do menu
     private float sideMenuMoveDuration = 0.5f;  // Duração da animação
     private float sideMenuMoveDistance = 295f;
 
@@ -65,11 +60,6 @@ public class HudControles : MonoBehaviour
                               .SetEase(Ease.InOutSine)
                               .SetLoops(-1, LoopType.Yoyo);
 
-        if (botaoFecharPainelNovo != null)
-        {
-            botaoFecharPainelNovo.onClick.AddListener(() => FecharPainel(_painelNovo));
-        }
-
         // Vincular o botão para alternar o painel
         if (meuBotao != null)
         {
@@ -90,28 +80,6 @@ public class HudControles : MonoBehaviour
             AbrirPainel(_telaHuds);
             blockMovement = false;
             _panelSliderMenu.gameObject.SetActive(true);
-            StartCoroutine(ExibirPainelNovo());
-        }
-    }
-
-    private IEnumerator ExibirPainelNovo()
-    {
-        yield return new WaitForSeconds(tempoExibicaoPainel);
-        if (!painelNovoExibido)
-        {
-            AbrirPainel(_painelNovo);
-            painelNovoExibido = true;
-            StartCoroutine(OcultarPainelNovo());
-        }
-    }
-
-    private IEnumerator OcultarPainelNovo()
-    {
-        yield return new WaitForSeconds(tempoExibicaoPainelNovo);
-        if (painelNovoExibido)
-        {
-            FecharPainel(_painelNovo);
-            painelNovoExibido = false;
         }
     }
 
@@ -136,8 +104,7 @@ public class HudControles : MonoBehaviour
         if (value.performed)
         {
             _telaDiaIni = true;
-            if (_painelAtivo == _painelNovo) FecharPainel(_painelNovo);
-            else if (_painelAtivo == _telaCelular || _painelAtivo == _painelDialogo) // Adicionado o painel de diálogo à condição
+            if (_painelAtivo == _telaCelular || _painelAtivo == _painelDialogo) // Adicionado o painel de diálogo à condição
             {
                 FecharPainel(_painelAtivo);
                 AbrirPainel(_telaHuds);
@@ -154,7 +121,7 @@ public class HudControles : MonoBehaviour
     {
         painel.gameObject.SetActive(true);
 
-        if (painel == _painelNovo || painel == _painelDialogo) // Inclui a lógica para o novo painel
+        if (painel == _painelDialogo) // Inclui a lógica para o novo painel de diálogo
         {
             painel.DOScale(1, 1.1f);
             MiniMap.DOScale(0, 0.0f);
@@ -173,7 +140,7 @@ public class HudControles : MonoBehaviour
             painelBloqueando = true;
         }
 
-        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel == _painelNovo || painel == _painelDialogo)
+        if (painel == _telaIniciar || painel == _telaCelular || painel == _telaInventario || painel == _painelConfig || painel == _painelDialogo)
         {
             blockMovement = true;
         }
@@ -197,7 +164,7 @@ public class HudControles : MonoBehaviour
 
     private void FecharPainel(Transform painel)
     {
-        if (painel == _painelNovo || painel == _painelDialogo) // Inclui a lógica de fechamento para o novo painel
+        if (painel == _painelDialogo) // Inclui a lógica de fechamento para o painel de diálogo
         {
             painel.DOScale(0, 0.0f).OnComplete(() => painel.gameObject.SetActive(false));
             MiniMap.DOScale(1, 1.1f);
@@ -217,11 +184,6 @@ public class HudControles : MonoBehaviour
         }
 
         blockMovement = false;
-
-        if (painel == _painelNovo || painel == _painelDialogo)
-        {
-            painelNovoExibido = false;
-        }
     }
 
     public void AlternarPainel(Transform painel)

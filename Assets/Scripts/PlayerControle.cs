@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 /*using UnityEngine.Rendering.HighDefinition;*/
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 
 public class PlayerControle : MonoBehaviour
