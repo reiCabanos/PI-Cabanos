@@ -239,13 +239,24 @@ public class PlayerMove : MonoBehaviour
     }
 
     void Jump()
+{
+    if (_checkGround && _checkJump)
     {
-        if (_checkGround && _checkJump)
-        {
-            _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);
-            _checkJump = false;
-        }
+      /*      // Impedir múltiplos saltos até que o jogador toque o chão novamente
+            _checkGround = true;
+            _checkJump = true;*/
+
+            // Reseta a velocidade Y antes de aplicar o impulso do salto para evitar efeitos acumulativos de gravidade
+            _playerVelocity.y = 0;
+
+        // Aplica o impulso do salto de forma mais suave, ajustando a força de salto
+        _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);  // -2f dá um salto mais responsivo
+
+        // **Opcional**: Adicione um efeito de impulso visual ou som para dar feedback ao jogador
+        // AudioManager.Play("JumpSound");  // Exemplo de som de pulo
     }
+}
+
     void Gravity()
     {
 
