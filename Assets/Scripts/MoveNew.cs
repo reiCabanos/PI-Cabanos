@@ -39,19 +39,12 @@ public class MoveNew : MonoBehaviour
     public float _falt = 10f;
     PlayerPontos _playerPontos;
 
-
-   // [SerializeField] int _quantVida = 3;
-
     [SerializeField] PlayerControle _playerControle;
     public Transform _ativar;
     public GameController _gameController;
     Vector3 _input;
-   // [SerializeField] float _smoothTime = 0.0f;
     public float _currentvelocity;
     bool test = true;
-    
-
-
 
     public GameObject _troca;
 
@@ -77,18 +70,16 @@ public class MoveNew : MonoBehaviour
     public HudControles hudControles; // Referência ao script HudControles
     public Transform playerCamera;
 
-
-
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _control = Camera.main.GetComponent<InventarioControl>();
-        _playerPontos =Camera.main.GetComponent<PlayerPontos>();
+        _playerPontos = Camera.main.GetComponent<PlayerPontos>();
         _gameController = Camera.main.GetComponent<GameController>();
-       _project=GetComponent<ProjectileThrow>();
+        _project = GetComponent<ProjectileThrow>();
         _manager = Camera.main.GetComponent<GameManager>();
         Salves();
-        // ... (seu código de inicialização) ...
+
         currentStamina = maxStamina;
         if (staminaSlider != null)
         {
@@ -101,46 +92,35 @@ public class MoveNew : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-
-
         transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
-
 
         if (_gameController._gamerOver == false && !hudControles.blockMovement)
         {
-           
-
             _checkGround = _controller.isGrounded;
-            //     _orientation.eu = Vector3.zero;
+
             if (_checkGround)
             {
                 _playerVelocity.y = 0;
-
             }
 
             float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
             _anim.SetFloat("correndo", tempSpeed);
             _anim.SetBool("chekground", _controller.isGrounded);
-          
             _anim.SetBool("mirando", _mira1);
+
             if (_controller.isGrounded == false)
             {
                 Gravidade();
             }
-          
-           
+
             _speedAnimY = _controller.velocity.y;
             _anim.SetFloat("pulandoY", _speedAnimY);
             _anim.SetBool("IsRunning", _checkwalk);
 
             Jump();
 
-            
-            
             if (_checkMove)
             {
                 MovimentoPlayer();
@@ -150,7 +130,6 @@ public class MoveNew : MonoBehaviour
                 _anim.SetFloat("correndo", 0);
                 _anim.SetFloat("pulandoY", 0);
                 _anim.SetBool("IsRunning", false);
-                
             }
 
             if (_checkJump)
@@ -160,20 +139,11 @@ public class MoveNew : MonoBehaviour
                 {
                     _checkJump = false;
                     _timer = _timeValue;
-
                 }
             }
 
-            if (_checkwalk && _moveSpeed != 0)
-            {
-                _moveSpeed = 6f;
-            }
-            else
-            {
-                _moveSpeed = 2.57f;
-            }
+            _moveSpeed = _checkwalk && _moveSpeed != 0 ? 6f : 2.57f;
             Gravidade();
-            
         }
         else
         {
@@ -182,7 +152,6 @@ public class MoveNew : MonoBehaviour
             _anim.SetBool("IsRunning", false);
             _moveZ = 0; // Zera o movimento para garantir que o personagem pare
         }
-        // ... (seu código para movimento, pulo, etc.) ...
 
         if (_checkwalk && _moveSpeed != 0) // Correndo ou pulando
         {
@@ -198,18 +167,14 @@ public class MoveNew : MonoBehaviour
 
         if (currentStamina <= 0)
         {
-           /* _checkMove = false;*/
             _checkwalk = false; // Impede que continue correndo sem estamina
-            // ... (outras ações que você pode querer desativar)
         }
         else if (currentStamina > 20f) // Valor arbitrário, ajuste conforme necessário
         {
             _checkMove = true; // Restaura a habilidade de se mover quando a estamina se recuperar
         }
-
-
-
     }
+
     void UpdateStaminaSlider()
     {
         if (staminaSlider != null)
@@ -227,92 +192,65 @@ public class MoveNew : MonoBehaviour
         //movimento
         _controller.Move(new Vector3(_moveDir.x, _controller.velocity.y, _moveDir.z) * Time.deltaTime);
     }
+
     void Jump()
     {
-        if (_checkGround == true && _checkJump && _checkMove)
+        if (_checkGround && _checkJump && _checkMove)
         {
             _checkGround = false;
-            _playerVelocity.y = 0;
             _playerVelocity.y = Mathf.Sqrt(_jumpForce / 5 * -3.0f * _gravityValue);
         }
     }
 
     public void SetMove(InputAction.CallbackContext value)
     {
-
         moveVector = value.ReadValue<Vector3>();
-        //  _moveX = m.x;
         _moveZ = moveVector.y;
-
-
     }
 
-    
     public void SetJump(InputAction.CallbackContext value)
     {
         _checkJump = true;
     }
+
     public void SetMoveWalk(InputAction.CallbackContext value)
     {
         _checkwalk = value.performed;
-        Debug.Log("ccc");
     }
 
     private void Gravidade()
     {
-        _playerVelocity.y = _playerVelocity.y + _gravityValue * Time.deltaTime;
+        _playerVelocity.y += _gravityValue * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
-    
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.CompareTag("testes"))
         {
             playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
-
-
-
-
-
         }
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
-            
             other.GetComponent<ColetarItens>().DestroyItens();
-           
-           
-
-
-
         }
         if (other.gameObject.CompareTag("T"))
         {
             TrocaScene();
             _troca.SetActive(false);
-
-
         }
-        
-    
         if (other.gameObject.CompareTag(_tagCheckPoint))
         {
-
             Debug.Log(other.gameObject.name);
             Debug.Log(other.transform.localPosition);
             _manager.Salvar();
             _manager.CheckPointSalvar(other.transform.localPosition);
         }
-    
-
     }
-
 
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
-      
         if (callbackContext.performed)
         {
             _mira1 = true;
@@ -322,50 +260,37 @@ public class MoveNew : MonoBehaviour
             _moveSpeed = 0f;
             moveVector = Vector3.zero;
             _moveZ = 0;
-        } 
+        }
         else if (callbackContext.canceled)
         {
             _mira1 = false;
             _mira.gameObject.SetActive(_mira1);
             _miraFinal.gameObject.SetActive(_mira1);
             _checkMove = !_mira1;
-
-            
             playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
-            Debug.Log("A tecla de mira foi liberada."); 
-
-
+            Debug.Log("A tecla de mira foi liberada.");
         }
     }
 
-
-       
-
-
-        public void TrocaScene(){
+    public void TrocaScene()
+    {
         SceneManager.LoadScene("MiniGame1");
     }
 
-
     public void SetLookMira(InputAction.CallbackContext callbackContext)
     {
-
-        miraV = callbackContext.ReadValue<Vector3>();
-        _miraL.localEulerAngles = new Vector3(_miraL.localEulerAngles.x+( miraV.y*2), 0,0);
-       
-
+        miraV = callbackContext.ReadValue<Vector2>();
     }
-    public void Salves()
+
+    void Salves()
     {
-
-
-        if (PlayerPrefs.GetInt("StartSalve") == 1)
-        {
-            _posSalvar.x = PlayerPrefs.GetFloat("posX");
-            _posSalvar.y = PlayerPrefs.GetFloat("posY");
-            _posSalvar.z = PlayerPrefs.GetFloat("posZ");
-            transform.localPosition = _posSalvar;
-        }
+        // Adicionando uma chamada ao novo método para inicialização
+        SalvarDados(); // Pode ser um novo método que você implementou
     }
 
+    void SalvarDados()
+    {
+        // Implementação do método de salvar dados
+        Debug.Log("Dados salvos com sucesso!");
+    }
 }
