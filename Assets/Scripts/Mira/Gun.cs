@@ -140,11 +140,40 @@ public class Gun : MonoBehaviour
             }
         }
     }
-    public void SetAtirar(InputAction.CallbackContext callbackContext)
+    public void SetAtirarProjectio(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed) // Verifica se o botão foi pressionado
+        
+        if (isAuto)
         {
-            ShootGun();
+
+            if (canShoot && callbackContext.performed)
+            {
+                if (useHitscan)
+                {
+                    FireHitscan();
+                }
+                else
+                {
+                    CreateProjectile();
+                }
+                canShoot = false;
+            }
+        }
+        else
+        {
+
+            if (canShoot && callbackContext.performed)
+            {
+                if (useHitscan)
+                {
+                    FireHitscan();
+                }
+                else
+                {
+                    CreateProjectile();
+                }
+                canShoot = false;
+            }
         }
     }
 
