@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FPS_Controller : MonoBehaviour
 {
@@ -137,4 +138,27 @@ public class FPS_Controller : MonoBehaviour
         }
         #endregion
     }
+
+    public void SetMouse(InputAction.CallbackContext value)
+    {
+        // Se canMove for verdadeiro, aplicamos o movimento da câmera
+        if (canMove)
+        {// Pegando o valor do movimento do mouse
+            Vector3 mouseDelta = value.ReadValue<Vector3>();
+
+            // Atualizando a rotação no eixo X (movimento vertical do mouse)
+            rotationX += -mouseDelta.y * lookSpeed;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+
+            // Girando a câmera no eixo X
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+
+            // Mantendo a rotação atual no eixo Y do objeto (apenas movimentando no eixo X)
+            float currentYRotation = objectToMove.rotation.eulerAngles.y;
+
+            // Aplicando a nova rotação no objeto
+            objectToMove.rotation = Quaternion.Euler(rotationX, currentYRotation, 0);
+        }
+    }
+
 }

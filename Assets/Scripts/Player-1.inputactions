@@ -439,119 +439,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
-                    "id": "24a449bc-afba-4dae-9237-ef68c6ea22a4",
-                    "path": "<Gamepad>/rightStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "b9ad9ba9-3d1c-4026-9f24-f63462747447",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "forward",
-                    "id": "8a66f863-df6f-4368-9c46-3b1dd9ccc5db",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "backward",
-                    "id": "cf41c474-1bdf-46e0-9081-133841659aec",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "teclado",
-                    "id": "4148c40f-2410-407a-b5a5-65d284536446",
-                    "path": "3DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LookMira",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "4fa39e1f-0192-4a81-ab94-ec976809775a",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "down",
-                    "id": "f88bd630-564e-49b4-8c22-070802acca7e",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "5e078c96-3a00-44c4-8e75-151f5fec540f",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "c54fe708-3e34-434d-bd21-8476733bec13",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "forward",
-                    "id": "512e9347-27ae-4d96-a8ae-43af5c1b7460",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "LookMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "backward",
-                    "id": "7a6c3c3d-faa6-469c-b75e-193dd6b11354",
-                    "path": "",
+                    "id": "24a449bc-afba-4dae-9237-ef68c6ea22a4",
+                    "path": "<Gamepad>/rightStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "New control scheme",
@@ -655,6 +545,34 @@
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Voltar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "New action map",
+            "id": "d698d7e4-d140-4631-819a-07976ce3958c",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "2339382a-5209-432c-9e17-4af9b140db79",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5e10a69c-b19d-4525-bce9-4753b75beb71",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "New control scheme1",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

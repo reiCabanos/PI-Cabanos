@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 using static UnityEngine.GraphicsBuffer;
 
@@ -139,6 +140,14 @@ public class Gun : MonoBehaviour
             }
         }
     }
+    public void SetAtirar(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed) // Verifica se o botão foi pressionado
+        {
+            ShootGun();
+        }
+    }
+
     private void CreateProjectile()
     {
         proj = objectPool.GetObject();
