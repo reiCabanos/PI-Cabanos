@@ -15,6 +15,7 @@ using Button = UnityEngine.UI.Button;
 using System;
 using TMPro;
 using Image = UnityEngine.UI.Image;
+using System.Threading;
 
 /*using UnityEditor.ShaderGraph;*/
 
@@ -91,7 +92,11 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _lifeText;
     public Transform _inicialRestat;
     public GameObject _panel1;
-   public Transform _telaReiniciar;
+    public Transform _telaReiniciar;
+    public TextMeshProUGUI _cont;
+    public float _timeCout;
+    public bool timeOver=false;
+
     
 
 
@@ -113,11 +118,13 @@ public class PlayerMove : MonoBehaviour
         value = -1;
 
 
+
     }
     void Update()
     {
+        TimeCorrida();
 
-       
+
 
         if (_controle._stop == false)
         {
@@ -291,6 +298,7 @@ public class PlayerMove : MonoBehaviour
             _lifeText.text = _quantVida.ToString(); 
 
 
+
         }
         if (other.gameObject.CompareTag("p2"))
         {
@@ -375,7 +383,7 @@ public class PlayerMove : MonoBehaviour
             
          
             _fim.DOScale(1, 0.5f);
-            _comecarNovamente.Select();
+           
             _fimG.Select();
           
 
@@ -536,11 +544,12 @@ public class PlayerMove : MonoBehaviour
     {
         SceneManager.LoadScene("MapaBeta");
     }
+
     public void ReiniciarJogo()
     {
 
         _playerControle.TentarNovamente();
-
+       
         // Restaurar a posição inicial do personagem
         transform.position = _inicialRestat.position;
         _pont1.SetActive(false);
@@ -594,6 +603,20 @@ public class PlayerMove : MonoBehaviour
 
         // Selecionar o botão de reinício
        // _playerControle._reiniciar.Select();
+    }
+    public void TimeCorrida()
+    {
+        _cont.text= _timeCout.ToString("F0");
+        timeOver = false;
+        if(!timeOver && _timeCout > 0)
+        {
+            _timeCout -= Time.deltaTime;
+            if (_timeCout <= 0)
+            {
+                _timeCout = 0;
+                timeOver = true;
+            }
+        }
     }
 
 
