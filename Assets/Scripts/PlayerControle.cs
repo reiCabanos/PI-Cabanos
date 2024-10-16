@@ -121,6 +121,7 @@ public class PlayerControle : MonoBehaviour
             {
                 TextoTutor(1, 1);
                 StartCoroutine(TempoCont());
+                _playerMove.TimeCorrida();
 
             }
         }

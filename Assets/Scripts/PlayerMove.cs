@@ -15,6 +15,7 @@ using Button = UnityEngine.UI.Button;
 using System;
 using TMPro;
 using Image = UnityEngine.UI.Image;
+using System.Threading;
 
 /*using UnityEditor.ShaderGraph;*/
 
@@ -91,8 +92,14 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _lifeText;
     public Transform _inicialRestat;
     public GameObject _panel1;
-   public Transform _telaReiniciar;
-    
+    public Transform _telaReiniciar;
+    public TextMeshProUGUI _cont;
+    public float _timeCout;
+    public bool timeOver = false;
+
+
+
+
 
 
 
@@ -117,7 +124,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-       
+        
 
         if (_controle._stop == false)
         {
@@ -594,6 +601,20 @@ public class PlayerMove : MonoBehaviour
 
         // Selecionar o botão de reinício
        // _playerControle._reiniciar.Select();
+    }
+    public void TimeCorrida()
+    {
+        _cont.text = _timeCout.ToString("F0");
+        timeOver = false;
+        if (!timeOver && _timeCout > 0)
+        {
+            _timeCout -= Time.deltaTime;
+            if (_timeCout <= 0)
+            {
+                _timeCout = 0;
+                timeOver = true;
+            }
+        }
     }
 
 
