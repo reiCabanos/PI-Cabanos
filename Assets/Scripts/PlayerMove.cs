@@ -96,6 +96,8 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _cont;
     public float _timeCout;
     public bool timeOver = false;
+    public float elapsedTime = 0f; // Variável que guarda o tempo
+    private bool isCounting = false; // Controle se o tempo deve ser contado
 
 
 
@@ -123,8 +125,24 @@ public class PlayerMove : MonoBehaviour
     }
     void Update()
     {
+        // Apenas atualiza o tempo se a contagem estiver ativa
+        if (isCounting && !timeOver)
+        {
+            // Decrementa o contador com base no deltaTime
+            _timeCout -= Time.deltaTime;
 
-        
+            // Verifica se o tempo acabou
+            if (_timeCout <= 0)
+            {
+                _timeCout = 0; // Evita que o tempo fique negativo
+                timeOver = true; // Marca que o tempo acabou
+                isCounting = false; // Para a contagem
+            }
+
+            // Atualiza o texto com o novo valor do tempo
+            _cont.text = _timeCout.ToString("F0");
+        }
+
 
         if (_controle._stop == false)
         {
@@ -496,6 +514,7 @@ public class PlayerMove : MonoBehaviour
 
     public void StopPlayer(bool value)
     {
+        isCounting = false;
         if (value)
         {
             _anim.SetFloat("correndo", 0);
@@ -604,17 +623,9 @@ public class PlayerMove : MonoBehaviour
     }
     public void TimeCorrida()
     {
-        _cont.text = _timeCout.ToString("F0");
-        timeOver = false;
-        if (!timeOver && _timeCout > 0)
-        {
-            _timeCout -= Time.deltaTime;
-            if (_timeCout <= 0)
-            {
-                _timeCout = 0;
-                timeOver = true;
-            }
-        }
+        _cont.text = _timeCout.ToString("F0"); // Atualiza o texto com o valor inicial
+        isCounting = true; // Inicia a contagem
+        timeOver = false;  // Reseta a flag de fim de tempo
     }
 
 
