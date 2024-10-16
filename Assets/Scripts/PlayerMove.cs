@@ -91,6 +91,8 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _lifeText;
     public Transform _inicialRestat;
     public GameObject _panel1;
+   public Transform _telaReiniciar;
+    
 
 
 
@@ -375,6 +377,7 @@ public class PlayerMove : MonoBehaviour
             _fim.DOScale(1, 0.5f);
             _comecarNovamente.Select();
             _fimG.Select();
+          
 
 
         }
@@ -543,9 +546,9 @@ public class PlayerMove : MonoBehaviour
         _pont1.SetActive(false);
         _pont2.SetActive(false);
         // Restaurar a rotação inicial do personagem
-        transform.DORotate(new Vector3(transform.localEulerAngles.x, -144.043f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
+        transform.DORotate(new Vector3(transform.localEulerAngles.x, -86.955f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
         transform.rotation = Quaternion.identity;
-        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -144.043f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
+        _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -83.92f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         // Restaurar a velocidade do personagem
         _speed = 2;
 
@@ -587,6 +590,7 @@ public class PlayerMove : MonoBehaviour
 
         // Ocultar a tela de fim de jogo
         _fim.DOScale(0, 0.5f);
+        _telaReiniciar.DOScale(0, 0.5f);
 
         // Selecionar o botão de reinício
        // _playerControle._reiniciar.Select();
