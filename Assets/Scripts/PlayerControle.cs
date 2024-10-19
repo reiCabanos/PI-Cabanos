@@ -40,7 +40,7 @@ public class PlayerControle : MonoBehaviour
     public Image _imgT;
 
     public int _conText;
-    bool _fimTutor;
+    public bool _fimTutor;
     public int _cont;
    
     
@@ -99,7 +99,8 @@ public class PlayerControle : MonoBehaviour
 
         StartCoroutine(TempoTutorON());
     }
-    
+
+
 
     public void AvancarTutor()
     {
@@ -132,8 +133,6 @@ public class PlayerControle : MonoBehaviour
             TutorFechar();   // Fecha o painel do tutorial
         }
     }
-
-
 
     IEnumerator TempoTutorON()
     {
@@ -174,20 +173,7 @@ public class PlayerControle : MonoBehaviour
        
      
     }
-    public void TentarNovamente()
-    {
-        _cont++;
-       
-       if (_cont>=1)
-        {
-            TextoTutor(2, 1);
-            _fimTutor = true;
-            _btAvanca.interactable = false;
-            StartCoroutine(TempoCont());
-
-
-        }
-    }
+    
     public void Recomeca()
     {
         _conText++;
@@ -202,7 +188,7 @@ public class PlayerControle : MonoBehaviour
             
             TempoTutorON();
            
-           
+           s
 
         }
         else if (_conText > 4 && _playerMove._isReseting == true)

@@ -578,6 +578,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         // _playerControle.TentarNovamente();
+        _playerControle._fimTutor = false;
 
         _playerControle._conText=0;
         _playerControle.AvancarTutor();
