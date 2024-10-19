@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 /*using UnityEditor.ShaderGraph;*/
 using UnityEngine;
@@ -84,6 +85,7 @@ public class PlayerControle : MonoBehaviour
             _imgT.sprite = _imgTutors[2].sprite;
           
         }
+
         else
         {
             _textProButon.transform.parent.gameObject.SetActive(true);
@@ -97,6 +99,40 @@ public class PlayerControle : MonoBehaviour
 
         StartCoroutine(TempoTutorON());
     }
+    
+
+    public void AvancarTutor()
+    {
+        // Verifica se ainda há tutoriais a serem mostrados
+        if (_conText == 0)
+        {
+            TextoTutor(0, 0); // Primeiro tutorial
+            _conText++;
+        }
+        else if (_conText == 1)
+        {
+            TextoTutor(0, 1); // Tutorial de movimento
+            _conText++;
+        }
+        else if (_conText == 2)
+        {
+            TextoTutor(0, 2); // Tutorial de salto
+            _conText++;
+        }
+        else if (_conText == 3)
+        {
+            TextoTutor(1, 3); // Tutorial da tábua
+            _conText++;
+        }
+        else
+        {
+            // Todos os tutoriais foram mostrados, então finaliza o tutorial
+            _fimTutor = true;
+            TempoTutorOff(); // Finaliza a exibição dos tutoriais
+            TutorFechar();   // Fecha o painel do tutorial
+        }
+    }
+
 
 
     IEnumerator TempoTutorON()
@@ -121,7 +157,7 @@ public class PlayerControle : MonoBehaviour
             {
                 TextoTutor(1, 1);
                 StartCoroutine(TempoCont());
-                _playerMove.TimeCorrida();
+               
 
             }
         }
@@ -130,7 +166,10 @@ public class PlayerControle : MonoBehaviour
            
             _playerMove.StopPlayer(false);
             TutorFechar();
-            
+            _playerMove._timeCout = 10; // Ajuste conforme a visibilidade da variável
+            _playerMove.isCounting = true;
+            _playerMove.timeOver = false;
+
         }
        
      
@@ -146,6 +185,7 @@ public class PlayerControle : MonoBehaviour
             _btAvanca.interactable = false;
             StartCoroutine(TempoCont());
 
+
         }
     }
     public void Recomeca()
@@ -153,23 +193,33 @@ public class PlayerControle : MonoBehaviour
         _conText++;
 
 
-        if (_conText ==4 && _playerMove._isReseting == true && !_fimGame)
+
+
+        if (_conText == 4 && _playerMove._isReseting == true && !_fimGame)
         {
             TextoTutor(2, 4);
             _btAvanca.interactable = true;
+            
             TempoTutorON();
            
+           
+
         }
-       else if (_conText >4  && _playerMove._isReseting == true)
-       {
+        else if (_conText > 4 && _playerMove._isReseting == true)
+        {
             TextoTutor(2, 1);
             _fimTutor = true;
             _btAvanca.interactable = false;
             StartCoroutine(TempoCont());
-
+           
         }
 
+        
+        
+
     }
+   
+
 
 
     void TutorFechar()
@@ -180,6 +230,7 @@ public class PlayerControle : MonoBehaviour
 
     IEnumerator TempoCont()
     {
+
         _imgT.enabled = false;
         _fimTutor = true;
         _btAvanca.interactable = false;
@@ -195,9 +246,11 @@ public class PlayerControle : MonoBehaviour
         _textProTutor.text =  "";
         //começar correr
         TutorFechar();
+          _playerMove.TimeCorrida();
+        
         _playerMove.Corretrue();
         _btAvanca.interactable = true;
-       
+      
 
     }
 

@@ -96,8 +96,10 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _cont;
     public float _timeCout;
     public bool timeOver = false;
-    public float elapsedTime = 0f; // Variável que guarda o tempo
-    private bool isCounting = false; // Controle se o tempo deve ser contado
+    public float elapsedTime = 0f; 
+    public  bool isCounting = false; 
+    
+    public Resetar _restaPlayer;
 
 
 
@@ -296,6 +298,10 @@ public class PlayerMove : MonoBehaviour
 
 
     }
+    
+        
+       
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -312,6 +318,8 @@ public class PlayerMove : MonoBehaviour
             _isReseting = true;
 
             _quantVida--;
+          
+            
             _playerControle.CheckIcomVida(_quantVida);
             _lifeText.text = _quantVida.ToString(); 
 
@@ -482,6 +490,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
+
     }
     
     public IEnumerator Dano()
@@ -539,8 +548,11 @@ public class PlayerMove : MonoBehaviour
     public void Corretrue()
     {
        
-        _autoCorrer = true; 
-        
+        _autoCorrer = true;
+      
+
+
+
     }
     public void SetCorrer(InputAction.CallbackContext Value)
     {
@@ -565,7 +577,10 @@ public class PlayerMove : MonoBehaviour
     public void ReiniciarJogo()
     {
 
-        _playerControle.TentarNovamente();
+        // _playerControle.TentarNovamente();
+
+        _playerControle._conText=0;
+        _playerControle.AvancarTutor();
 
         // Restaurar a posição inicial do personagem
         transform.position = _inicialRestat.position;
@@ -626,6 +641,9 @@ public class PlayerMove : MonoBehaviour
         _cont.text = _timeCout.ToString("F0"); // Atualiza o texto com o valor inicial
         isCounting = true; // Inicia a contagem
         timeOver = false;  // Reseta a flag de fim de tempo
+      
+
+
     }
 
 
