@@ -181,14 +181,15 @@ public class PlayerControle : MonoBehaviour
 
 
 
-        if (_conText == 4 && _playerMove._isReseting == true && !_fimGame)
+        if (_conText == 4 && _playerMove._isReseting == true && !_fimGame || _playerMove._reiniciarJ==true)
         {
             TextoTutor(2, 4);
             _btAvanca.interactable = true;
             
             TempoTutorON();
            
-           s
+
+
 
         }
         else if (_conText > 4 && _playerMove._isReseting == true)

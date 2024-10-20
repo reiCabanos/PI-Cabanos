@@ -99,7 +99,7 @@ public class PlayerMove : MonoBehaviour
     public float elapsedTime = 0f; 
     public  bool isCounting = false; 
     
-    public Resetar _restaPlayer;
+    public bool _reiniciarJ;
 
 
 
@@ -318,12 +318,18 @@ public class PlayerMove : MonoBehaviour
             _isReseting = true;
 
             _quantVida--;
-          
-            
+            if (_quantVida == 0)
+            {
+                _reiniciarJ = false;  
+                
+            }
+
+
             _playerControle.CheckIcomVida(_quantVida);
-            _lifeText.text = _quantVida.ToString(); 
+            _lifeText.text = _quantVida.ToString();
+          
 
-
+            
         }
         if (other.gameObject.CompareTag("p2"))
         {
@@ -376,9 +382,9 @@ public class PlayerMove : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("i") && _isReseting == true)
+        if (other.gameObject.CompareTag("i") && _isReseting == true )
         {
-            
+
             _playerControle._conText = 3;
 
 
@@ -397,7 +403,7 @@ public class PlayerMove : MonoBehaviour
 
         }
         
-
+        
 
         if (other.gameObject.CompareTag("fimGamer"))
         {
@@ -441,7 +447,7 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-    private void OnTriggerExit(Collider other)
+   private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("i"))
         {
@@ -576,8 +582,12 @@ public class PlayerMove : MonoBehaviour
     }
     public void ReiniciarJogo()
     {
+        _timeCout = 10;
+        _cont.text = ("0");
 
-        // _playerControle.TentarNovamente();
+        _reiniciarJ = true;
+
+        
         _playerControle._fimTutor = false;
 
         _playerControle._conText=0;
@@ -618,8 +628,9 @@ public class PlayerMove : MonoBehaviour
         _index = 0;
 
         // Redefinir a variável de controle da fase
-        _isReseting = false;
+        //_isReseting = false;
 
+        // Redefinir a variável de fim de jogo
         // Redefinir a variável de fim de jogo
         _fimM = false;
 
