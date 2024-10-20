@@ -31,7 +31,7 @@ public class PlayerControle : MonoBehaviour
 
     public TextMeshProUGUI _textProTutor;
     public TextMeshProUGUI _textProButon;
-    public TextMeshProUGUI _textoConstagem;
+    public TextMeshProUGUI _textoContagem;
     public Transform _panelTutor;
     public Button _ButtomNuul;
     public Button _btAvanca;

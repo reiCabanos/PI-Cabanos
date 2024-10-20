@@ -99,7 +99,12 @@ public class PlayerMove : MonoBehaviour
     public float _elapsedTime = 0f; 
     public  bool _isCounting = false; 
     public bool _reiniciarJ;
-    [SerializeField] private Transform[] _allRestatPoints; // Lista de todos os pontos de reinício
+   [SerializeField] private Transform[] _allRestatPoints; // Lista de todos os pontos de reinício
+   [SerializeField] private float _coyoteTime = 0.2f;  // Tempo extra para permitir o pulo após deixar o chão
+   private float _coyoteTimeCounter;
+    [SerializeField] private float _jumpBufferTime = 0.2f;  // Tempo para armazenar o comando de pulo
+    private float _jumpBufferCounter;
+
 
 
     void Start()
@@ -139,71 +144,73 @@ public class PlayerMove : MonoBehaviour
         }
 
 
+        if (_isCounting && !_timeOver)
+        {
+            _timeCout -= Time.deltaTime;
+            if (_timeCout <= 0)
+            {
+                _timeCout = 0;
+                _timeOver = true;
+                _isCounting = false;
+                TempoEsgotado();
+            }
+            _cont.text = _timeCout.ToString("F0");
+        }
+
+        // Checa se o controle está ativo
         if (_controle._stop == false)
         {
-
+            // Verifica se o player está no chão
             _checkGround = _characterController.isGrounded;
             if (_checkGround)
             {
                 _playerVelocity.y = 0;
-
+                _coyoteTimeCounter = _coyoteTime;  
+            }
+            else
+            {
+                _coyoteTimeCounter -= Time.deltaTime;  
             }
 
+            // Movimentação e animações
             float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
             _anim.SetFloat("correndo", tempSpeed);
             _anim.SetBool("chekground", _characterController.isGrounded);
-
-            if (_characterController.isGrounded == false)
-            {
-                Gravity();
-            }
+            if (!_characterController.isGrounded) Gravity();
             _speedAnimY = _characterController.velocity.y;
             _anim.SetFloat("pulandoY", _speedAnimY);
             _anim.SetBool("IsRunning", _checkwalk);
             _anim.SetBool("parado", true);
+            
+            if (_checkMove) Andar();
 
-
-
-            if (_checkMove)
-            {
-                Andar();
-            }
-
-
-
-
-            Jump();
-
+            // Buffer de pulo e "coyote time"
             if (_checkJump)
             {
-                _timer -= Time.deltaTime;
-                if (_timer < 0)
-                {
-                    _checkJump = false;
-                    _timer = _timeValue;
-
-                }
-
+                _jumpBufferCounter = _jumpBufferTime;  
             }
+            else
+            {
+                _jumpBufferCounter -= Time.deltaTime;  
+            }
+
             if (_autoCorrer)
             {
-
                 CorrerAuto();
-
                 _anim.SetFloat("correndo", 6);
                 _anim.SetBool("parado", false);
-
-
-
-
-
             }
+
+            // Realiza o pulo se houver "coyote time" ou buffer de pulo disponível
+            if (_jumpBufferCounter > 0 && _coyoteTimeCounter > 0 && _checkJump)
+            {
+                Jump();  
+                _jumpBufferCounter = 0; 
+                _checkJump = false;  
+            }
+
             Gravity();
-
-
         }
-
-        
     }
     void Andar()
     {
@@ -260,23 +267,12 @@ public class PlayerMove : MonoBehaviour
     }
 
     void Jump()
-{
-    if (_checkGround && _checkJump)
     {
-      /*      // Impedir múltiplos saltos até que o jogador toque o chão novamente
-            _checkGround = true;
-            _checkJump = true;*/
-
-            // Reseta a velocidade Y antes de aplicar o impulso do salto para evitar efeitos acumulativos de gravidade
-            _playerVelocity.y = 0;
-
-        // Aplica o impulso do salto de forma mais suave, ajustando a força de salto
-        _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);  // -2f dá um salto mais responsivo
-
-        // **Opcional**: Adicione um efeito de impulso visual ou som para dar feedback ao jogador
-        // AudioManager.Play("JumpSound");  // Exemplo de som de pulo
+            if (_checkGround || _coyoteTimeCounter > 0)
+            {
+                _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue); // Executa o pulo      
+            }
     }
-}
 
     void Gravity()
     {
@@ -654,9 +650,8 @@ public class PlayerMove : MonoBehaviour
     Transform GetNearestRestatPoint()
     {
         Transform nearestPoint = null;
-        float shortestDistance = Mathf.Infinity; // Inicia com uma distância infinita
-        Vector3 playerPosition = transform.position; // Posição atual do jogador
-
+        float shortestDistance = Mathf.Infinity; 
+        Vector3 playerPosition = transform.position; 
         // Itera sobre todos os pontos de reinício disponíveis
         foreach (Transform restatPoint in _allRestatPoints)
         {
