@@ -31,7 +31,7 @@ public class PlayerControle : MonoBehaviour
 
     public TextMeshProUGUI _textProTutor;
     public TextMeshProUGUI _textProButon;
-    public TextMeshProUGUI _textoContagem;
+    public TextMeshProUGUI _textoConstagem;
     public Transform _panelTutor;
     public Button _ButtomNuul;
     public Button _btAvanca;
@@ -165,9 +165,9 @@ public class PlayerControle : MonoBehaviour
            
             _playerMove.StopPlayer(false);
             TutorFechar();
-            _playerMove._timeCout = 10; // Ajuste conforme a visibilidade da variável
-            _playerMove.isCounting = true;
-            _playerMove.timeOver = false;
+            _playerMove._timeCout = 60; // Ajuste conforme a visibilidade da variável
+            _playerMove._isCounting = true;
+            _playerMove._timeOver = false;
 
         }
        

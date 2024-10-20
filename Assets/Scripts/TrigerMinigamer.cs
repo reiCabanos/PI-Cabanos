@@ -110,9 +110,9 @@ public class TrigerMinigamer : MonoBehaviour
 
         if (other.gameObject.CompareTag("teste"))
         {
-            if (!playerMove.checkPass)
+            if (!playerMove._checkPass)
             {
-                playerMove.checkPass = true;
+                playerMove._checkPass = true;
 
                 scores[index].gameObject.SetActive(true);
                 other.transform.parent = coinNextPos.parent;

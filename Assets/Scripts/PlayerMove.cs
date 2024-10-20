@@ -63,10 +63,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform[] _scores; 
     [SerializeField] public Transform _coinNextPos;
     [SerializeField] Transform _t;
-    [SerializeField] public Transform p;
+    [SerializeField] public Transform _p;
     public Transform _posT;
     [SerializeField] Transform _pontos;
-    [SerializeField] Transform o;
+    [SerializeField] Transform _o;
 
     public  int _quantVida = 3;
     [SerializeField] int _mod; 
@@ -84,30 +84,22 @@ public class PlayerMove : MonoBehaviour
     public bool _fimM;
 
     public TextMeshProUGUI _coinCounterTex;
-    public bool checkPass;
-    public bool isPausadoButton;
+    public bool _checkPass;
+    public bool _isPausadoButton;
     public Transform _temp;
     public GameObject _pont2;
-    public float speedBoostMultiplier = 1.5f;
+    public float _speedBoostMultiplier = 1.5f;
     public TextMeshProUGUI _lifeText;
     public Transform _inicialRestat;
     public GameObject _panel1;
     public Transform _telaReiniciar;
     public TextMeshProUGUI _cont;
     public float _timeCout;
-    public bool timeOver = false;
-    public float elapsedTime = 0f; 
-    public  bool isCounting = false; 
-    
+    public bool _timeOver = false;
+    public float _elapsedTime = 0f; 
+    public  bool _isCounting = false; 
     public bool _reiniciarJ;
-
-
-
-
-
-
-
-
+    [SerializeField] private Transform[] _allRestatPoints; // Lista de todos os pontos de reinício
 
 
     void Start()
@@ -128,17 +120,18 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // Apenas atualiza o tempo se a contagem estiver ativa
-        if (isCounting && !timeOver)
+        if (_isCounting && !_timeOver)
         {
-            // Decrementa o contador com base no deltaTime
+            
             _timeCout -= Time.deltaTime;
 
             // Verifica se o tempo acabou
             if (_timeCout <= 0)
             {
-                _timeCout = 0; // Evita que o tempo fique negativo
-                timeOver = true; // Marca que o tempo acabou
-                isCounting = false; // Para a contagem
+                _timeCout = 0; 
+                _timeOver = true; 
+                _isCounting = false;
+                TempoEsgotado();
             }
 
             // Atualiza o texto com o novo valor do tempo
@@ -243,9 +236,8 @@ public class PlayerMove : MonoBehaviour
             _moveZ = m.y;
         }
 
-        Debug.Log("jjkçll");
+        
     }
-
 
     public void SetJump(InputAction.CallbackContext value)
     {
@@ -299,9 +291,6 @@ public class PlayerMove : MonoBehaviour
 
     }
     
-        
-       
-    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -310,7 +299,6 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("filho"))
         {
             StopPlayer(true) ;
-           // StartCoroutine(TempoPlayer());
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
@@ -394,16 +382,10 @@ public class PlayerMove : MonoBehaviour
         }
         if (other.gameObject.CompareTag("item") && _autoCorrer==true )
         {
-            // _playerPontos.SomarPontos(1);
+           
+            _speed = _speed + 0.2f; 
 
-            // other.GetComponent<ColetarItens>().DestroyItens();
-
-            _speed = _speed + 0.5f;
-            Debug.Log("dddssddda");
-
-        }
-        
-        
+        }       
 
         if (other.gameObject.CompareTag("fimGamer"))
         {
@@ -416,14 +398,12 @@ public class PlayerMove : MonoBehaviour
             _fim.DOScale(1, 0.5f);
             _comecarNovamente.Select();
             _fimG.Select();
-          
-
-
+         
         }
 
-        if (other.gameObject.CompareTag("teste") && !checkPass)
+        if (other.gameObject.CompareTag("teste") && !_checkPass)
         {
-            checkPass = true;
+            _checkPass = true;
             _scores[_index].gameObject.SetActive(true);
             other.transform.parent = _coinNextPos.parent;
             _t = other.transform;
@@ -465,9 +445,7 @@ public class PlayerMove : MonoBehaviour
          StartCoroutine(TempoRotacao());
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 14.791f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate (new Vector3(transform.localEulerAngles.x, -333.951f, transform.localEulerAngles.z),1f, RotateMode.Fast).SetEase(Ease.InSine); 
-        //_fim.DORotate(new Vector3(_fim.localEulerAngles.x, -270, _fim.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
-
-
+        
     }
     public void SegundaRotacao()
     {
@@ -475,16 +453,12 @@ public class PlayerMove : MonoBehaviour
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, -89.966f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate(new Vector3(transform.localEulerAngles.x, -94.987f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
         
-
-
     }
     public void UltimaRotacao()
     {
         StartCoroutine(TempoRotacao());
         _moveCamera.DORotate(new Vector3(_moveCamera.localEulerAngles.x, 185.974f, _moveCamera.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InQuad);
         transform.DORotate(new Vector3(transform.localEulerAngles.x, 174.85f, transform.localEulerAngles.z), 1f, RotateMode.Fast).SetEase(Ease.InSine);
-
-
 
     }
 
@@ -494,14 +468,10 @@ public class PlayerMove : MonoBehaviour
         _characterController.Move(transform.forward * _speed * Time.deltaTime);
         _checkwalk = true;
 
-
-
-
     }
     
     public IEnumerator Dano()
     {
-
      
         
         _checkMove = false;
@@ -523,13 +493,13 @@ public class PlayerMove : MonoBehaviour
         _scoreCounter++;
         _coinCounterTex.text = _scoreCounter.ToString();
         _t.gameObject.SetActive(false);
-        checkPass = false;
+        _checkPass = false;
     }
 
 
     public void StopPlayer(bool value)
     {
-        isCounting = false;
+        _isCounting = false;
         if (value)
         {
             _anim.SetFloat("correndo", 0);
@@ -564,7 +534,7 @@ public class PlayerMove : MonoBehaviour
     {
 
         _autoCorrer = true;
-            o.DOScale(0, 0f);
+            _o.DOScale(0, 0f);
 
      
 
@@ -580,14 +550,14 @@ public class PlayerMove : MonoBehaviour
     {
         SceneManager.LoadScene("MapaBeta");
     }
+
     public void ReiniciarJogo()
     {
-        _timeCout = 10;
+        _timeCout = 60;
         _cont.text = ("0");
 
         _reiniciarJ = true;
 
-        
         _playerControle._fimTutor = false;
 
         _playerControle._conText=0;
@@ -626,37 +596,83 @@ public class PlayerMove : MonoBehaviour
 
         // Redefinir o índice do item coletado
         _index = 0;
-
-        // Redefinir a variável de controle da fase
-        //_isReseting = false;
-
-        // Redefinir a variável de fim de jogo
-        // Redefinir a variável de fim de jogo
         _fimM = false;
 
-        // Reativar o controle do personagem
         _controle._stop = false;
-
-        // Restaurar a animação do personagem
         _anim.SetFloat("correndo", 0);
         _anim.SetBool("parado", false);
 
         // Ocultar a tela de fim de jogo
         _fim.DOScale(0, 0.5f);
         _telaReiniciar.DOScale(0, 0.5f);
-
-        // Selecionar o botão de reinício
-       // _playerControle._reiniciar.Select();
     }
     public void TimeCorrida()
     {
-        _cont.text = _timeCout.ToString("F0"); // Atualiza o texto com o valor inicial
-        isCounting = true; // Inicia a contagem
-        timeOver = false;  // Reseta a flag de fim de tempo
+        _cont.text = _timeCout.ToString("F0"); 
+        _isCounting = true; 
+        _timeOver = false;  
       
 
 
     }
+    void TempoEsgotado()
+    {
+        
+        // Encontra o ponto de reinício mais próximo
+        _posRestatPlayer = GetNearestRestatPoint();
+        if (_posRestatPlayer != null)
+        {
+            // Usa o ponto de reinício armazenado no momento
+            transform.position = _posRestatPlayer.position;
+        }
+        else
+        {
+            // Caso contrário, usa a posição inicial como fallback
+            transform.position = _inicialRestat.position;
+        }
+
+        StopPlayer(true);
+
+        // Mesma lógica de reset que já existe no OnTriggerEnter para a tag "filho"
+        _pont1.SetActive(false);
+        StartCoroutine(Dano());
+
+        _isReseting = true;
+
+        // Reduz a vida do jogador
+        _quantVida--;
+        if (_quantVida == 0)
+        {
+            _reiniciarJ = false; // Marca que o jogo deve ser reiniciado
+        }
+
+        // Atualiza o HUD de vida
+        _playerControle.CheckIcomVida(_quantVida);
+        _lifeText.text = _quantVida.ToString();
+    }
+    // Função para encontrar o ponto de reinício mais próximo
+    Transform GetNearestRestatPoint()
+    {
+        Transform nearestPoint = null;
+        float shortestDistance = Mathf.Infinity; // Inicia com uma distância infinita
+        Vector3 playerPosition = transform.position; // Posição atual do jogador
+
+        // Itera sobre todos os pontos de reinício disponíveis
+        foreach (Transform restatPoint in _allRestatPoints)
+        {
+            float distance = Vector3.Distance(playerPosition, restatPoint.position); // Calcula a distância até o ponto de reinício
+
+            // Se a distância for menor que a distância mais curta encontrada até agora, atualiza o ponto mais próximo
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearestPoint = restatPoint;
+            }
+        }
+
+        return nearestPoint;
+    }
+
 
 
 }
