@@ -9,6 +9,6 @@ public class Resetar : MonoBehaviour
    
 
     
-    
+
 
 }

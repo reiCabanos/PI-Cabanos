@@ -16,6 +16,7 @@ using System;
 using TMPro;
 using Image = UnityEngine.UI.Image;
 using System.Threading;
+using NaughtyCharacter;
 
 /*using UnityEditor.ShaderGraph;*/
 
@@ -96,15 +97,13 @@ public class PlayerMove : MonoBehaviour
     public TextMeshProUGUI _cont;
     public float _timeCout;
     public bool _timeOver = false;
-    public float _elapsedTime = 0f; 
+    public float _tempoDecorrido = 0f; 
     public  bool _isCounting = false; 
     public bool _reiniciarJ;
-   [SerializeField] private Transform[] _allRestatPoints; // Lista de todos os pontos de reinício
-   [SerializeField] private float _coyoteTime = 0.2f;  // Tempo extra para permitir o pulo após deixar o chão
-   private float _coyoteTimeCounter;
-    [SerializeField] private float _jumpBufferTime = 0.2f;  // Tempo para armazenar o comando de pulo
-    private float _jumpBufferCounter;
-
+   [SerializeField] private Transform[] _todosRestatPoints; // Lista de todos os pontos de reinício
+    public float _distanciaSolo =1f; // Distância para verificar o chão
+    public LayerMask _chaoLayer; // Camada do chão
+    
 
 
     void Start()
@@ -165,34 +164,37 @@ public class PlayerMove : MonoBehaviour
             if (_checkGround)
             {
                 _playerVelocity.y = 0;
-                _coyoteTimeCounter = _coyoteTime;  
-            }
-            else
-            {
-                _coyoteTimeCounter -= Time.deltaTime;  
+               
             }
 
             // Movimentação e animações
             float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
             _anim.SetFloat("correndo", tempSpeed);
             _anim.SetBool("chekground", _characterController.isGrounded);
-            if (!_characterController.isGrounded) Gravity();
+            if (_characterController.isGrounded == false)
+            {
+                Gravity();
+            }
+
             _speedAnimY = _characterController.velocity.y;
             _anim.SetFloat("pulandoY", _speedAnimY);
             _anim.SetBool("IsRunning", _checkwalk);
             _anim.SetBool("parado", true);
-            
+            Jump();
+
             if (_checkMove) Andar();
 
             // Buffer de pulo e "coyote time"
             if (_checkJump)
             {
-                _jumpBufferCounter = _jumpBufferTime;  
+                _timer -= Time.deltaTime;
+                if (_timer < 0)
+                {
+                    _checkJump = false;
+                    _timer = _timeValue;
+                }
             }
-            else
-            {
-                _jumpBufferCounter -= Time.deltaTime;  
-            }
+            
 
             if (_autoCorrer)
             {
@@ -202,13 +204,9 @@ public class PlayerMove : MonoBehaviour
             }
 
             // Realiza o pulo se houver "coyote time" ou buffer de pulo disponível
-            if (_jumpBufferCounter > 0 && _coyoteTimeCounter > 0 && _checkJump)
-            {
-                Jump();  
-                _jumpBufferCounter = 0; 
-                _checkJump = false;  
-            }
-
+            
+               
+               
             Gravity();
         }
     }
@@ -268,10 +266,11 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
-            if (_checkGround || _coyoteTimeCounter > 0)
-            {
-                _playerVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue); // Executa o pulo      
-            }
+        if (_checkGround && _checkJump && _checkMove)
+        {
+            _checkGround = false;
+            _playerVelocity.y = Mathf.Sqrt(_jumpForce / 5 * -3.0f * _gravityValue);
+        }
     }
 
     void Gravity()
@@ -295,6 +294,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("filho"))
         {
             StopPlayer(true) ;
+          
             _posRestatPlayer = other.GetComponent<Resetar>()._posRestat;
             _pont1.SetActive(false);
             StartCoroutine(Dano());
@@ -307,13 +307,15 @@ public class PlayerMove : MonoBehaviour
                 _reiniciarJ = false;  
                 
             }
-
+           
 
             _playerControle.CheckIcomVida(_quantVida);
             _lifeText.text = _quantVida.ToString();
-          
-
             
+            //transform.localPosition = new Vector3(transform.localPosition.x, 10.40075f, transform.localPosition.z);
+
+
+
         }
         if (other.gameObject.CompareTag("p2"))
         {
@@ -371,8 +373,9 @@ public class PlayerMove : MonoBehaviour
 
             _playerControle._conText = 3;
 
-
+            MoverAoSolo();
             _playerControle.Recomeca();
+            
 
 
         }
@@ -504,7 +507,8 @@ public class PlayerMove : MonoBehaviour
         _anim.SetBool("parado", value);
        
 
-       
+
+
 
     }
     IEnumerator TempoRotacao()
@@ -615,7 +619,7 @@ public class PlayerMove : MonoBehaviour
     {
         
         // Encontra o ponto de reinício mais próximo
-        _posRestatPlayer = GetNearestRestatPoint();
+        _posRestatPlayer = PontoReinicializacao();
         if (_posRestatPlayer != null)
         {
             // Usa o ponto de reinício armazenado no momento
@@ -647,27 +651,46 @@ public class PlayerMove : MonoBehaviour
         _lifeText.text = _quantVida.ToString();
     }
     // Função para encontrar o ponto de reinício mais próximo
-    Transform GetNearestRestatPoint()
+    Transform PontoReinicializacao()
     {
-        Transform nearestPoint = null;
-        float shortestDistance = Mathf.Infinity; 
+        Transform pontomaisproximo = null;
+        float distanciamaiscurta = Mathf.Infinity; 
         Vector3 playerPosition = transform.position; 
+
         // Itera sobre todos os pontos de reinício disponíveis
-        foreach (Transform restatPoint in _allRestatPoints)
+        foreach (Transform restatPoint in _todosRestatPoints)
         {
             float distance = Vector3.Distance(playerPosition, restatPoint.position); // Calcula a distância até o ponto de reinício
 
             // Se a distância for menor que a distância mais curta encontrada até agora, atualiza o ponto mais próximo
-            if (distance < shortestDistance)
+            if (distance < distanciamaiscurta)
             {
-                shortestDistance = distance;
-                nearestPoint = restatPoint;
+                distanciamaiscurta = distance;
+                pontomaisproximo = restatPoint;
             }
         }
 
-        return nearestPoint;
+        return pontomaisproximo;
+    }
+    
+    private void MoverAoSolo()
+    {
+        // Raycast para baixo a partir da posição atual do jogador
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, _distanciaSolo, _chaoLayer))
+        {
+            // Mova o jogador para a posição do chão detectado
+            transform.localPosition = new Vector3(transform.localPosition.x, hit.point.y, transform.localPosition.z);
+        }
+        else
+        {
+            // Se não houver chão, você pode querer aplicar a gravidade ou lidar com isso de outra forma
+            transform.localPosition += Vector3.down * Time.deltaTime;
+        }
     }
 
-
-
+    
 }
+
+
+
