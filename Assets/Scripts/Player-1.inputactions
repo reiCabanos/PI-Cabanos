@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Avanca",
+                    "type": "Button",
+                    "id": "f35d892d-2959-4a83-94ef-8bbed77664e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -545,6 +554,17 @@
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Voltar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d509f4dd-ef9f-4b98-8124-df8d3b92c109",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Avanca",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

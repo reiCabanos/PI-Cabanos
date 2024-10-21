@@ -70,6 +70,7 @@ public class MoveNew : MonoBehaviour
     public HudControles hudControles; // Referência ao script HudControles
     public Transform playerCamera;
     public GameObject pontoTroca;
+    public TutoriasJogo _tutoriasJ;
 
     void Start()
     {
@@ -254,6 +255,19 @@ public class MoveNew : MonoBehaviour
             _manager.Salvar();
             _manager.CheckPointSalvar(other.transform.localPosition);
         }
+       
+        if (other.gameObject.CompareTag("Tutor1"))
+        {
+            //_tutoriasJ._conText = 0;
+            _tutoriasJ._fimTutor = false;
+            _tutoriasJ.AvancarTutor1();
+            _gameController._gamerOver = true;
+            Debug.Log("_tutoriasJ");
+
+
+        }
+
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -286,7 +300,15 @@ public class MoveNew : MonoBehaviour
             Debug.Log("A tecla de mira foi liberada.");
         }
     }
+   /* public void SetAvanca(InputAction.CallbackContext callbackContext)
+    {
+        if (_tutoriasJ._fimTutor==false)
+        {
+            _tutoriasJ.AvancarTutor1();
+        }
 
+        Debug.Log("Avançass");
+    }*/
     public void TrocaScene()
     {
         SceneManager.LoadScene("MiniGame1");
