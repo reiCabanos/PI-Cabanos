@@ -7,11 +7,14 @@ public class PlayerItem : MonoBehaviour
     InventarioControl _control;
     public ItemDados _itemDados;
     public SpriteRenderer _spriteRenderer;
+   public int _totalItensColetados = 0;
+    public MoveNew _moveNew;
 
 
     void Start()
     {
         _control = Camera.main.GetComponent<InventarioControl>();
+        
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -20,32 +23,21 @@ public class PlayerItem : MonoBehaviour
         {
             ItemControl itemControl = collision.gameObject.GetComponent<ItemControl>();
 
-            if (itemControl._itemDados.Tip == 0)// arma ---------------------------------------------------------
-            {
-                for (int i = 0; i < _control._SlotArmas.Count; i++)
-                {
-
-                    if (_control._SlotArmas[i].CheckSlot == false)
-                    {
-                        _control._SlotArmas[i].CheckSlot = true;
-                        _control._SlotArmas[i].ImageSlot(itemControl._itemDados.ImageItem);
-                        _control._SlotArmas[i].DadosSlot(itemControl._itemDados);
-
-                        break;
-                    }
-
-                }
-            }
-            else if (itemControl._itemDados.Tip == 1)//coletavel ----------------------------------------------------
+            if (itemControl._itemDados.Tip == 1 || itemControl._itemDados.Tip == 2) // itens coletáveis
             {
                 _control._SlotColetaveis[0].PegarColetavel();
+                _totalItensColetados++; // Incrementa o contador de itens
+                Debug.Log("Total de Itens Coletados: " + _totalItensColetados);
+
+                if (_totalItensColetados >= 10)
+                {
+                    // Ativar o ponto de troca de cena
+                    _moveNew.AtivarPontoTroca();
+                }
             }
-            else if (itemControl._itemDados.Tip == 2)//coletavel ----------------------------------------------------
-            {
-                _control._SlotColetaveis[1].PegarColetavel();
-            }
+
             Debug.Log("Tocou no item");
         }
-       
+
     }
 }

@@ -69,6 +69,7 @@ public class MoveNew : MonoBehaviour
     public UnityEngine.UI.Slider staminaSlider;
     public HudControles hudControles; // Referência ao script HudControles
     public Transform playerCamera;
+    public GameObject pontoTroca;
 
     void Start()
     {
@@ -79,6 +80,7 @@ public class MoveNew : MonoBehaviour
         _project = GetComponent<ProjectileThrow>();
         _manager = Camera.main.GetComponent<GameManager>();
         Salves();
+        pontoTroca.SetActive(false);
 
         currentStamina = maxStamina;
         if (staminaSlider != null)
@@ -240,12 +242,25 @@ public class MoveNew : MonoBehaviour
             TrocaScene();
             _troca.SetActive(false);
         }
+        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelf)
+        {
+            // Ativar o botão de troca de cena
+            _troca.SetActive(true); // O botão de troca deve estar desativado inicialmente
+        }
         if (other.gameObject.CompareTag(_tagCheckPoint))
         {
             Debug.Log(other.gameObject.name);
             Debug.Log(other.transform.localPosition);
             _manager.Salvar();
             _manager.CheckPointSalvar(other.transform.localPosition);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        // Quando o jogador sair da área, desativa o botão de troca de cena
+        if (other.gameObject.CompareTag("PontoTroca"))
+        {
+            _troca.SetActive(false);
         }
     }
 
@@ -292,5 +307,10 @@ public class MoveNew : MonoBehaviour
     {
         // Implementação do método de salvar dados
         Debug.Log("Dados salvos com sucesso!");
+    }
+    public void AtivarPontoTroca()
+    {
+        pontoTroca.SetActive(true);
+        Debug.Log("Ponto de troca de cena ativado!");
     }
 }
