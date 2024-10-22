@@ -11,7 +11,7 @@ public class TutoriasJogo : MonoBehaviour
     public string[] _textButons;
     public string[] _textTutors;
     public Image[] _imgTutors;
-    public Image _imgT;
+    //public Image _imgT;
     public Transform _panelTutor;
     public int _conText=-1;
     public bool _fimTutor;
@@ -19,13 +19,21 @@ public class TutoriasJogo : MonoBehaviour
     public TextMeshProUGUI _textProButon;
     public PlayerMove _playerMove;  // Script de movimento do jogador
     public GameController _gameController;
-     
+    public GameObject _textProTutor1;
+    public GameObject _textProTutor2;
+    public GameObject _imag1;
+    public GameObject _imag2;
+    public GameObject _imag3;
+    public GameObject _tutor1;
+
+
+
 
     void Start()
     {
         
         _gameController = Camera.main.GetComponent<GameController>();
-        _imgT.enabled = false;
+        
         
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
@@ -42,20 +50,28 @@ public class TutoriasJogo : MonoBehaviour
         }
         else if (value2 == 1) // tutorial movimento
         {
-            _imgT.enabled = true;
-            _imgT.sprite = _imgTutors[0].sprite;
+            /* _imgT.enabled = true;
+             _imgT.sprite = _imgTutors[0].sprite;*/
+            _imag1.SetActive(true);
+            _textProTutor1.SetActive(false);
+
         }
         else if (value2 == 2) // tutorial jump
         {
-            _imgT.enabled = true;
-            _imgT.sprite = _imgTutors[1].sprite;
+            _imag1.SetActive(false);
+            _imag2.SetActive(true);
         }
         else if (value2 == 3) // tutorial tabua
         {
-            _imgT.enabled = true;
-            _imgT.sprite = _imgTutors[2].sprite;
+            _imag2.SetActive(false);
+            _imag3.SetActive(true);
         }
-
+        else if (value2 == 4) // tutorial tabua
+        {
+           
+            _imag3.SetActive(false);
+             _textProTutor2.SetActive(true);
+}
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
     }
@@ -71,7 +87,8 @@ public class TutoriasJogo : MonoBehaviour
     {
         _panelTutor.transform.localScale = Vector3.zero;
         _gameController._gamerOver = false; // Restaura o movimento do jogador
-       
+        _tutor1.SetActive(false);
+
     }
 
     public void AvancarTutor1()
@@ -134,9 +151,15 @@ public class TutoriasJogo : MonoBehaviour
             }
             else if (_conText == 4)
             {
+                PrimeiroTutorial(0, 4); // Tutorial de capturar mangas
+                _conText++;
+            }
+
+            else if (_conText == 5)
+            {
                 _fimTutor = true;
 
-                PrimeiroTutorial(1, 1);
+               // PrimeiroTutorial(1, 1);
                 //StartCoroutine(TempoCont());
 
 
