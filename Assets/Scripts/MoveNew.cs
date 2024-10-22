@@ -71,6 +71,9 @@ public class MoveNew : MonoBehaviour
     public Transform playerCamera;
     public GameObject pontoTroca;
     public TutoriasJogo _tutoriasJ;
+    public bool podeAvancarTutorial = false; // Flag para verificar se o jogador pode avançar
+    public bool podeAvancarTutorial2 = false;
+    
 
     void Start()
     {
@@ -264,10 +267,26 @@ public class MoveNew : MonoBehaviour
             _tutoriasJ._conText = 0;
             _tutoriasJ._fimTutor = false;
             _gameController._gamerOver = true;
-            _tutoriasJ.AvancarTutor1();
+            
+           podeAvancarTutorial = true; // Habilita o input
+            _tutoriasJ.TempoTutorOff();
             Debug.Log("_tutoriasJ");
 
             
+
+
+        }
+        if (other.gameObject.CompareTag("Tutor2"))
+        {
+            _tutoriasJ._conText2 = 0;
+            _tutoriasJ._fimTutor2 = false;
+            _tutoriasJ._textProTutor3.SetActive(true);
+            _gameController._gamerOver = true;
+            podeAvancarTutorial2 = true; // Habilita o input
+            _tutoriasJ.TempoTutorOff2();
+            Debug.Log("_tutoriasJ");
+
+
 
 
         }
@@ -280,6 +299,16 @@ public class MoveNew : MonoBehaviour
         if (other.gameObject.CompareTag("PontoTroca"))
         {
             _troca.SetActive(false);
+        }
+        if (other.CompareTag("Tutor1")) // Substitua "TutorialZone" pela tag desejada
+        {
+            podeAvancarTutorial = false; // Desabilita o input
+            Debug.Log("Saiu da área do tutorial, input desabilitado.");
+        }
+        if (other.CompareTag("Tutor2")) // Substitua "TutorialZone" pela tag desejada
+        {
+            podeAvancarTutorial2 = false; // Desabilita o input
+            Debug.Log("Saiu da área do tutorial, input desabilitado.");
         }
     }
 
@@ -307,13 +336,25 @@ public class MoveNew : MonoBehaviour
     }
     public void SetAvanca(InputAction.CallbackContext value)
     {
-        if (value.performed)
+        if (value.performed && podeAvancarTutorial)
         {
-            Debug.Log("Tecla de teste pressionada. Deve avançar o tutorial.");
-            //_tutoriasJ._conText++;
-            //Debug.Log("Valor atual de _conText: " + _tutoriasJ._conText++);
-            //_tutoriasJ.AvancarTutor1();
-            _tutoriasJ.TempoTutorOff();
+            if (podeAvancarTutorial)
+            {
+                Debug.Log("Tecla de teste pressionada. Deve avançar o tutorial.");
+                _tutoriasJ.TempoTutorOff();
+
+            }
+            else if (podeAvancarTutorial2)
+            {
+                podeAvancarTutorial = false;
+                _tutoriasJ.TempoTutorOff2();
+            }
+            
+            
+        }
+        else 
+        {
+            Debug.Log("Não pode avançar o tutorial, pois o jogador não está na área correta.");
         }
     }
     public void TrocaScene()

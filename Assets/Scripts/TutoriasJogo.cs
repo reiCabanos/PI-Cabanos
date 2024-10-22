@@ -14,7 +14,9 @@ public class TutoriasJogo : MonoBehaviour
     //public Image _imgT;
     public Transform _panelTutor;
     public int _conText=-1;
+    public int _conText2 = -1;
     public bool _fimTutor;
+    public bool _fimTutor2;
     public TextMeshProUGUI _textProTutor;
     public TextMeshProUGUI _textProButon;
     public PlayerMove _playerMove;  // Script de movimento do jogador
@@ -25,6 +27,13 @@ public class TutoriasJogo : MonoBehaviour
     public GameObject _imag2;
     public GameObject _imag3;
     public GameObject _tutor1;
+    public GameObject _imag4;
+    public GameObject _imag5;
+    public GameObject _imag6;
+    public GameObject _textProTutor3;
+    public GameObject _textProTutor4;
+    public GameObject _tutor2;
+
 
 
 
@@ -75,7 +84,40 @@ public class TutoriasJogo : MonoBehaviour
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
     }
+    public void SegundoTutorial(int value, int value2)
+    {
+        // Exibe o tutorial baseado no valor recebido
+        if (value2 == 0) // texto jogo
+        {
+            _textProButon.text = _textButons[value];
+            _textProTutor.text = _textTutors[value2];
+        }
+        else if (value2 == 1) // Como mira
+        {
+            
+            _imag4.SetActive(true);
+            _textProTutor3.SetActive(false);
 
+        }
+        else if (value2 == 2) // como atira
+        {
+            _imag4.SetActive(false);
+            _imag5.SetActive(true);
+        }
+        else if (value2 == 3) // como pegar manga
+        {
+            _imag5.SetActive(false);
+            _imag6.SetActive(true);
+        }
+        else if (value2 == 4) // olhar inventario 
+        {
+
+            _imag6.SetActive(false);
+            _textProTutor4.SetActive(true);
+        }
+        // Inicia a animação de abertura do painel do tutorial
+        StartCoroutine(TempoTutorON());
+    }
     IEnumerator TempoTutorON()
     {
         _panelTutor.DOScale(1.5f, .25f);  // Animação de escala
@@ -90,39 +132,15 @@ public class TutoriasJogo : MonoBehaviour
         _tutor1.SetActive(false);
 
     }
-
-    public void AvancarTutor1()
+    void TutorFechar2()
     {
-        _fimTutor = false;
-        if (_conText == 0)
-        {
-            PrimeiroTutorial(0, 0); // Primeiro tutorial
-            _conText++;
-        }
-        else if (_conText == 1)
-        {
-            PrimeiroTutorial(0, 1); // Tutorial de movimento
-            _conText++;
-        }
-        else if (_conText == 2)
-        {
-            PrimeiroTutorial(0, 2); // Tutorial de salto
-            _conText++;
-        }
-        else if (_conText == 3)
-        {
-            PrimeiroTutorial(1, 3); // Tutorial de capturar mangas
-            _conText++;
-        }
+        _panelTutor.transform.localScale = Vector3.zero;
+        _gameController._gamerOver = false; // Restaura o movimento do jogador
+        _tutor2.SetActive(false);
 
-        else
-        {
-            TempoTutorOff();
-            _fimTutor = true;
-            TutorFechar();   // Fecha o painel do tutorial
-        }
-        
     }
+
+   
     public void TempoTutorOff()
     {
        
@@ -146,12 +164,12 @@ public class TutoriasJogo : MonoBehaviour
             }
             else if (_conText == 3)
             {
-                PrimeiroTutorial(0, 3); // Tutorial de capturar mangas
+                PrimeiroTutorial(0, 3); // objetivo inicial
                 _conText++;
             }
             else if (_conText == 4)
             {
-                PrimeiroTutorial(0, 4); // Tutorial de capturar mangas
+                PrimeiroTutorial(0, 4); // texto Final 
                 _conText++;
             }
 
@@ -159,8 +177,7 @@ public class TutoriasJogo : MonoBehaviour
             {
                 _fimTutor = true;
 
-               // PrimeiroTutorial(1, 1);
-                //StartCoroutine(TempoCont());
+               
 
 
             }
@@ -177,7 +194,59 @@ public class TutoriasJogo : MonoBehaviour
 
 
     }
+    public void TempoTutorOff2()
+    {
 
+        if (!_fimTutor2)
+        {
+            //_conText++;
+            if (_conText2 == 0)
+            {
+                SegundoTutorial(0, 0); // Primeiro tutorial
+                _conText2++;
+            }
+            else if (_conText2 == 1)
+            {
+                SegundoTutorial(0, 1); // Tutorial de movimento
+                _conText2++;
+            }
+            else if (_conText2 == 2)
+            {
+                SegundoTutorial(0, 2); // Tutorial de salto
+                _conText2++;
+            }
+            else if (_conText2 == 3)
+            {
+                SegundoTutorial(0, 3); // Tutorial de capturar mangas
+                _conText++;
+            }
+            else if (_conText2 == 4)
+            {
+                SegundoTutorial(0, 4); // Tutorial de capturar mangas
+                _conText2++;
+            }
+
+            else if (_conText2 == 5)
+            {
+                _fimTutor2 = true;
+
+
+
+
+            }
+        }
+        else
+        {
+
+            _gameController._gamerOver = false;
+            TutorFechar2();
+
+
+        }
+
+
+
+    }
 
 
 }
