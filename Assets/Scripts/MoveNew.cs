@@ -74,6 +74,8 @@ public class MoveNew : MonoBehaviour
 
     void Start()
     {
+       
+       
         _controller = GetComponent<CharacterController>();
         _control = Camera.main.GetComponent<InventarioControl>();
         _playerPontos = Camera.main.GetComponent<PlayerPontos>();
@@ -98,6 +100,7 @@ public class MoveNew : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
+       
 
         if (_gameController._gamerOver == false && !hudControles.blockMovement)
         {
@@ -258,11 +261,13 @@ public class MoveNew : MonoBehaviour
        
         if (other.gameObject.CompareTag("Tutor1"))
         {
-            //_tutoriasJ._conText = 0;
+            _tutoriasJ._conText = 0;
             _tutoriasJ._fimTutor = false;
-            _tutoriasJ.AvancarTutor1();
             _gameController._gamerOver = true;
+            _tutoriasJ.AvancarTutor1();
             Debug.Log("_tutoriasJ");
+
+            
 
 
         }
@@ -300,15 +305,17 @@ public class MoveNew : MonoBehaviour
             Debug.Log("A tecla de mira foi liberada.");
         }
     }
-   /* public void SetAvanca(InputAction.CallbackContext callbackContext)
+    public void SetAvanca(InputAction.CallbackContext value)
     {
-        if (_tutoriasJ._fimTutor==false)
+        if (value.performed)
         {
-            _tutoriasJ.AvancarTutor1();
+            Debug.Log("Tecla de teste pressionada. Deve avançar o tutorial.");
+            //_tutoriasJ._conText++;
+            //Debug.Log("Valor atual de _conText: " + _tutoriasJ._conText++);
+            //_tutoriasJ.AvancarTutor1();
+            _tutoriasJ.TempoTutorOff();
         }
-
-        Debug.Log("Avançass");
-    }*/
+    }
     public void TrocaScene()
     {
         SceneManager.LoadScene("MiniGame1");
