@@ -239,10 +239,10 @@ public class MoveNew : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("testes"))
+       /* if (other.gameObject.CompareTag("testes"))
         {
             playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
-        }
+        }*/
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
