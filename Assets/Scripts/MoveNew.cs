@@ -71,9 +71,13 @@ public class MoveNew : MonoBehaviour
     public Transform playerCamera;
     public GameObject pontoTroca;
     public TutoriasJogo _tutoriasJ;
+    public TutoriasJogo2 _tutoriasJ2;
+    public TutorialVendedor _tutoriasV;
     public bool podeAvancarTutorial = false; // Flag para verificar se o jogador pode avançar
-    public bool podeAvancarTutorial2 = false;
-    
+    public bool podeAvancarTutorial2 = false; // Flag para verificar se o jogador pode avançar
+    public bool podeAvancarTutorial3 = false;
+
+
 
     void Start()
     {
@@ -249,10 +253,17 @@ public class MoveNew : MonoBehaviour
             TrocaScene();
             _troca.SetActive(false);
         }
-        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelf)
+        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelfs)
         {
             // Ativar o botão de troca de cena
             _troca.SetActive(true); // O botão de troca deve estar desativado inicialmente
+            _tutoriasV._conText = 0;
+            _tutoriasV._fimTutor = false;
+            _gameController._gamerOver = true;
+
+            podeAvancarTutorial3 = true; // Habilita o input
+            _tutoriasV.TempoTutorOff();
+            Debug.Log("_tutoriasJ");
         }
         if (other.gameObject.CompareTag(_tagCheckPoint))
         {
@@ -278,18 +289,19 @@ public class MoveNew : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Tutor2"))
         {
-            _tutoriasJ._conText2 = 0;
-            _tutoriasJ._fimTutor2 = false;
-            _tutoriasJ._textProTutor3.SetActive(true);
+            _tutoriasJ2._conText = 0;
+            _tutoriasJ2._fimTutor = false;
             _gameController._gamerOver = true;
+
             podeAvancarTutorial2 = true; // Habilita o input
-            _tutoriasJ.TempoTutorOff2();
+            _tutoriasJ2.TempoTutorOff();
             Debug.Log("_tutoriasJ");
 
 
 
 
         }
+
 
 
     }
@@ -299,6 +311,7 @@ public class MoveNew : MonoBehaviour
         if (other.gameObject.CompareTag("PontoTroca"))
         {
             _troca.SetActive(false);
+            podeAvancarTutorial3 = false;
         }
         if (other.CompareTag("Tutor1")) // Substitua "TutorialZone" pela tag desejada
         {
@@ -310,6 +323,7 @@ public class MoveNew : MonoBehaviour
             podeAvancarTutorial2 = false; // Desabilita o input
             Debug.Log("Saiu da área do tutorial, input desabilitado.");
         }
+
     }
 
     public void SetMira(InputAction.CallbackContext callbackContext)
@@ -336,19 +350,17 @@ public class MoveNew : MonoBehaviour
     }
     public void SetAvanca(InputAction.CallbackContext value)
     {
-        if (value.performed && podeAvancarTutorial)
+        if (value.performed)
         {
-            if (podeAvancarTutorial)
+            if (podeAvancarTutorial || podeAvancarTutorial2 || podeAvancarTutorial3)
             {
                 Debug.Log("Tecla de teste pressionada. Deve avançar o tutorial.");
                 _tutoriasJ.TempoTutorOff();
+                _tutoriasJ2.TempoTutorOff();
+                _tutoriasV.TempoTutorOff();
+            }
+           
 
-            }
-            else if (podeAvancarTutorial2)
-            {
-                podeAvancarTutorial = false;
-                _tutoriasJ.TempoTutorOff2();
-            }
             
             
         }

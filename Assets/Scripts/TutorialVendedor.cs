@@ -1,31 +1,29 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class TutoriasJogo : MonoBehaviour
+public class TutorialVendedor : MonoBehaviour
 {
     public string[] _textButons;
     public string[] _textTutors;
     public Image[] _imgTutors;
     public Transform _panelTutor;
-    public int _conText=-1;
+    public int _conText = -1;
     public bool _fimTutor;
     public TextMeshProUGUI _textProTutor;
     public TextMeshProUGUI _textProButon;
-    public PlayerMove _playerMove;  // Script de movimento do jogador
     public GameController _gameController;
     public GameObject _textProTutor1;
     public GameObject _textProTutor2;
     public GameObject _imag1;
     public GameObject _imag2;
     public GameObject _imag3;
-    public GameObject _tutor1;
+    public GameObject _pontoTroca;
     public MoveNew _moveNew;
- 
+
 
 
 
@@ -33,15 +31,15 @@ public class TutoriasJogo : MonoBehaviour
 
     void Start()
     {
-        
+
         _gameController = Camera.main.GetComponent<GameController>();
-        
-        
+
+
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
     }
 
-    
+
     public void PrimeiroTutorial(int value, int value2)
     {
         // Exibe o tutorial baseado no valor recebido
@@ -70,14 +68,14 @@ public class TutoriasJogo : MonoBehaviour
         }
         else if (value2 == 4) // tutorial tabua
         {
-           
+
             _imag3.SetActive(false);
-             _textProTutor2.SetActive(true);
-}
+            _textProTutor2.SetActive(true);
+        }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
     }
-    
+
     IEnumerator TempoTutorON()
     {
         _panelTutor.DOScale(1.5f, .25f);  // Animação de escala
@@ -89,15 +87,15 @@ public class TutoriasJogo : MonoBehaviour
     {
         _panelTutor.transform.localScale = Vector3.zero;
         _gameController._gamerOver = false; // Restaura o movimento do jogador
-        _tutor1.SetActive(false);
+        _pontoTroca.SetActive(false);
 
     }
-    
 
-   
+
+
     public void TempoTutorOff()
     {
-       
+
         if (!_fimTutor)
         {
             //_conText++;
@@ -131,7 +129,7 @@ public class TutoriasJogo : MonoBehaviour
             {
                 _fimTutor = true;
 
-               
+
 
 
             }
@@ -141,16 +139,12 @@ public class TutoriasJogo : MonoBehaviour
 
             _gameController._gamerOver = false;
             TutorFechar();
-            _moveNew.podeAvancarTutorial = false;
-            
+            _moveNew.podeAvancarTutorial3 = false;
+
 
         }
 
 
 
     }
-    
-
 }
-
-
