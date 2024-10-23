@@ -87,15 +87,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Voltar",
-                    "type": "Button",
-                    "id": "1da70d33-e87e-4976-96b9-0ef6ab030a7a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Avanca",
                     "type": "Button",
                     "id": "f35d892d-2959-4a83-94ef-8bbed77664e6",
@@ -548,19 +539,19 @@
                 },
                 {
                     "name": "",
-                    "id": "859f1024-244a-433c-9512-719b5759665e",
-                    "path": "<Gamepad>/start",
+                    "id": "d509f4dd-ef9f-4b98-8124-df8d3b92c109",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
-                    "groups": "New control scheme",
-                    "action": "Voltar",
+                    "groups": "",
+                    "action": "Avanca",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "d509f4dd-ef9f-4b98-8124-df8d3b92c109",
-                    "path": "<Keyboard>/z",
+                    "id": "6ed0779e-74d7-421e-b32d-7fbc6407cbb9",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
