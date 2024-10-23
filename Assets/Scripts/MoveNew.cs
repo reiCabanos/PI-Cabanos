@@ -253,7 +253,7 @@ public class MoveNew : MonoBehaviour
             TrocaScene();
             _troca.SetActive(false);
         }
-        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelfs)
+        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelf)
         {
             // Ativar o botão de troca de cena
             _troca.SetActive(true); // O botão de troca deve estar desativado inicialmente

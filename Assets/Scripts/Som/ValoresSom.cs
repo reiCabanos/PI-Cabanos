@@ -6,6 +6,7 @@ namespace SmallHedge.GerenciadorSom
         Andar_Terra,
         Andar_Madeira,
         Andar_grama,
+        Correndo,
         Pular,
         Arremessar,
         Arrastar
