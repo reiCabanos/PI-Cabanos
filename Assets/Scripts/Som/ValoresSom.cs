@@ -9,6 +9,9 @@ namespace SmallHedge.GerenciadorSom
         Correndo,
         Pular,
         Arremessar,
-        Arrastar
+        Arrastar,
+        voz1,
+        voz2,
+        voz3
     }
 }
