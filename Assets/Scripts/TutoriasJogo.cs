@@ -12,6 +12,7 @@ public class TutoriasJogo : MonoBehaviour
     public string[] _textTutors;
     public Image[] _imgTutors;
     public Transform _panelTutor;
+    public GameObject _panelTutorPrefab;
     public int _conText=-1;
     public bool _fimTutor;
     public TextMeshProUGUI _textProTutor;
@@ -131,7 +132,10 @@ public class TutoriasJogo : MonoBehaviour
             {
                 _fimTutor = true;
 
-               
+               _panelTutorPrefab.SetActive(false);
+                _gameController._gamerOver = false;
+                TutorFechar();
+                _moveNew.podeAvancarTutorial = false;
 
 
             }

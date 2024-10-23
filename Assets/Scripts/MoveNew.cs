@@ -253,10 +253,10 @@ public class MoveNew : MonoBehaviour
             TrocaScene();
             _troca.SetActive(false);
         }
-        if (other.gameObject.CompareTag("PontoTroca") && pontoTroca.activeSelf)
+        if (other.gameObject.CompareTag("PontoTroca"))
         {
-            // Ativar o botão de troca de cena
-            _troca.SetActive(true); // O botão de troca deve estar desativado inicialmente
+           
+            
             _tutoriasV._conText = 0;
             _tutoriasV._fimTutor = false;
             _gameController._gamerOver = true;
@@ -310,7 +310,7 @@ public class MoveNew : MonoBehaviour
         // Quando o jogador sair da área, desativa o botão de troca de cena
         if (other.gameObject.CompareTag("PontoTroca"))
         {
-            _troca.SetActive(false);
+            //_troca.SetActive(false);
             podeAvancarTutorial3 = false;
         }
         if (other.CompareTag("Tutor1")) // Substitua "TutorialZone" pela tag desejada

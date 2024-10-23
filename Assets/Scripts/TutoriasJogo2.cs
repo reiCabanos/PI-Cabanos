@@ -24,7 +24,7 @@ public class TutoriasJogo2 : MonoBehaviour
     public GameObject _imag3;
     public GameObject _tutor2;
     public MoveNew _moveNew;
-
+    public GameObject _panelTutorPrefab;
 
 
 
@@ -131,6 +131,11 @@ public class TutoriasJogo2 : MonoBehaviour
             else if (_conText == 5)
             {
                 _fimTutor = true;
+                _panelTutorPrefab.SetActive(false);
+            
+                _gameController._gamerOver = false;
+                TutorFechar();
+                _moveNew.podeAvancarTutorial = false;
 
 
 

@@ -23,6 +23,7 @@ public class TutorialVendedor : MonoBehaviour
     public GameObject _imag3;
     public GameObject _pontoTroca;
     public MoveNew _moveNew;
+    public GameObject _panelTutorPrefab;
 
 
 
@@ -128,6 +129,11 @@ public class TutorialVendedor : MonoBehaviour
             else if (_conText == 5)
             {
                 _fimTutor = true;
+                _panelTutorPrefab.SetActive(false);
+               
+                _gameController._gamerOver = false;
+                TutorFechar();
+                _moveNew.podeAvancarTutorial = false;
 
 
 
