@@ -51,7 +51,6 @@ public class TutoriasJogo : MonoBehaviour
         if (value2 == 0) // texto jogo
         {
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo1);
-
             _textProButon.text = _textButons[value];
             _textProTutor.text = _textTutors[value2];
         }
@@ -62,24 +61,30 @@ public class TutoriasJogo : MonoBehaviour
              _imgT.sprite = _imgTutors[0].sprite;*/
             _imag1.SetActive(true);
             _textProTutor1.SetActive(false);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo2);
 
         }
         else if (value2 == 2) // tutorial jump
         {
+            GerenciadorSomDialogo.PararSom();
             _imag1.SetActive(false);
             _imag2.SetActive(true);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo3);
         }
         else if (value2 == 3) // tutorial tabua
         {
+            GerenciadorSomDialogo.PararSom();
             _imag2.SetActive(false);
             _imag3.SetActive(true);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo4);
         }
         else if (value2 == 4) // tutorial tabua
         {
-           
+            GerenciadorSomDialogo.PararSom();
             _imag3.SetActive(false);
              _textProTutor2.SetActive(true);
-}
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo5);
+        }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
     }

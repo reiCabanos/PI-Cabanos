@@ -7,6 +7,9 @@ namespace SmallHedge.SomDialogo
     {
         Dialogo1,
         Dialogo2,
+        Dialogo3,
+        Dialogo4,
+        Dialogo5,
         Narrador,
         Personagem,
     }

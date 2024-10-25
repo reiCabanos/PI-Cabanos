@@ -7,11 +7,7 @@ namespace SmallHedge.SomDialogo
     [CreateAssetMenu(menuName = "SmallHedge/Sons Dialogo", fileName = "Sons SO Dialogo")]
     public class SonsSODialogo : ScriptableObject
     {
-        public ListaSonsDialogo[] Dialogo1,
-        Dialogo2;
-
-
-
+        public ListaSonsDialogo[] sons;
     }
 
     [System.Serializable]
