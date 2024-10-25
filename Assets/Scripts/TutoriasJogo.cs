@@ -1,4 +1,5 @@
 using DG.Tweening;
+using SmallHedge.SomDialogo;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -36,10 +37,11 @@ public class TutoriasJogo : MonoBehaviour
     {
         
         _gameController = Camera.main.GetComponent<GameController>();
-        
-        
+
+     
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
+        
     }
 
     
@@ -48,11 +50,14 @@ public class TutoriasJogo : MonoBehaviour
         // Exibe o tutorial baseado no valor recebido
         if (value2 == 0) // texto jogo
         {
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo1);
+
             _textProButon.text = _textButons[value];
             _textProTutor.text = _textTutors[value2];
         }
         else if (value2 == 1) // tutorial movimento
         {
+            GerenciadorSomDialogo.PararSom();
             /* _imgT.enabled = true;
              _imgT.sprite = _imgTutors[0].sprite;*/
             _imag1.SetActive(true);
