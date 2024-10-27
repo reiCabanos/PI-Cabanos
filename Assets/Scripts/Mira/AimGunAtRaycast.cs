@@ -10,11 +10,13 @@ public class AimGunAtRaycast : MonoBehaviour
     private RaycastHit hit;
     private Quaternion originalAngle;
     [SerializeField] private LayerMask aimMask;
+    [SerializeField] private GameObject precisionPoint; // arraste o ponto de precisão para este campo no Inspector
+
 
     private void OnDrawGizmos()
     {
         Gizmos.color = rayColor;
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 999999999999999);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 500f);
     }
     private void Awake()
     {
@@ -24,7 +26,7 @@ public class AimGunAtRaycast : MonoBehaviour
     {
         if(PlayerManager.isReloading == false)
         {
-            if(Physics.Raycast(transform.position, transform.forward, out hit, 999999999999999, aimMask))
+            if(Physics.Raycast(transform.position, transform.forward, out hit, 500f, aimMask))
             {
                 //aim the gun at raycast
                 Vector3 directionToTarget = hit.point - gunRoot.transform.position;

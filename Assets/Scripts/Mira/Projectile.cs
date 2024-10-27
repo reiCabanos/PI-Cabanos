@@ -12,9 +12,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // Aumenta a influência da gravidade
-        rb.mass = 5f; // Aumente o valor da massa
-        rb.AddForce(Physics.gravity * rb.mass * 2f); // Multiplica a gravidade padrão
+        
     }
     void Update()
     {
