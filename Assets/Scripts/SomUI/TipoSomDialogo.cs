@@ -10,7 +10,16 @@ namespace SmallHedge.SomDialogo
         Dialogo3,
         Dialogo4,
         Dialogo5,
-        Narrador,
-        Personagem,
+        vdialogo1,
+        vdialogo2,
+        vdialogo3,
+        vdialogo4,
+        vdialogo5,
+        ddialogo1,
+        ddialogo2,
+        ddialogo3,
+        ddialogo4,
+        ddialogo5,
+
     }
 }

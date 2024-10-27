@@ -84,6 +84,7 @@ public class TutoriasJogo : MonoBehaviour
             _imag3.SetActive(false);
              _textProTutor2.SetActive(true);
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.Dialogo5);
+
         }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
@@ -94,6 +95,7 @@ public class TutoriasJogo : MonoBehaviour
         _panelTutor.DOScale(1.5f, .25f);  // Animação de escala
         yield return new WaitForSeconds(.25f);
         _panelTutor.DOScale(1f, .25f);
+
     }
 
     void TutorFechar()
@@ -146,7 +148,7 @@ public class TutoriasJogo : MonoBehaviour
                 _gameController._gamerOver = false;
                 TutorFechar();
                 _moveNew.podeAvancarTutorial = false;
-
+                GerenciadorSomDialogo.PararSom();
 
             }
         }

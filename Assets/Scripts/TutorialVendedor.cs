@@ -1,4 +1,5 @@
 using DG.Tweening;
+using SmallHedge.SomDialogo;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -46,32 +47,40 @@ public class TutorialVendedor : MonoBehaviour
         // Exibe o tutorial baseado no valor recebido
         if (value2 == 0) // texto jogo
         {
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo1);
             _textProButon.text = _textButons[value];
             _textProTutor.text = _textTutors[value2];
         }
         else if (value2 == 1) // tutorial movimento
         {
+            GerenciadorSomDialogo.PararSom();
             /* _imgT.enabled = true;
              _imgT.sprite = _imgTutors[0].sprite;*/
             _imag1.SetActive(true);
             _textProTutor1.SetActive(false);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo2);
 
         }
         else if (value2 == 2) // tutorial jump
         {
+            GerenciadorSomDialogo.PararSom();
             _imag1.SetActive(false);
             _imag2.SetActive(true);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo3);
         }
         else if (value2 == 3) // tutorial tabua
         {
+            GerenciadorSomDialogo.PararSom();
             _imag2.SetActive(false);
             _imag3.SetActive(true);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo4);
         }
         else if (value2 == 4) // tutorial tabua
         {
-
+            GerenciadorSomDialogo.PararSom();
             _imag3.SetActive(false);
             _textProTutor2.SetActive(true);
+            GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo5);
         }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
@@ -128,6 +137,7 @@ public class TutorialVendedor : MonoBehaviour
 
             else if (_conText == 5)
             {
+                GerenciadorSomDialogo.PararSom();
                 _fimTutor = true;
                 _panelTutorPrefab.SetActive(false);
                
