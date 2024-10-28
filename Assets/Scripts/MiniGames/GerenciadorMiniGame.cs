@@ -7,6 +7,7 @@ public class GerenciadorMiniGame : MonoBehaviour
     public TextMeshProUGUI problemText; // Texto para exibir o problema matemático
     public TextMeshProUGUI timerText; // Texto para exibir o temporizador
     public float problemDuration = 5.0f; // Tempo para resolver o problema (ex.: 5 segundos)
+    public float blockActivationDelay = 2.0f; // Tempo de espera após ativar os blocos
 
     private BlockSpawner blockSpawner; // Referência ao BlockSpawner
     private int correctAnswer; // Armazena a resposta correta
@@ -25,7 +26,20 @@ public class GerenciadorMiniGame : MonoBehaviour
             return;
         }
 
-        GenerateProblem(); // Gera o primeiro problema
+        // Inicia o jogo chamando a função que ativa os blocos e gera o problema
+        StartCoroutine(SetupGame());
+    }
+
+    IEnumerator SetupGame()
+    {
+        // Randomiza e ativa os blocos
+        blockSpawner.RandomizeBlocks();
+
+        // Aguarda um curto período após ativar os blocos
+        yield return new WaitForSeconds(blockActivationDelay);
+
+        // Gera e exibe o problema
+        GenerateProblem();
     }
 
     void GenerateProblem()
@@ -50,9 +64,6 @@ public class GerenciadorMiniGame : MonoBehaviour
         // Inicia o temporizador
         remainingTime = problemDuration;
         problemActive = true;
-
-        // Chama a função para randomizar os números dos blocos
-        blockSpawner.RandomizeBlocks();
 
         Debug.Log($"Problema gerado: {problemText.text}, Resposta correta: {correctAnswer}");
     }
@@ -95,6 +106,7 @@ public class GerenciadorMiniGame : MonoBehaviour
             }
         }
 
+        // Aguarda um curto período antes de gerar o próximo problema
         StartCoroutine(WaitAndGenerateNewProblem());
     }
 
@@ -102,6 +114,6 @@ public class GerenciadorMiniGame : MonoBehaviour
     {
         // Aguarda um curto período antes de gerar o próximo problema
         yield return new WaitForSeconds(2.0f);
-        GenerateProblem();
+        StartCoroutine(SetupGame()); // Reinicia o processo
     }
 }
