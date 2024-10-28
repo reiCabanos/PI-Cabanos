@@ -111,6 +111,7 @@ public class TutorialVendedor : MonoBehaviour
             //_conText++;
             if (_conText == 0)
             {
+
                 PrimeiroTutorial(0, 0); // Primeiro tutorial
                 _conText++;
             }
