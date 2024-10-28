@@ -1,67 +1,155 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
 using System.Collections.Generic;
 
 public class BlockSpawner : MonoBehaviour
 {
-    public Vector3 spawnPosition; // Posição inicial para o primeiro bloco
-    public Quaternion spawnRotation = Quaternion.identity; // Rotação padrão para os blocos
-    public float spacing = 1.5f; // Espaço entre os blocos
+    public Vector3 spawnPosition;
+    public Quaternion spawnRotation = Quaternion.identity;
+    public float spacing = 1.5f;
+    private List<int> randomNumbers;
+    private Dictionary<int, Color> numberColors;
+    private bool gameStarted = false;
 
-    private List<int> randomNumbers; // Lista para armazenar números randomizados
-    private Dictionary<int, Color> numberColors; // Dicionário para armazenar a cor de cada número
+    // Cores vivas predefinidas para os números
+    private readonly Color[] vividColors = new Color[]
+    {
+        new Color(1f, 0.2f, 0.2f),     // Vermelho vivo
+        new Color(0.2f, 1f, 0.2f),     // Verde vivo
+        new Color(0.2f, 0.2f, 1f),     // Azul vivo
+        new Color(1f, 1f, 0.2f),       // Amarelo vivo
+        new Color(1f, 0.2f, 1f),       // Rosa vivo
+        new Color(0.2f, 1f, 1f),       // Ciano vivo
+        new Color(1f, 0.6f, 0.2f),     // Laranja vivo
+        new Color(0.8f, 0.2f, 0.8f),   // Roxo vivo
+        new Color(0.6f, 1f, 0.2f),     // Verde-limão
+        new Color(0.2f, 0.6f, 1f)      // Azul claro
+    };
 
     void Start()
     {
-        GenerateRandomNumbers(); // Inicializa os números aleatórios
-        ArrangeBlocks(); // Organiza os blocos
+        StartCoroutine(InitializeBlocksDelayed());
     }
 
-    // Função para gerar e randomizar números para os blocos
-    public void RandomizeBlocks()
+    System.Collections.IEnumerator InitializeBlocksDelayed()
     {
-        GenerateRandomNumbers(); // Gera novos números aleatórios
-        ArrangeBlocks(); // Redistribui os números nos blocos com as novas cores
+        yield return null;
+        InitializeBlocks();
     }
 
-    private void GenerateRandomNumbers()
+    public void InitializeBlocks()
     {
         randomNumbers = new List<int>();
         numberColors = new Dictionary<int, Color>();
 
-        // Gera números aleatórios de 0 a 9 até preencher os 64 blocos
-        for (int i = 0; i < 64; i++)
+        // Inicializa as cores para cada número (1-10)
+        for (int i = 1; i <= 10; i++)
         {
-            int randomNumber = Random.Range(0, 10);
-            randomNumbers.Add(randomNumber);
-
-            // Atribui uma cor se o número ainda não tiver uma
-            if (!numberColors.ContainsKey(randomNumber))
-            {
-                numberColors[randomNumber] = RandomColor();
-            }
+            numberColors[i] = vividColors[i - 1];
         }
 
-        // Embaralha a lista para distribuir os números de forma aleatória
+        // Preenche a lista com números de 1 a 10 repetidos
+        for (int i = 0; i < 64; i++)
+        {
+            int number = (i % 10) + 1; // Gera números de 1 a 10 ciclicamente
+            randomNumbers.Add(number);
+        }
+
+        // Embaralha os números para distribuição aleatória
         ShuffleList(randomNumbers);
+
+        // Organiza os blocos
+        ArrangeInitialBlocks();
     }
 
-    private void ArrangeBlocks()
+    private void ArrangeInitialBlocks()
     {
-        int index = 0; // Índice para acessar os números e cores randomizados
+        int index = 0;
+        if (BlockPool.SharedInstance == null || BlockPool.SharedInstance.pooledObjects == null)
+        {
+            Debug.LogError("BlockPool não está pronto!");
+            return;
+        }
 
         foreach (GameObject block in BlockPool.SharedInstance.pooledObjects)
         {
             if (block != null)
             {
-                // Define a posição do bloco em uma grade
-                float x = spawnPosition.x + (index % 8) * spacing;
-                float z = spawnPosition.z + (index / 8) * spacing;
+                // Calcula a posição na grade 8x8
+                int row = index / 8;
+                int col = index % 8;
+                float x = spawnPosition.x + col * spacing;
+                float z = spawnPosition.z + row * spacing;
+
+                // Posiciona o bloco
                 block.transform.position = new Vector3(x, spawnPosition.y, z);
                 block.transform.rotation = spawnRotation;
 
-                // Define o número do bloco e sua cor correspondente
+                // Define o número inicial (1-10)
+                int number = randomNumbers[index];
+                TextMeshPro textMesh = block.GetComponentInChildren<TextMeshPro>();
+                if (textMesh != null)
+                {
+                    textMesh.text = number.ToString();
+                }
+
+                // Define a cor viva correspondente
+                MeshRenderer renderer = block.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                {
+                    renderer.material.color = numberColors[number];
+                }
+
+                block.SetActive(true);
+                index++;
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            RandomizeBlocks();
+        }
+    }
+
+    public void RandomizeBlocks()
+    {
+        if (!gameStarted) return;
+        GenerateRandomNumbers();
+        ArrangeBlocks();
+    }
+
+    private void GenerateRandomNumbers()
+    {
+        randomNumbers.Clear();
+
+        // Mantém as mesmas cores vivas para os números
+        for (int i = 0; i < 64; i++)
+        {
+            int randomNumber = Random.Range(1, 11); // Números de 1 a 10
+            randomNumbers.Add(randomNumber);
+        }
+        ShuffleList(randomNumbers);
+    }
+
+    private void ArrangeBlocks()
+    {
+        int index = 0;
+        foreach (GameObject block in BlockPool.SharedInstance.pooledObjects)
+        {
+            if (block != null)
+            {
+                int row = index / 8;
+                int col = index % 8;
+                float x = spawnPosition.x + col * spacing;
+                float z = spawnPosition.z + row * spacing;
+
+                block.transform.position = new Vector3(x, spawnPosition.y, z);
+                block.transform.rotation = spawnRotation;
+
                 int number = randomNumbers[index];
                 TextMeshPro textMesh = block.GetComponentInChildren<TextMeshPro>();
                 if (textMesh != null)
@@ -70,18 +158,17 @@ public class BlockSpawner : MonoBehaviour
                 }
 
                 MeshRenderer renderer = block.GetComponent<MeshRenderer>();
-                if (renderer != null && numberColors.ContainsKey(number))
+                if (renderer != null)
                 {
                     renderer.material.color = numberColors[number];
                 }
 
-                block.SetActive(true); // Garante que o bloco está ativo
+                block.SetActive(true);
                 index++;
             }
         }
     }
 
-    // Função para embaralhar a lista de números aleatórios
     private void ShuffleList(List<int> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
@@ -91,11 +178,5 @@ public class BlockSpawner : MonoBehaviour
             list[i] = list[randomIndex];
             list[randomIndex] = temp;
         }
-    }
-
-    // Função para gerar uma cor aleatória
-    private Color RandomColor()
-    {
-        return new Color(Random.value, Random.value, Random.value);
     }
 }

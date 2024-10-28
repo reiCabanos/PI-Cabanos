@@ -4,28 +4,42 @@ using System.Collections;
 
 public class GerenciadorMiniGame : MonoBehaviour
 {
-    public TextMeshProUGUI problemText; // Texto para exibir o problema matemático
-    public TextMeshProUGUI timerText; // Texto para exibir o temporizador
-    public float problemDuration = 5.0f; // Tempo para resolver o problema (ex.: 5 segundos)
-
-    private BlockSpawner blockSpawner; // Referência ao BlockSpawner
-    private int correctAnswer; // Armazena a resposta correta
-    private int previousAnswer = -1; // Armazena a resposta anterior para evitar repetições
-    private float remainingTime; // Tempo restante para responder
-    private bool problemActive = false; // Verifica se o problema está ativo
+    public TextMeshProUGUI problemText;
+    public TextMeshProUGUI timerText;
+    public float problemDuration = 5.0f;
+    private BlockSpawner blockSpawner;
+    private int correctAnswer;
+    private int previousAnswer = -1;
+    private float remainingTime;
+    private bool problemActive = false;
+    private bool gameStarted = false;
 
     void Start()
     {
-        // Obtem o BlockSpawner diretamente da Câmera Principal
         blockSpawner = Camera.main.GetComponent<BlockSpawner>();
-
         if (blockSpawner == null)
         {
             Debug.LogError("BlockSpawner não encontrado na Câmera Principal!");
             return;
         }
 
-        GenerateProblem(); // Gera o primeiro problema
+        // Esconde os textos inicialmente
+        if (problemText != null) problemText.gameObject.SetActive(false);
+        if (timerText != null) timerText.gameObject.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            // Ativa os textos
+            if (problemText != null) problemText.gameObject.SetActive(true);
+            if (timerText != null) timerText.gameObject.SetActive(true);
+
+            blockSpawner.StartGame();
+            GenerateProblem();
+        }
     }
 
     void GenerateProblem()
