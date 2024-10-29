@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "840e427c-e888-4437-a94b-1b04488a768f",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -28,7 +28,7 @@
                 {
                     "name": "Teclado",
                     "id": "68fd78fe-7966-45c1-acb2-8740182472b0",
-                    "path": "3DVector",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -60,18 +60,7 @@
                 },
                 {
                     "name": "Left",
-                    "id": "c2169d45-aee1-4f12-a2c2-5a3e4ad5ab7b",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "66b5d672-6ab6-48f0-a897-8a80a299e3d0",
+                    "id": "be58a273-43c7-4763-8c1b-7424bb4965ac",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -81,20 +70,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Forward",
-                    "id": "3ea3811b-0953-47d9-a577-3552d8cb4ca2",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Backward",
-                    "id": "2060a092-8b03-42ea-a83a-ff27acf791ec",
-                    "path": "",
+                    "name": "Right",
+                    "id": "40cf689a-b987-4eb8-8806-57a8b5795c18",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

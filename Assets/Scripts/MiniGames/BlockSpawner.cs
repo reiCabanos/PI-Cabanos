@@ -10,6 +10,9 @@ public class BlockSpawner : MonoBehaviour
     private List<int> randomNumbers;
     private Dictionary<int, Color> numberColors;
     private bool gameStarted = false;
+    private const int ROWS = 6;  // Alterado de 8 para 6
+    private const int COLS = 8;
+    private const int TOTAL_BLOCKS = ROWS * COLS;  // Agora são 48 blocos
 
     // Cores vivas predefinidas para os números
     private readonly Color[] vividColors = new Color[]
@@ -49,7 +52,7 @@ public class BlockSpawner : MonoBehaviour
         }
 
         // Preenche a lista com números de 1 a 10 repetidos
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < TOTAL_BLOCKS; i++)  // Agora loop até 48
         {
             int number = (i % 10) + 1; // Gera números de 1 a 10 ciclicamente
             randomNumbers.Add(number);
@@ -73,11 +76,11 @@ public class BlockSpawner : MonoBehaviour
 
         foreach (GameObject block in BlockPool.SharedInstance.pooledObjects)
         {
-            if (block != null)
+            if (block != null && index < TOTAL_BLOCKS)  // Garante que só 48 blocos sejam posicionados
             {
-                // Calcula a posição na grade 8x8
-                int row = index / 8;
-                int col = index % 8;
+                // Calcula a posição na grade 6x8
+                int row = index / COLS;
+                int col = index % COLS;
                 float x = spawnPosition.x + col * spacing;
                 float z = spawnPosition.z + row * spacing;
 
@@ -103,6 +106,10 @@ public class BlockSpawner : MonoBehaviour
                 block.SetActive(true);
                 index++;
             }
+            else if (block != null)
+            {
+                block.SetActive(false);  // Desativa os blocos extras
+            }
         }
     }
 
@@ -127,7 +134,7 @@ public class BlockSpawner : MonoBehaviour
         randomNumbers.Clear();
 
         // Mantém as mesmas cores vivas para os números
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < TOTAL_BLOCKS; i++)  // Agora gera 48 números
         {
             int randomNumber = Random.Range(1, 11); // Números de 1 a 10
             randomNumbers.Add(randomNumber);
@@ -140,10 +147,10 @@ public class BlockSpawner : MonoBehaviour
         int index = 0;
         foreach (GameObject block in BlockPool.SharedInstance.pooledObjects)
         {
-            if (block != null)
+            if (block != null && index < TOTAL_BLOCKS)  // Garante que só 48 blocos sejam posicionados
             {
-                int row = index / 8;
-                int col = index % 8;
+                int row = index / COLS;
+                int col = index % COLS;
                 float x = spawnPosition.x + col * spacing;
                 float z = spawnPosition.z + row * spacing;
 
@@ -165,6 +172,10 @@ public class BlockSpawner : MonoBehaviour
 
                 block.SetActive(true);
                 index++;
+            }
+            else if (block != null)
+            {
+                block.SetActive(false);  // Desativa os blocos extras
             }
         }
     }
