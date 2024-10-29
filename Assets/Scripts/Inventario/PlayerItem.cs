@@ -33,6 +33,7 @@ public class PlayerItem : MonoBehaviour
                 {
                     // Ativar o ponto de troca de cena
                     _moveNew.AtivarPontoTroca();
+                    _moveNew.AtivarTutorManga();
                 }
             }
 

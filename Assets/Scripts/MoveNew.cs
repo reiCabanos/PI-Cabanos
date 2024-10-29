@@ -76,13 +76,17 @@ public class MoveNew : MonoBehaviour
     public bool podeAvancarTutorial = false; // Flag para verificar se o jogador pode avançar
     public bool podeAvancarTutorial2 = false; // Flag para verificar se o jogador pode avançar
     public bool podeAvancarTutorial3 = false;
+    public bool podeAvancarManga = false;
+    public TutorialManga _manga;
+    public GameObject _tutorManga;
+
 
 
 
     void Start()
     {
-       
-       
+
+
         _controller = GetComponent<CharacterController>();
         _control = Camera.main.GetComponent<InventarioControl>();
         _playerPontos = Camera.main.GetComponent<PlayerPontos>();
@@ -107,7 +111,7 @@ public class MoveNew : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up, moveVector.x * rotationSpeed * Time.deltaTime);
-       
+
 
         if (_gameController._gamerOver == false && !hudControles.blockMovement)
         {
@@ -239,10 +243,10 @@ public class MoveNew : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       /* if (other.gameObject.CompareTag("testes"))
-        {
-            playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
-        }*/
+        /* if (other.gameObject.CompareTag("testes"))
+         {
+             playerCamera.transform.localRotation = Quaternion.Euler(22.787f, -0.928f, 0);
+         }*/
         if (other.gameObject.CompareTag("item"))
         {
             _playerPontos.SomarPontos(1);
@@ -255,8 +259,8 @@ public class MoveNew : MonoBehaviour
         }
         if (other.gameObject.CompareTag("PontoTroca"))
         {
-           
-            
+
+
             _tutoriasV._conText = 0;
             _tutoriasV._fimTutor = false;
             _gameController._gamerOver = true;
@@ -272,18 +276,18 @@ public class MoveNew : MonoBehaviour
             _manager.Salvar();
             _manager.CheckPointSalvar(other.transform.localPosition);
         }
-       
+
         if (other.gameObject.CompareTag("Tutor1"))
         {
             _tutoriasJ._conText = 0;
             _tutoriasJ._fimTutor = false;
             _gameController._gamerOver = true;
-            
-           podeAvancarTutorial = true; // Habilita o input
+
+            podeAvancarTutorial = true; // Habilita o input
             _tutoriasJ.TempoTutorOff();
             Debug.Log("_tutoriasJ");
 
-            
+
 
 
         }
@@ -295,6 +299,20 @@ public class MoveNew : MonoBehaviour
 
             podeAvancarTutorial2 = true; // Habilita o input
             _tutoriasJ2.TempoTutorOff();
+            Debug.Log("_tutoriasJ");
+
+
+
+
+        }
+        if (other.gameObject.CompareTag("Manga"))
+        {
+            _manga._conText = 0;
+            _manga._fimTutor = false;
+            _gameController._gamerOver = true;
+
+            podeAvancarManga = true; // Habilita o input
+            _manga.TempoTutorOff();
             Debug.Log("_tutoriasJ");
 
 
@@ -321,6 +339,11 @@ public class MoveNew : MonoBehaviour
         if (other.CompareTag("Tutor2")) // Substitua "TutorialZone" pela tag desejada
         {
             podeAvancarTutorial2 = false; // Desabilita o input
+            Debug.Log("Saiu da área do tutorial, input desabilitado.");
+        }
+        if (other.CompareTag("Manga")) // Substitua "TutorialZone" pela tag desejada
+        {
+            podeAvancarManga = false; // Desabilita o input
             Debug.Log("Saiu da área do tutorial, input desabilitado.");
         }
 
@@ -352,19 +375,20 @@ public class MoveNew : MonoBehaviour
     {
         if (value.performed)
         {
-            if (podeAvancarTutorial || podeAvancarTutorial2 || podeAvancarTutorial3)
+            if (podeAvancarTutorial || podeAvancarTutorial2 || podeAvancarTutorial3 ||podeAvancarManga )
             {
                 Debug.Log("Tecla de teste pressionada. Deve avançar o tutorial.");
                 _tutoriasJ.TempoTutorOff();
                 _tutoriasJ2.TempoTutorOff();
                 _tutoriasV.TempoTutorOff();
+                _manga.TempoTutorOff();
             }
-           
 
-            
-            
+
+
+
         }
-        else 
+        else
         {
             Debug.Log("Não pode avançar o tutorial, pois o jogador não está na área correta.");
         }
@@ -395,4 +419,10 @@ public class MoveNew : MonoBehaviour
         pontoTroca.SetActive(true);
         Debug.Log("Ponto de troca de cena ativado!");
     }
+    public void AtivarTutorManga()
+    {
+        _tutorManga.SetActive(true);
+        Debug.Log("Ponto de troca de cena ativado!");
+    }
+
 }
