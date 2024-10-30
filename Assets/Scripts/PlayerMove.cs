@@ -553,7 +553,7 @@ public class PlayerMove : MonoBehaviour
 
     public void ReiniciarJogo()
     {
-        _timeCout = 60;
+        _timeCout = 120;
         _cont.text = ("0");
 
         _reiniciarJ = true;

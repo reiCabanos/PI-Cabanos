@@ -165,7 +165,7 @@ public class PlayerControle : MonoBehaviour
            
             _playerMove.StopPlayer(false);
             TutorFechar();
-            _playerMove._timeCout = 60; // Ajuste conforme a visibilidade da variável
+            _playerMove._timeCout = 120; // Ajuste conforme a visibilidade da variável
             _playerMove._isCounting = true;
             _playerMove._timeOver = false;
 

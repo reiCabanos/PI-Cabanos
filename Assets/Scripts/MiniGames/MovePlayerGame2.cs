@@ -22,10 +22,13 @@ public class Moveplayergame2 : MonoBehaviour
     [Header("Debug")]
     public bool showDebugLogs = true;
     public Vector3 _posicaoinicial;
+    public Animator _anim;
+    private float _speedAnimY;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        _anim = GetComponent<Animator>();
         if (controller == null)
         {
             Debug.LogError("CharacterController não encontrado!");
@@ -36,6 +39,20 @@ public class Moveplayergame2 : MonoBehaviour
 
     void Update()
     {
+        float tempSpeed = Mathf.Abs(_moveX) + Mathf.Abs(_moveZ);
+        _speedAnimY = controller.velocity.y;
+        _anim.SetFloat("correndo", tempSpeed);
+        _anim.SetBool("ground", controller.isGrounded);
+        if (controller.isGrounded == false)
+        {
+            HandleGravity();
+        }
+
+        jumpHeight = controller.velocity.y;
+        _anim.SetFloat("pulandoY", _speedAnimY);
+        _anim.SetBool("parado", true);
+       
+
         HandleMovement();
         HandleGravity();
     }
@@ -111,6 +128,7 @@ public class Moveplayergame2 : MonoBehaviour
             _moveZ = 0;
         }
     }
+  
 
     public void SetJump(InputAction.CallbackContext value)
     {

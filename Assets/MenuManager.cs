@@ -189,6 +189,10 @@ public class MenuManager : MonoBehaviour
     // Função para sair do jogo ou voltar ao menu principal
     public void SairDoJogo()
     {
+        SceneManager.LoadScene("MiniGametest"); // Exemplo de como voltar ao menu principal
+    }
+    public void Voltar()
+    {
         SceneManager.LoadScene("Menu"); // Exemplo de como voltar ao menu principal
     }
 }
