@@ -25,8 +25,6 @@ public class TutorialVendedor : MonoBehaviour
     public GameObject _pontoTroca;
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
-    public Button meuBotao;
-   
 
 
 
@@ -136,7 +134,6 @@ public class TutorialVendedor : MonoBehaviour
             {
                 PrimeiroTutorial(0, 4); // texto Final 
                 _conText++;
-                meuBotao.Select();
             }
 
             else if (_conText == 5)

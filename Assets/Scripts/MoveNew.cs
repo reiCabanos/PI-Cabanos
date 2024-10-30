@@ -323,7 +323,6 @@ public class MoveNew : MonoBehaviour
 
 
     }
-
     private void OnTriggerExit(Collider other)
     {
         // Quando o jogador sair da área, desativa o botão de troca de cena
