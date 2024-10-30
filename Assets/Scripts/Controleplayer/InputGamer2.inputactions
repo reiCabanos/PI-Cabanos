@@ -83,7 +83,7 @@
                 {
                     "name": "joystick",
                     "id": "cff4a387-a474-4bdd-88b4-e68c307f8fae",
-                    "path": "3DVector",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -92,7 +92,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
+                    "name": "Up",
                     "id": "68775778-2c33-4810-ba13-6a4341ca243f",
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
@@ -103,7 +103,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
+                    "name": "Down",
                     "id": "fb1ea409-e2d9-46c7-8b39-ecbaa2d37cab",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
@@ -114,7 +114,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
+                    "name": "Left",
                     "id": "70285b9f-1d5f-4890-bd9e-a635f740f9dc",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
@@ -125,31 +125,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
+                    "name": "Right",
                     "id": "44e438e4-3bd1-43bf-a350-da234b299adc",
                     "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "forward",
-                    "id": "a43a7554-9ac9-4f62-9210-2ceae10c6ee1",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "backward",
-                    "id": "411f5ff3-38de-4697-a63b-9b836a2d5dc0",
-                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
