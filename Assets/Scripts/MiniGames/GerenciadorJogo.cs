@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class GerenciadorJogo : MonoBehaviour
 {
     [Header("Player Settings")]
-    public int maxPlayers = 2;
     public int playerLives = 3;
 
     [Header("UI References")]
@@ -16,188 +15,203 @@ public class GerenciadorJogo : MonoBehaviour
     public TextMeshProUGUI player1LivesText;
     public TextMeshProUGUI player2LivesText;
     public TextMeshProUGUI gameStateText;
+    public TextMeshProUGUI timerText;
 
     [Header("Game Settings")]
     public float initialProblemDuration = 5.0f;
     public float minimumProblemDuration = 2.0f;
     public float timeDecreaseRate = 0.2f;
-
-    [Header("Multiplayer References")]
-    [SerializeField] private PlayerInputManager inputManager;
+    public float singlePlayerWinTime = 120.0f;
 
     private GerenciadorMiniGame miniGameManager;
     private BlockSpawner blockSpawner;
-    private Dictionary<int, int> playerLivesRemaining = new Dictionary<int, int>();
+    private List<PlayerData> players = new List<PlayerData>();
     private bool gameInProgress = false;
+    private float gameTimer = 0.0f;
 
-    // Lista para controlar os jogadores ativos
-    private List<PlayerInput> activePlayers = new List<PlayerInput>();
+    private class PlayerData
+    {
+        public PlayerInput playerInput;
+        public int lives;
+
+        public PlayerData(PlayerInput input, int lives)
+        {
+            playerInput = input;
+            this.lives = lives;
+        }
+    }
 
     void Start()
     {
-        // Initialize references
         miniGameManager = FindObjectOfType<GerenciadorMiniGame>();
-        blockSpawner = Camera.main.GetComponent<BlockSpawner>();
+        blockSpawner = Camera.main?.GetComponent<BlockSpawner>();
 
-        // Encontrar o PlayerInputManager se não foi atribuído no Inspector
-        if (inputManager == null)
-            inputManager = FindObjectOfType<PlayerInputManager>();
+        SetupInitialUI();
 
-        // Setup initial state
+        // Registro dos eventos de entrada e saída de jogadores
+        var playerInputManager = PlayerInputManager.instance;
+        if (playerInputManager != null)
+        {
+            playerInputManager.onPlayerJoined += OnPlayerJoined;
+            playerInputManager.onPlayerLeft += OnPlayerLeft;
+        }
+    }
+
+    private void SetupInitialUI()
+    {
         startGameButton.interactable = false;
-        UpdateGameStateText("Waiting for players...");
-
-        // Initialize player lives
-        for (int i = 1; i <= maxPlayers; i++)
-        {
-            playerLivesRemaining[i] = playerLives;
-        }
-
+        UpdateGameStateText("Aguardando jogadores...");
         UpdateLivesDisplay();
+        UpdateTimerDisplay();
+    }
 
-        // Registrar callbacks do PlayerInputManager
-        if (inputManager != null)
+    // Método chamado quando um jogador se junta à partida
+    private void OnPlayerJoined(PlayerInput playerInput)
+    {
+        players.Add(new PlayerData(playerInput, playerLives));
+        UpdateGameStateText($"Jogador {players.Count} entrou! ({players.Count}/{PlayerInputManager.instance.maxPlayerCount})");
+
+        // Inicia o jogo se o número de jogadores estiver completo e o jogo ainda não começou
+        if (players.Count == PlayerInputManager.instance.maxPlayerCount && !gameInProgress)
         {
-            inputManager.onPlayerJoined += HandlePlayerJoined;
-            inputManager.onPlayerLeft += HandlePlayerLeft;
-        }
-        else
-        {
-            Debug.LogError("PlayerInputManager não encontrado na cena!");
+            IniciarJogo(players.ConvertAll(p => p.playerInput));
         }
     }
 
-    void OnDestroy()
+    // Método chamado quando um jogador sai da partida
+    private void OnPlayerLeft(PlayerInput playerInput)
     {
-        // Remover callbacks quando o objeto for destruído
-        if (inputManager != null)
+        var playerToRemove = players.Find(p => p.playerInput == playerInput);
+        if (playerToRemove != null)
         {
-            inputManager.onPlayerJoined -= HandlePlayerJoined;
-            inputManager.onPlayerLeft -= HandlePlayerLeft;
-        }
-    }
+            players.Remove(playerToRemove);
+            UpdateGameStateText($"Jogador saiu! ({players.Count}/{PlayerInputManager.instance.maxPlayerCount})");
 
-    private void HandlePlayerJoined(PlayerInput playerInput)
-    {
-        if (activePlayers.Count < maxPlayers && !gameInProgress)
-        {
-            activePlayers.Add(playerInput);
-            int playerID = activePlayers.Count;
-
-            // Configurar o PlayerInput com o ID do jogador
-            playerInput.gameObject.name = $"Player{playerID}";
-
-            UpdateGameStateText($"Player {playerID} connected! ({activePlayers.Count}/{maxPlayers})");
-
-            if (activePlayers.Count >= maxPlayers)
+            // Verifica se o jogo precisa terminar se todos os jogadores saírem
+            if (players.Count == 0 && gameInProgress)
             {
-                startGameButton.interactable = true;
-                UpdateGameStateText("Press Start to begin!");
+                EndGame(-1); // Empate
             }
         }
     }
 
-    private void HandlePlayerLeft(PlayerInput playerInput)
+    // Inicia o jogo quando o número de jogadores está completo
+    public void IniciarJogo(List<PlayerInput> playerInputs)
     {
-        if (gameInProgress)
+        if (gameInProgress) return;
+
+        players.Clear();
+
+        foreach (var playerInput in playerInputs)
         {
-            int playerID = activePlayers.IndexOf(playerInput) + 1;
-            EliminatePlayer(playerID);
+            players.Add(new PlayerData(playerInput, playerLives));
         }
 
-        activePlayers.Remove(playerInput);
-        UpdateGameStateText($"Player left! ({activePlayers.Count}/{maxPlayers})");
+        gameInProgress = true;
+        PlayerInputManager.instance.DisableJoining(); // Impede novos jogadores de entrar
+        UpdateGameStateText("Jogo em andamento!");
+        startGameButton.interactable = false;
 
-        if (activePlayers.Count < maxPlayers)
+        miniGameManager.problemDuration = initialProblemDuration;
+        miniGameManager.StartGame();
+        StartCoroutine(DecreaseProblemDuration());
+
+        if (players.Count == 1)
         {
-            startGameButton.interactable = false;
+            gameTimer = singlePlayerWinTime;
+            StartCoroutine(GameTimerCountdown());
         }
+
+        Debug.Log("Jogo iniciado com " + players.Count + " jogadores.");
+        UpdateLivesDisplay();
     }
 
-    public void StartGame()
-    {
-        if (activePlayers.Count >= maxPlayers && !gameInProgress)
-        {
-            gameInProgress = true;
-            startGameButton.interactable = false;
-            UpdateGameStateText("Game in progress!");
-
-            // Start the mini-game
-            miniGameManager.problemDuration = initialProblemDuration;
-            miniGameManager.StartGame();
-
-            // Start decreasing the problem duration over time
-            StartCoroutine(DecreaseProblemDuration());
-        }
-    }
-
+    // Notifica que um jogador foi atingido, chamado pelo ManipuladorDeColisaoJogador
     public void OnPlayerHitTrigger(int playerID)
     {
-        if (gameInProgress && playerLivesRemaining.ContainsKey(playerID))
+        if (gameInProgress && playerID > 0 && playerID <= players.Count)
         {
-            playerLivesRemaining[playerID]--;
+            PlayerData player = players[playerID - 1];
+            player.lives--;
             UpdateLivesDisplay();
 
-            // Check if player is eliminated
-            if (playerLivesRemaining[playerID] <= 0)
+            if (player.lives <= 0)
             {
-                EliminatePlayer(playerID);
+                EliminatePlayer(player);
             }
         }
     }
 
-    private void EliminatePlayer(int playerID)
+    private void EliminatePlayer(PlayerData player)
     {
-        // Desativar o input do jogador eliminado
-        if (playerID <= activePlayers.Count)
+        Debug.Log($"Jogador {players.IndexOf(player) + 1} foi eliminado.");
+        player.playerInput.DeactivateInput();
+        OnPlayerLeft(player.playerInput); // Chama OnPlayerLeft para atualizar a lista
+        CheckGameEnd();
+    }
+
+    private void CheckGameEnd()
+    {
+        if (players.Count == 1 && gameInProgress)
         {
-            PlayerInput playerInput = activePlayers[playerID - 1];
-            playerInput.DeactivateInput();
+            EndGame(players[0].playerInput.playerIndex + 1);
         }
-
-        if (activePlayers.Count <= 1)
+        else if (players.Count == 0)
         {
-            // Find the winning player
-            int winner = 0;
-            foreach (var player in playerLivesRemaining)
-            {
-                if (player.Value > 0)
-                {
-                    winner = player.Key;
-                    break;
-                }
-            }
-
-            EndGame(winner);
+            EndGame(-1); // Empate
         }
     }
 
     private void EndGame(int winnerID)
     {
         gameInProgress = false;
-        UpdateGameStateText($"Player {winnerID} wins!");
+        string endMessage = winnerID > 0 ? $"Jogador {winnerID} venceu!" : "Empate!";
+        UpdateGameStateText(endMessage);
         miniGameManager.enabled = false;
         blockSpawner.enabled = false;
 
-        // Desativar input de todos os jogadores
-        foreach (var player in activePlayers)
+        foreach (var player in players)
         {
-            player.DeactivateInput();
+            player.playerInput.DeactivateInput();
+        }
+
+        PlayerInputManager.instance.EnableJoining(); // Permite novos jogadores para a próxima partida
+        startGameButton.interactable = true;
+        Debug.Log("Jogo finalizado.");
+    }
+
+    private IEnumerator GameTimerCountdown()
+    {
+        while (gameInProgress && gameTimer > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            gameTimer--;
+            UpdateTimerDisplay();
+
+            if (players.Count == 1 && gameTimer <= 0)
+            {
+                EndGame(players[0].playerInput.playerIndex + 1);
+                yield break;
+            }
         }
     }
 
     private void UpdateLivesDisplay()
     {
-        if (player1LivesText != null)
-            player1LivesText.text = $"P1 Lives: {playerLivesRemaining[1]}";
-        if (player2LivesText != null)
-            player2LivesText.text = $"P2 Lives: {playerLivesRemaining[2]}";
+        player1LivesText.text = players.Count > 0 ? $"P1 Vidas: {players[0].lives}" : "P1 Vidas: 0";
+        player2LivesText.text = players.Count > 1 ? $"P2 Vidas: {players[1].lives}" : "P2 Vidas: 0";
     }
 
     private void UpdateGameStateText(string message)
     {
         if (gameStateText != null)
             gameStateText.text = message;
+    }
+
+    private void UpdateTimerDisplay()
+    {
+        if (timerText != null)
+            timerText.text = $"Tempo restante: {gameTimer:F0} segundos";
     }
 
     private IEnumerator DecreaseProblemDuration()

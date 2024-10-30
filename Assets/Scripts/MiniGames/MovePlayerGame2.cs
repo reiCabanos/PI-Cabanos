@@ -68,7 +68,7 @@ public class Moveplayergame2 : MonoBehaviour
 
             if (showDebugLogs)
             {
-                Debug.Log($"Moving with speed: {currentSpeed}, Direction: {moveDirection}");
+              /*  Debug.Log($"Moving with speed: {currentSpeed}, Direction: {moveDirection}");*/
             }
         }
 
@@ -79,7 +79,7 @@ public class Moveplayergame2 : MonoBehaviour
 
             if (showDebugLogs)
             {
-                Debug.Log("Jump executed!");
+            /*    Debug.Log("Jump executed!");*/
             }
         }
     }
@@ -100,7 +100,7 @@ public class Moveplayergame2 : MonoBehaviour
 
             if (showDebugLogs)
             {
-                Debug.Log($"Move input received: X={_moveX}, Z={_moveZ}");
+                /*Debug.Log($"Move input received: X={_moveX}, Z={_moveZ}");*/
             }
         }
         else if (value.canceled)
@@ -118,7 +118,7 @@ public class Moveplayergame2 : MonoBehaviour
 
             if (showDebugLogs)
             {
-                Debug.Log("Jump input received!");
+                /*Debug.Log("Jump input received!");*/
             }
         }
     }
