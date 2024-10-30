@@ -14,14 +14,16 @@ public class MenuManager : MonoBehaviour
     [Header("Botões")]
     [SerializeField] private Button botaoIniciar; // Referência ao botão iniciar
     [SerializeField] private Button botaoSair;    // Referência ao botão para sair do jogo
+    [SerializeField] private Button botaoCarregarSegundaCena; // Referência ao botão para carregar a segunda cena
 
     [Header("Scene Settings")]
-    [SerializeField] private string nomeDaCena; // Nome da cena a ser carregada (definido pelo Inspetor)
+    [SerializeField] private string nomeDaCena; // Nome da primeira cena a ser carregada
+    [SerializeField] private string nomeDaSegundaCena; // Nome da segunda cena a ser carregada
     [SerializeField] private float transitionTime = 10f; // Tempo ajustável para a transição de cena
 
     [Header("Tela de Carregamento")]
     [SerializeField] private GameObject telaDeCarregamentoPrefab; // Referência ao prefab da tela de carregamento
-    [SerializeField] private RectTransform fader; // Fader de transição (adicionado para a transição)
+    [SerializeField] private RectTransform fader; // Fader de transição
 
     [Header("Slider de Carregamento")]
     [SerializeField] private Slider sliderDeCarregamento; // Referência ao slider de carregamento
@@ -32,36 +34,20 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        InitializeMenus(); // Inicializa os menus corretamente
+        InitializeMenus();
 
-        // Certifique-se de que os botões estão atribuídos corretamente no Inspetor
-        botaoIniciar.onClick.AddListener(IniciarJogo); // Liga o botão "Iniciar" para carregar a cena
-        botaoSair.onClick.AddListener(SairDoJogo);  // Liga o botão "Sair" para sair ou voltar ao menu principal
+        // Liga os botões aos métodos correspondentes
+        botaoIniciar.onClick.AddListener(() => IniciarJogo(nomeDaCena));
+        botaoCarregarSegundaCena.onClick.AddListener(() => IniciarJogo(nomeDaSegundaCena));
+        botaoSair.onClick.AddListener(SairDoJogo);
 
-        // Certifique-se de que a tela de carregamento está desativada inicialmente
-        if (telaDeCarregamentoPrefab != null)
-        {
-            telaDeCarregamentoPrefab.SetActive(false);
-        }
-
-        // Certifique-se de que o fader está desativado inicialmente
-        if (fader != null)
-        {
-            fader.gameObject.SetActive(false);
-        }
-
-        // Certifique-se de que o slider e a porcentagem estão ocultos inicialmente
-        if (sliderDeCarregamento != null)
-        {
-            sliderDeCarregamento.gameObject.SetActive(false);
-        }
-        if (porcentagemDeCarregamento != null)
-        {
-            porcentagemDeCarregamento.gameObject.SetActive(false);
-        }
+        // Inicializa a tela de carregamento como inativa
+        if (telaDeCarregamentoPrefab != null) telaDeCarregamentoPrefab.SetActive(false);
+        if (fader != null) fader.gameObject.SetActive(false);
+        if (sliderDeCarregamento != null) sliderDeCarregamento.gameObject.SetActive(false);
+        if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.gameObject.SetActive(false);
     }
 
-    // Inicializa os menus, deixando apenas o primeiro ativo
     private void InitializeMenus()
     {
         foreach (var menu in _MenuControls)
@@ -80,115 +66,70 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Função para carregar a cena de jogo quando o botão iniciar for clicado
-    public void IniciarJogo()
+    // Função para iniciar o carregamento da cena especificada
+    public void IniciarJogo(string nomeDaCena)
     {
-        // Verifica se o nome da cena foi configurado no Inspetor
         if (!string.IsNullOrEmpty(nomeDaCena) && !isTransitioning)
         {
-            Debug.Log("Carregando a cena: " + nomeDaCena); // Log para verificar se a função foi chamada
-            isTransitioning = true; // Marca que a transição começou
-
-            // Ativar o fader antes da transição
+            Debug.Log("Carregando a cena: " + nomeDaCena);
+            isTransitioning = true;
             if (fader != null)
             {
                 fader.gameObject.SetActive(true);
                 LeanTween.scale(fader, Vector3.one, 0.5f).setEase(LeanTweenType.easeInOutQuad);
             }
-
-            // Inicia a corrotina para exibir a tela de carregamento e carregar a cena com atraso
-            StartCoroutine(ExibirTelaDeCarregamentoECarregarCena());
+            StartCoroutine(ExibirTelaDeCarregamentoECarregarCena(nomeDaCena));
         }
         else
         {
-            Debug.LogError("Nome da cena não está definido no Inspetor ou transição já em andamento!");
+            Debug.LogError("Nome da cena não está definido ou transição já em andamento!");
         }
     }
 
-    // Corrotina que garante que a tela de carregamento seja exibida antes do carregamento da cena
-    private IEnumerator ExibirTelaDeCarregamentoECarregarCena()
+    // Corrotina para exibir a tela de carregamento e carregar a cena especificada
+    private IEnumerator ExibirTelaDeCarregamentoECarregarCena(string cenaParaCarregar)
     {
-        // Ativa o prefab da tela de carregamento
-        if (telaDeCarregamentoPrefab != null)
-        {
-            telaDeCarregamentoPrefab.SetActive(true);
-        }
-
-        // Ativa o slider e a porcentagem
-        if (sliderDeCarregamento != null)
-        {
-            sliderDeCarregamento.gameObject.SetActive(true);
-            sliderDeCarregamento.maxValue = 100;
-            sliderDeCarregamento.value = 100; // Inicia no valor máximo
-        }
-        if (porcentagemDeCarregamento != null)
-        {
-            porcentagemDeCarregamento.gameObject.SetActive(true);
-            porcentagemDeCarregamento.text = "100%"; // Exibe o valor inicial
-        }
+        if (telaDeCarregamentoPrefab != null) telaDeCarregamentoPrefab.SetActive(true);
+        if (sliderDeCarregamento != null) sliderDeCarregamento.gameObject.SetActive(true);
+        if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.gameObject.SetActive(true);
 
         float currentTime = 0f;
-
-        // Durante o tempo de transição, diminui o valor do slider
         while (currentTime < transitionTime)
         {
             currentTime += Time.deltaTime;
             float progress = Mathf.Clamp01(currentTime / transitionTime);
             float sliderValue = Mathf.Lerp(0, 100, progress);
 
-            // Atualiza o valor do slider e do texto
-            if (sliderDeCarregamento != null)
-            {
-                sliderDeCarregamento.value = sliderValue;
-            }
-            if (porcentagemDeCarregamento != null)
-            {
-                porcentagemDeCarregamento.text = Mathf.RoundToInt(sliderValue).ToString() + "%";
-            }
+            if (sliderDeCarregamento != null) sliderDeCarregamento.value = sliderValue;
+            if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.text = Mathf.RoundToInt(sliderValue).ToString() + "%";
 
-            yield return null; // Espera até o próximo frame
+            yield return null;
         }
 
-        // Inicia o carregamento assíncrono da cena
-        AsyncOperation operacao = SceneManager.LoadSceneAsync(nomeDaCena);
-        operacao.allowSceneActivation = false; // Bloqueia a ativação da cena até o final da transição
+        AsyncOperation operacao = SceneManager.LoadSceneAsync(cenaParaCarregar);
+        operacao.allowSceneActivation = false;
 
-        // Enquanto a cena está carregando
         while (!operacao.isDone)
         {
-            // Quando o carregamento estiver quase completo (90%)
             if (operacao.progress >= 0.9f)
             {
-                // Pequeno atraso antes de ativar a cena
                 yield return new WaitForSeconds(0.5f);
-                operacao.allowSceneActivation = true; // Ativar a cena
+                operacao.allowSceneActivation = true;
             }
-            yield return null;  // Espera até o próximo frame
+            yield return null;
         }
 
-        // Após a cena estar completamente carregada, finalizar a transição
         if (fader != null)
         {
-            LeanTween.scale(fader, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => {
-                fader.gameObject.SetActive(false); // Desativa o fader após a transição
-                isTransitioning = false; // Marca que a transição terminou
-            });
+            LeanTween.scale(fader, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => fader.gameObject.SetActive(false));
         }
 
-        // Desativa o slider e a porcentagem após o carregamento completo
-        if (sliderDeCarregamento != null)
-        {
-            sliderDeCarregamento.gameObject.SetActive(false);
-        }
-        if (porcentagemDeCarregamento != null)
-        {
-            porcentagemDeCarregamento.gameObject.SetActive(false);
-        }
+        isTransitioning = false;
     }
 
     // Função para sair do jogo ou voltar ao menu principal
     public void SairDoJogo()
     {
-        SceneManager.LoadScene("Menu"); // Exemplo de como voltar ao menu principal
+        SceneManager.LoadScene("Menu");
     }
 }

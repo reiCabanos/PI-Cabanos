@@ -140,9 +140,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 50
-        y: 804
-        width: 350
-        height: 319
+        y: 2209
+        width: 304
+        height: 286
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,6 +152,321 @@ TextureImporter:
       bones: []
       spriteID: 3d2390d85f2691646878a888b3d64f22
       internalID: -1596952681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_1
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1992
+        width: 540
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25d2fb0a6e626fa4b9b7735520c27e9a
+      internalID: 2112578969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_2
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 2209
+        width: 186
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fd6aacb5dcf20848b78475ecfd5385e
+      internalID: -1110811188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_3
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 1991
+        width: 876
+        height: 475
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a80a58150aa5318458c20c67b2bcb8c6
+      internalID: 1022446616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 1436
+        width: 824
+        height: 447
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae3fb3fdeefbbaa44b1b9e3a5c748c2a
+      internalID: -2067057459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_5
+      rect:
+        serializedVersion: 2
+        x: 1246
+        y: 1740
+        width: 687
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e337f485733f9d1439d0f53b1a81514d
+      internalID: -39092521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_6
+      rect:
+        serializedVersion: 2
+        x: 1246
+        y: 1532
+        width: 687
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 000161bf24ac63d45a562b2ec4ab8c58
+      internalID: -1276969409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_7
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1199
+        width: 381
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfff0c26068bfd74a9b2ac71beff7fea
+      internalID: 835909893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_8
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 1199
+        width: 380
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db56aab9f59e36a419d4796d48ad01bf
+      internalID: 1609404567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_9
+      rect:
+        serializedVersion: 2
+        x: 1246
+        y: 1324
+        width: 687
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26319647b9b101b4187d3330391707fb
+      internalID: 1378151535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_10
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1052
+        width: 381
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73f711766a984e34894a2d93ce91a055
+      internalID: -421049423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_11
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 1052
+        width: 380
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c4374fb2583ae14d9d92972f8383b99
+      internalID: -949134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_12
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 904
+        width: 381
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84f800448a0bc89498b718e4de7910ff
+      internalID: -282700136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_13
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 904
+        width: 380
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef3bc3a73d8f25b46bb5c7ac0ee16a78
+      internalID: 854405307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_14
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 756
+        width: 381
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34c02a67dc4501345855120d3397f06c
+      internalID: -1046028600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_15
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 756
+        width: 380
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5569be9b967d349b63eed085292812
+      internalID: -1758814850
       vertices: []
       indices: 
       edges: []
@@ -168,6 +483,21 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Assetsextras_0: -1596952681
+      Assetsextras_1: 2112578969
+      Assetsextras_10: -421049423
+      Assetsextras_11: -949134
+      Assetsextras_12: -282700136
+      Assetsextras_13: 854405307
+      Assetsextras_14: -1046028600
+      Assetsextras_15: -1758814850
+      Assetsextras_2: -1110811188
+      Assetsextras_3: 1022446616
+      Assetsextras_4: -2067057459
+      Assetsextras_5: -39092521
+      Assetsextras_6: -1276969409
+      Assetsextras_7: 835909893
+      Assetsextras_8: 1609404567
+      Assetsextras_9: 1378151535
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
