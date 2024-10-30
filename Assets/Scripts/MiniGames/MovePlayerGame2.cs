@@ -21,6 +21,7 @@ public class Moveplayergame2 : MonoBehaviour
 
     [Header("Debug")]
     public bool showDebugLogs = true;
+    public Vector3 _posicaoinicial;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class Moveplayergame2 : MonoBehaviour
             Debug.LogError("CharacterController não encontrado!");
             enabled = false;
         }
+        _posicaoinicial = transform.position;
     }
 
     void Update()
@@ -48,7 +50,7 @@ public class Moveplayergame2 : MonoBehaviour
         }
 
         // Invertemos o eixo Z aqui para corrigir a direção do movimento
-        Vector3 moveDirection = new Vector3(_moveX, 0f, -_moveZ).normalized;
+        Vector3 moveDirection = new Vector3(_moveX, 0f, _moveZ).normalized;
 
         if (moveDirection.magnitude >= 0.1f)
         {

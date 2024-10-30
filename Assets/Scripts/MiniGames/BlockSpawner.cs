@@ -110,7 +110,11 @@ public class BlockSpawner : MonoBehaviour
             {
                 block.SetActive(false);  // Desativa os blocos extras
             }
+
+
         }
+
+     
     }
 
     public void StartGame()

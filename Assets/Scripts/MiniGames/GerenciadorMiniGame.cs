@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GerenciadorMiniGame : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GerenciadorMiniGame : MonoBehaviour
     private float remainingTime;
     private bool problemActive = false;
     private bool gameStarted = false;
+    public List<ManipuladorDeColisaoJogador> _manipuladorDeColisaoJogadors;
+  
 
     void Start()
     {
@@ -69,7 +72,18 @@ public class GerenciadorMiniGame : MonoBehaviour
         blockSpawner.RandomizeBlocks();
 
         Debug.Log($"Problema gerado: {problemText.text}, Resposta correta: {correctAnswer}");
+        Debug.Log("Gera blocos ");
+        Invoke("Chamarjogadores", 1);
     }
+
+    void Chamarjogadores()
+    {
+        for (int i = 0; i < _manipuladorDeColisaoJogadors.Count; i++)
+        {
+            _manipuladorDeColisaoJogadors[i].VoltarPlayer();
+        }
+    }
+
 
     void Update()
     {

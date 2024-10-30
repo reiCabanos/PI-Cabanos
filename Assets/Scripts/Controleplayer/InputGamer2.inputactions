@@ -125,7 +125,7 @@
                 {
                     "name": "Left",
                     "id": "70285b9f-1d5f-4890-bd9e-a635f740f9dc",
-                    "path": "<Gamepad>/leftStick/down",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
