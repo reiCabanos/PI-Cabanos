@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 using SmallHedge.SomAmbiente;
 using UnityEngine.SceneManagement;
@@ -16,53 +17,72 @@ public class MenuManager : MonoBehaviour
     public Button botaoCarregar;
     public Button botaoConfiguracoes;
     public Button botaoSair;
-    public Button botaoVoltar; // Botão de Voltar no painel de configurações
+    public Button botaoVoltar;
+
+    [Header("Botões Padrão")]
+    public Button botaoPadraoMenu;            // Botão inicial do Menu Principal
+    public Button botaoPadraoConfiguracoes;   // Botão inicial das Configurações
 
     [Header("Configurações de Som")]
     public Slider sliderVolumeGeral;
     public Slider sliderVolumeMusica;
     public Slider sliderVolumeVoz;
-    public Slider sliderVolumeEfeitos;  // Novo slider para o volume dos efeitos sonoros
+    public Slider sliderVolumeEfeitos;
     public Button botaoMute;
-    public Button botaoMuteEfeitos; // Novo botão para mutar os efeitos sonoros
+    public Button botaoMuteEfeitos;
 
     [Header("Configurações das Cenas")]
-    public string cenaJogar;       // Nome da cena principal para jogar
-    public string cenaMiniJogo;    // Nome da cena do Mini Jogo
-    public string cenaCarregar;    // Nome da cena para carregar
+    public string cenaJogar;
+    public string cenaMiniJogo;
+    public string cenaCarregar;
 
     private GerenciadorMusicaAmbiente gerenciadorSom;
     private bool estaMutado = false;
-    private bool efeitosMutados = false; // Estado de mute para efeitos sonoros
+    private bool efeitosMutados = false;
 
     private void Start()
     {
         // Obter referência ao Gerenciador de Som
         gerenciadorSom = FindObjectOfType<GerenciadorMusicaAmbiente>();
-        
+
         // Inicializar os botões com suas funções correspondentes
         botaoJogar.onClick.AddListener(IniciarJogo);
         botaoMiniJogo.onClick.AddListener(CarregarMiniJogo);
         botaoCarregar.onClick.AddListener(CarregarCena);
         botaoConfiguracoes.onClick.AddListener(AbrirConfiguracoes);
         botaoSair.onClick.AddListener(SairJogo);
-        botaoVoltar.onClick.AddListener(VoltarMenuPrincipal); // Botão Voltar
+        botaoVoltar.onClick.AddListener(VoltarMenuPrincipal);
 
         botaoMute.onClick.AddListener(ToggleMute);
-        botaoMuteEfeitos.onClick.AddListener(ToggleMuteEfeitos); // Botão de mute para efeitos sonoros
+        botaoMuteEfeitos.onClick.AddListener(ToggleMuteEfeitos);
 
         // Ajustar sliders para volume
         sliderVolumeGeral.onValueChanged.AddListener(AjustarVolumeGeral);
         sliderVolumeMusica.onValueChanged.AddListener(AjustarVolumeMusica);
         sliderVolumeVoz.onValueChanged.AddListener(AjustarVolumeVoz);
-        sliderVolumeEfeitos.onValueChanged.AddListener(AjustarVolumeEfeitos); // Slider de volume de efeitos
+        sliderVolumeEfeitos.onValueChanged.AddListener(AjustarVolumeEfeitos);
 
-        // Configurar animação inicial dos menus
+        // Configurar animação inicial do menu principal e definir o botão selecionado
         painelMenuPrincipal.transform.localScale = Vector3.zero;
         painelConfiguracoes.SetActive(false);
-
-        // Animação de entrada do menu principal
         painelMenuPrincipal.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+        SetarBotaoSelecionado(botaoPadraoMenu.gameObject); // Define o botão inicial do menu principal
+    }
+
+    private void Update()
+    {
+        // Verifica se o EventSystem perdeu o foco e restaura o botão padrão do painel ativo
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            if (painelMenuPrincipal.activeSelf)
+            {
+                SetarBotaoSelecionado(botaoPadraoMenu.gameObject);
+            }
+            else if (painelConfiguracoes.activeSelf)
+            {
+                SetarBotaoSelecionado(botaoPadraoConfiguracoes.gameObject);
+            }
+        }
     }
 
     private void IniciarJogo()
@@ -109,12 +129,19 @@ public class MenuManager : MonoBehaviour
             painelConfiguracoes.SetActive(true);
             painelConfiguracoes.transform.localScale = Vector3.zero;
             painelConfiguracoes.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+
+            // Define o botão inicial do painel de configurações
+            SetarBotaoSelecionado(botaoPadraoConfiguracoes.gameObject);
         });
     }
 
     private void SairJogo()
     {
-        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
     private void ToggleMute()
@@ -132,7 +159,7 @@ public class MenuManager : MonoBehaviour
         if (gerenciadorSom != null)
         {
             efeitosMutados = !efeitosMutados;
-            gerenciadorSom.AlternarMuteEfeitos(efeitosMutados); // Chama a função para mutar os efeitos no Gerenciador de Som
+            gerenciadorSom.AlternarMuteEfeitos(efeitosMutados);
             AtualizarBotaoMuteEfeitos();
         }
     }
@@ -166,7 +193,7 @@ public class MenuManager : MonoBehaviour
     {
         if (gerenciadorSom != null)
         {
-            gerenciadorSom.DefinirVolumeEfeitos(volume); // Chama a função para ajustar o volume de efeitos no Gerenciador de Som
+            gerenciadorSom.DefinirVolumeEfeitos(volume);
         }
     }
 
@@ -177,6 +204,15 @@ public class MenuManager : MonoBehaviour
             painelConfiguracoes.SetActive(false);
             painelMenuPrincipal.SetActive(true);
             painelMenuPrincipal.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+
+            // Define o botão inicial do menu principal
+            SetarBotaoSelecionado(botaoPadraoMenu.gameObject);
         });
+    }
+
+    private void SetarBotaoSelecionado(GameObject botao)
+    {
+        EventSystem.current.SetSelectedGameObject(null); // Limpa o botão selecionado atual
+        EventSystem.current.SetSelectedGameObject(botao); // Define o botão desejado como selecionado
     }
 }
