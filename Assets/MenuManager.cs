@@ -1,135 +1,182 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
+using DG.Tweening;
+using SmallHedge.SomAmbiente;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("Menu Control Settings")]
-    [SerializeField] private List<MenuControl> _MenuControls; // Lista de menus
+    [Header("Paineis")]
+    public GameObject painelMenuPrincipal;
+    public GameObject painelConfiguracoes;
 
     [Header("Botões")]
-    [SerializeField] private Button botaoIniciar; // Referência ao botão iniciar
-    [SerializeField] private Button botaoSair;    // Referência ao botão para sair do jogo
-    [SerializeField] private Button botaoCarregarSegundaCena; // Referência ao botão para carregar a segunda cena
+    public Button botaoJogar;
+    public Button botaoMiniJogo;
+    public Button botaoCarregar;
+    public Button botaoConfiguracoes;
+    public Button botaoSair;
+    public Button botaoVoltar; // Botão de Voltar no painel de configurações
 
-    [Header("Scene Settings")]
-    [SerializeField] private string nomeDaCena; // Nome da primeira cena a ser carregada
-    [SerializeField] private string nomeDaSegundaCena; // Nome da segunda cena a ser carregada
-    [SerializeField] private float transitionTime = 10f; // Tempo ajustável para a transição de cena
+    [Header("Configurações de Som")]
+    public Slider sliderVolumeGeral;
+    public Slider sliderVolumeMusica;
+    public Slider sliderVolumeVoz;
+    public Slider sliderVolumeEfeitos;  // Novo slider para o volume dos efeitos sonoros
+    public Button botaoMute;
+    public Button botaoMuteEfeitos; // Novo botão para mutar os efeitos sonoros
 
-    [Header("Tela de Carregamento")]
-    [SerializeField] private GameObject telaDeCarregamentoPrefab; // Referência ao prefab da tela de carregamento
-    [SerializeField] private RectTransform fader; // Fader de transição
+    [Header("Configurações das Cenas")]
+    public string cenaJogar;       // Nome da cena principal para jogar
+    public string cenaMiniJogo;    // Nome da cena do Mini Jogo
+    public string cenaCarregar;    // Nome da cena para carregar
 
-    [Header("Slider de Carregamento")]
-    [SerializeField] private Slider sliderDeCarregamento; // Referência ao slider de carregamento
-    [SerializeField] private TextMeshProUGUI porcentagemDeCarregamento; // Exibir porcentagem de carregamento
+    private GerenciadorMusicaAmbiente gerenciadorSom;
+    private bool estaMutado = false;
+    private bool efeitosMutados = false; // Estado de mute para efeitos sonoros
 
-    private MenuControl _currentMenu;
-    private bool isTransitioning = false; // Variável para controlar transições
-
-    void Start()
+    private void Start()
     {
-        InitializeMenus();
+        // Obter referência ao Gerenciador de Som
+        gerenciadorSom = FindObjectOfType<GerenciadorMusicaAmbiente>();
+        
+        // Inicializar os botões com suas funções correspondentes
+        botaoJogar.onClick.AddListener(IniciarJogo);
+        botaoMiniJogo.onClick.AddListener(CarregarMiniJogo);
+        botaoCarregar.onClick.AddListener(CarregarCena);
+        botaoConfiguracoes.onClick.AddListener(AbrirConfiguracoes);
+        botaoSair.onClick.AddListener(SairJogo);
+        botaoVoltar.onClick.AddListener(VoltarMenuPrincipal); // Botão Voltar
 
-        // Liga os botões aos métodos correspondentes
-        botaoIniciar.onClick.AddListener(() => IniciarJogo(nomeDaCena));
-        botaoCarregarSegundaCena.onClick.AddListener(() => IniciarJogo(nomeDaSegundaCena));
-        botaoSair.onClick.AddListener(SairDoJogo);
+        botaoMute.onClick.AddListener(ToggleMute);
+        botaoMuteEfeitos.onClick.AddListener(ToggleMuteEfeitos); // Botão de mute para efeitos sonoros
 
-        // Inicializa a tela de carregamento como inativa
-        if (telaDeCarregamentoPrefab != null) telaDeCarregamentoPrefab.SetActive(false);
-        if (fader != null) fader.gameObject.SetActive(false);
-        if (sliderDeCarregamento != null) sliderDeCarregamento.gameObject.SetActive(false);
-        if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.gameObject.SetActive(false);
+        // Ajustar sliders para volume
+        sliderVolumeGeral.onValueChanged.AddListener(AjustarVolumeGeral);
+        sliderVolumeMusica.onValueChanged.AddListener(AjustarVolumeMusica);
+        sliderVolumeVoz.onValueChanged.AddListener(AjustarVolumeVoz);
+        sliderVolumeEfeitos.onValueChanged.AddListener(AjustarVolumeEfeitos); // Slider de volume de efeitos
+
+        // Configurar animação inicial dos menus
+        painelMenuPrincipal.transform.localScale = Vector3.zero;
+        painelConfiguracoes.SetActive(false);
+
+        // Animação de entrada do menu principal
+        painelMenuPrincipal.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
     }
 
-    private void InitializeMenus()
+    private void IniciarJogo()
     {
-        foreach (var menu in _MenuControls)
+        if (!string.IsNullOrEmpty(cenaJogar))
         {
-            menu.transform.localScale = Vector3.zero;
-            menu.gameObject.SetActive(false);
-        }
-
-        if (_MenuControls.Count > 0)
-        {
-            _MenuControls[0].gameObject.SetActive(true);
-            _MenuControls[0].MenuOFF();
-            _MenuControls[0].transform.DOScale(1f, 0.5f);
-            _MenuControls[0].ChamaMenu();
-            _currentMenu = _MenuControls[0];
-        }
-    }
-
-    // Função para iniciar o carregamento da cena especificada
-    public void IniciarJogo(string nomeDaCena)
-    {
-        if (!string.IsNullOrEmpty(nomeDaCena) && !isTransitioning)
-        {
-            Debug.Log("Carregando a cena: " + nomeDaCena);
-            isTransitioning = true;
-            if (fader != null)
-            {
-                fader.gameObject.SetActive(true);
-                LeanTween.scale(fader, Vector3.one, 0.5f).setEase(LeanTweenType.easeInOutQuad);
-            }
-            StartCoroutine(ExibirTelaDeCarregamentoECarregarCena(nomeDaCena));
+            SceneManager.LoadScene(cenaJogar);
         }
         else
         {
-            Debug.LogError("Nome da cena não está definido ou transição já em andamento!");
+            Debug.LogWarning("Nome da cena para jogar está vazio!");
         }
     }
 
-    // Corrotina para exibir a tela de carregamento e carregar a cena especificada
-    private IEnumerator ExibirTelaDeCarregamentoECarregarCena(string cenaParaCarregar)
+    private void CarregarMiniJogo()
     {
-        if (telaDeCarregamentoPrefab != null) telaDeCarregamentoPrefab.SetActive(true);
-        if (sliderDeCarregamento != null) sliderDeCarregamento.gameObject.SetActive(true);
-        if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.gameObject.SetActive(true);
-
-        float currentTime = 0f;
-        while (currentTime < transitionTime)
+        if (!string.IsNullOrEmpty(cenaMiniJogo))
         {
-            currentTime += Time.deltaTime;
-            float progress = Mathf.Clamp01(currentTime / transitionTime);
-            float sliderValue = Mathf.Lerp(0, 100, progress);
-
-            if (sliderDeCarregamento != null) sliderDeCarregamento.value = sliderValue;
-            if (porcentagemDeCarregamento != null) porcentagemDeCarregamento.text = Mathf.RoundToInt(sliderValue).ToString() + "%";
-
-            yield return null;
+            SceneManager.LoadScene(cenaMiniJogo);
         }
-
-        AsyncOperation operacao = SceneManager.LoadSceneAsync(cenaParaCarregar);
-        operacao.allowSceneActivation = false;
-
-        while (!operacao.isDone)
+        else
         {
-            if (operacao.progress >= 0.9f)
-            {
-                yield return new WaitForSeconds(0.5f);
-                operacao.allowSceneActivation = true;
-            }
-            yield return null;
+            Debug.LogWarning("Nome da cena do Mini Jogo está vazio!");
         }
-
-        if (fader != null)
-        {
-            LeanTween.scale(fader, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => fader.gameObject.SetActive(false));
-        }
-
-        isTransitioning = false;
     }
 
-    // Função para sair do jogo ou voltar ao menu principal
-    public void SairDoJogo()
+    private void CarregarCena()
     {
-        SceneManager.LoadScene("Menu");
+        if (!string.IsNullOrEmpty(cenaCarregar))
+        {
+            SceneManager.LoadScene(cenaCarregar);
+        }
+        else
+        {
+            Debug.LogWarning("Nome da cena para carregar está vazio!");
+        }
+    }
+
+    private void AbrirConfiguracoes()
+    {
+        painelMenuPrincipal.transform.DOScale(0, 0.3f).OnComplete(() =>
+        {
+            painelMenuPrincipal.SetActive(false);
+            painelConfiguracoes.SetActive(true);
+            painelConfiguracoes.transform.localScale = Vector3.zero;
+            painelConfiguracoes.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+        });
+    }
+
+    private void SairJogo()
+    {
+        Application.Quit();
+    }
+
+    private void ToggleMute()
+    {
+        if (gerenciadorSom != null)
+        {
+            gerenciadorSom.AlternarMute();
+            estaMutado = !estaMutado;
+            AtualizarBotaoMute();
+        }
+    }
+
+    private void ToggleMuteEfeitos()
+    {
+        if (gerenciadorSom != null)
+        {
+            efeitosMutados = !efeitosMutados;
+            gerenciadorSom.AlternarMuteEfeitos(efeitosMutados); // Chama a função para mutar os efeitos no Gerenciador de Som
+            AtualizarBotaoMuteEfeitos();
+        }
+    }
+
+    private void AtualizarBotaoMute()
+    {
+        botaoMute.GetComponentInChildren<Text>().text = estaMutado ? "Desmutar" : "Mutar";
+    }
+
+    private void AtualizarBotaoMuteEfeitos()
+    {
+        botaoMuteEfeitos.GetComponentInChildren<Text>().text = efeitosMutados ? "Desmutar Efeitos" : "Mutar Efeitos";
+    }
+
+    private void AjustarVolumeGeral(float volume)
+    {
+        gerenciadorSom.DefinirVolumeGeral(volume);
+    }
+
+    private void AjustarVolumeMusica(float volume)
+    {
+        gerenciadorSom.DefinirVolumeMusica(volume);
+    }
+
+    private void AjustarVolumeVoz(float volume)
+    {
+        gerenciadorSom.DefinirVolumeVoz(volume);
+    }
+
+    private void AjustarVolumeEfeitos(float volume)
+    {
+        if (gerenciadorSom != null)
+        {
+            gerenciadorSom.DefinirVolumeEfeitos(volume); // Chama a função para ajustar o volume de efeitos no Gerenciador de Som
+        }
+    }
+
+    public void VoltarMenuPrincipal()
+    {
+        painelConfiguracoes.transform.DOScale(0, 0.3f).OnComplete(() =>
+        {
+            painelConfiguracoes.SetActive(false);
+            painelMenuPrincipal.SetActive(true);
+            painelMenuPrincipal.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+        });
     }
 }

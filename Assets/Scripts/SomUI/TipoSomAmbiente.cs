@@ -9,5 +9,10 @@ namespace SmallHedge.SomAmbiente
         Cidade,
         Chuva,
         Noite,
+        BotaoHover,
+        BotaoClick,
+        NavegarUI,
+        BotaoSelected
+
     }
 }
