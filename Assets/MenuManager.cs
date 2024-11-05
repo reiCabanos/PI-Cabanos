@@ -4,8 +4,10 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using SmallHedge.SomAmbiente;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
@@ -38,9 +40,16 @@ public class MenuManager : MonoBehaviour
     public string cenaMiniJogo;
     public string cenaCarregar;
 
+    [Header("Transição de Cena")]
+    [SerializeField] RectTransform fader;
+    [SerializeField] float transitionTime = 10f;
+    [SerializeField] Slider transitionSlider;
+    [SerializeField] TextMeshProUGUI sliderText;
+
     private GerenciadorMusicaAmbiente gerenciadorSom;
     private bool estaMutado = false;
     private bool efeitosMutados = false;
+    private bool isTransitioning = false;
 
     private void Start()
     {
@@ -72,6 +81,11 @@ public class MenuManager : MonoBehaviour
 
         // Carregar preferências salvas
         CarregarPreferencias();
+
+        // Configurar slider de transição
+        transitionSlider.maxValue = 100;
+        transitionSlider.value = 0;
+        UpdateSliderText(0);
     }
 
     private void Update()
@@ -94,7 +108,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(cenaJogar))
         {
-            SceneManager.LoadScene(cenaJogar);
+            OpenScene(cenaJogar, transitionTime);
         }
         else
         {
@@ -106,7 +120,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(cenaMiniJogo))
         {
-            SceneManager.LoadScene(cenaMiniJogo);
+            OpenScene(cenaMiniJogo, transitionTime);
         }
         else
         {
@@ -118,12 +132,79 @@ public class MenuManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(cenaCarregar))
         {
-            SceneManager.LoadScene(cenaCarregar);
+            OpenScene(cenaCarregar, transitionTime);
         }
         else
         {
             Debug.LogWarning("Nome da cena para carregar está vazio!");
         }
+    }
+
+    private void OpenScene(string sceneName, float delay)
+    {
+        if (isTransitioning) return; // Evitar múltiplas ativações
+
+        isTransitioning = true;
+        fader.gameObject.SetActive(true);
+        transitionSlider.gameObject.SetActive(true);
+
+        StartCoroutine(UpdateSliderAndFader(delay));
+        StartCoroutine(LoadSceneAsync(sceneName, delay));
+    }
+
+    private IEnumerator UpdateSliderAndFader(float delay)
+    {
+        float currentTime = 0f;
+
+        while (currentTime < delay)
+        {
+            currentTime += Time.deltaTime;
+            float progress = Mathf.Lerp(0, 100, currentTime / delay);
+            transitionSlider.value = progress;
+            UpdateSliderText(Mathf.CeilToInt(progress));
+            yield return null;
+        }
+
+        transitionSlider.value = 0;
+        UpdateSliderText(0);
+        transitionSlider.gameObject.SetActive(false);
+    }
+
+    private void UpdateSliderText(int value)
+    {
+        if (sliderText != null)
+        {
+            sliderText.text = value.ToString();
+        }
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Carregar a cena de forma assíncrona
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        // Esperar até a cena estar completamente carregada
+        while (!asyncLoad.isDone)
+        {
+            if (asyncLoad.progress >= 0.9f)
+            {
+                // Pequeno atraso antes de ativar a cena
+                yield return new WaitForSeconds(1f);
+                asyncLoad.allowSceneActivation = true; // Ativar a cena
+            }
+            yield return null;
+        }
+
+        // Animação de fechamento do fader
+        yield return new WaitForSeconds(0.5f);
+        LeanTween.scale(fader, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() =>
+        {
+            fader.gameObject.SetActive(false);
+            isTransitioning = false;
+        });
     }
 
     private void AbrirConfiguracoes()
