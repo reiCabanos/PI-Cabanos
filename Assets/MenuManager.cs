@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using SmallHedge.SomAmbiente;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class MenuManager : MonoBehaviour
 {
@@ -67,6 +69,9 @@ public class MenuManager : MonoBehaviour
         painelConfiguracoes.SetActive(false);
         painelMenuPrincipal.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
         SetarBotaoSelecionado(botaoPadraoMenu.gameObject); // Define o botão inicial do menu principal
+
+        // Carregar preferências salvas
+        CarregarPreferencias();
     }
 
     private void Update()
@@ -140,7 +145,7 @@ public class MenuManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 
@@ -151,6 +156,7 @@ public class MenuManager : MonoBehaviour
             gerenciadorSom.AlternarMute();
             estaMutado = !estaMutado;
             AtualizarBotaoMute();
+            SalvarPreferencias();
         }
     }
 
@@ -161,6 +167,7 @@ public class MenuManager : MonoBehaviour
             efeitosMutados = !efeitosMutados;
             gerenciadorSom.AlternarMuteEfeitos(efeitosMutados);
             AtualizarBotaoMuteEfeitos();
+            SalvarPreferencias();
         }
     }
 
@@ -177,16 +184,19 @@ public class MenuManager : MonoBehaviour
     private void AjustarVolumeGeral(float volume)
     {
         gerenciadorSom.DefinirVolumeGeral(volume);
+        SalvarPreferencias();
     }
 
     private void AjustarVolumeMusica(float volume)
     {
         gerenciadorSom.DefinirVolumeMusica(volume);
+        SalvarPreferencias();
     }
 
     private void AjustarVolumeVoz(float volume)
     {
         gerenciadorSom.DefinirVolumeVoz(volume);
+        SalvarPreferencias();
     }
 
     private void AjustarVolumeEfeitos(float volume)
@@ -194,6 +204,7 @@ public class MenuManager : MonoBehaviour
         if (gerenciadorSom != null)
         {
             gerenciadorSom.DefinirVolumeEfeitos(volume);
+            SalvarPreferencias();
         }
     }
 
@@ -215,4 +226,55 @@ public class MenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null); // Limpa o botão selecionado atual
         EventSystem.current.SetSelectedGameObject(botao); // Define o botão desejado como selecionado
     }
+
+    private void SalvarPreferencias()
+    {
+        Preferencias preferencias = new Preferencias()
+        {
+            volumeGeral = sliderVolumeGeral.value,
+            volumeMusica = sliderVolumeMusica.value,
+            volumeVoz = sliderVolumeVoz.value,
+            volumeEfeitos = sliderVolumeEfeitos.value,
+            estaMutado = estaMutado,
+            efeitosMutados = efeitosMutados
+        };
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/preferencias.dat");
+        bf.Serialize(file, preferencias);
+        file.Close();
+    }
+
+    private void CarregarPreferencias()
+    {
+        string path = Application.persistentDataPath + "/preferencias.dat";
+        if (File.Exists(path))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(path, FileMode.Open);
+            Preferencias preferencias = (Preferencias)bf.Deserialize(file);
+            file.Close();
+
+            sliderVolumeGeral.value = preferencias.volumeGeral;
+            sliderVolumeMusica.value = preferencias.volumeMusica;
+            sliderVolumeVoz.value = preferencias.volumeVoz;
+            sliderVolumeEfeitos.value = preferencias.volumeEfeitos;
+            estaMutado = preferencias.estaMutado;
+            efeitosMutados = preferencias.efeitosMutados;
+
+            AtualizarBotaoMute();
+            AtualizarBotaoMuteEfeitos();
+        }
+    }
+}
+
+[System.Serializable]
+public class Preferencias
+{
+    public float volumeGeral;
+    public float volumeMusica;
+    public float volumeVoz;
+    public float volumeEfeitos;
+    public bool estaMutado;
+    public bool efeitosMutados;
 }
