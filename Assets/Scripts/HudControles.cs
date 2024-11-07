@@ -63,7 +63,7 @@ public class HudControles : MonoBehaviour
         // Vincular o botão para alternar o painel
         if (meuBotao != null)
         {
-            meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
+           meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
         }
     }
 
