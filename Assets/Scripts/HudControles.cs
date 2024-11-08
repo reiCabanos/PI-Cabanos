@@ -49,7 +49,9 @@ public class HudControles : MonoBehaviour
     {
         _telaDiaIni = true;
         _painelAtivo = _telaIniciar;
+        
         _telaIniciar.gameObject.SetActive(true);
+        PanelMenu.gameObject.SetActive(false);
         _telaHuds.gameObject.SetActive(false);
         _telaCelular.gameObject.SetActive(false);
         _telaInventario.gameObject.SetActive(false);
@@ -63,7 +65,7 @@ public class HudControles : MonoBehaviour
         // Vincular o botão para alternar o painel
         if (meuBotao != null)
         {
-           meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
+            meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
         }
     }
 
@@ -78,6 +80,8 @@ public class HudControles : MonoBehaviour
         {
             FecharPainel(_telaIniciar);
             AbrirPainel(_telaHuds);
+
+
             blockMovement = false;
             _panelSliderMenu.gameObject.SetActive(true);
         }
@@ -120,6 +124,7 @@ public class HudControles : MonoBehaviour
     private void AbrirPainel(Transform painel)
     {
         painel.gameObject.SetActive(true);
+        PanelMenu.gameObject.SetActive(true);
 
         if (painel == _painelDialogo) // Inclui a lógica para o novo painel de diálogo
         {
@@ -235,6 +240,7 @@ public class HudControles : MonoBehaviour
             // Exibe o menu lateral, movendo-o para dentro da tela
             PanelMenu.DOAnchorPosX(-295f, sideMenuMoveDuration);
             isMenuVisible = true;
+            
         }
     }
 
