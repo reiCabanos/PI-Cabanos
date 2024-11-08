@@ -139,10 +139,10 @@ TextureImporter:
       name: Assetsextras_0
       rect:
         serializedVersion: 2
-        x: 50
-        y: 2209
-        width: 304
-        height: 286
+        x: 47
+        y: 6793
+        width: 310
+        height: 292
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: Assetsextras_1
       rect:
         serializedVersion: 2
-        x: 440
-        y: 1992
-        width: 540
-        height: 503
+        x: 437
+        y: 6577
+        width: 547
+        height: 508
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: Assetsextras_2
       rect:
         serializedVersion: 2
-        x: 1166
-        y: 2209
-        width: 186
-        height: 185
+        x: 1162
+        y: 6793
+        width: 194
+        height: 191
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,10 +202,10 @@ TextureImporter:
       name: Assetsextras_3
       rect:
         serializedVersion: 2
-        x: 1588
-        y: 1991
-        width: 876
-        height: 475
+        x: 1584
+        y: 6577
+        width: 885
+        height: 481
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,10 +223,10 @@ TextureImporter:
       name: Assetsextras_4
       rect:
         serializedVersion: 2
-        x: 157
-        y: 1436
-        width: 824
-        height: 447
+        x: 155
+        y: 6023
+        width: 829
+        height: 449
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,10 +244,10 @@ TextureImporter:
       name: Assetsextras_5
       rect:
         serializedVersion: 2
-        x: 1246
-        y: 1740
-        width: 687
-        height: 146
+        x: 1242
+        y: 6326
+        width: 694
+        height: 153
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -265,10 +265,10 @@ TextureImporter:
       name: Assetsextras_6
       rect:
         serializedVersion: 2
-        x: 1246
-        y: 1532
-        width: 687
-        height: 147
+        x: 1242
+        y: 6117
+        width: 694
+        height: 153
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -286,10 +286,10 @@ TextureImporter:
       name: Assetsextras_7
       rect:
         serializedVersion: 2
-        x: 131
-        y: 1199
-        width: 381
-        height: 128
+        x: 127
+        y: 5782
+        width: 387
+        height: 136
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -307,10 +307,10 @@ TextureImporter:
       name: Assetsextras_8
       rect:
         serializedVersion: 2
-        x: 554
-        y: 1199
-        width: 380
-        height: 128
+        x: 551
+        y: 5782
+        width: 388
+        height: 136
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -328,10 +328,10 @@ TextureImporter:
       name: Assetsextras_9
       rect:
         serializedVersion: 2
-        x: 1246
-        y: 1324
-        width: 687
-        height: 146
+        x: 1242
+        y: 5909
+        width: 694
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -349,10 +349,10 @@ TextureImporter:
       name: Assetsextras_10
       rect:
         serializedVersion: 2
-        x: 131
-        y: 1052
-        width: 381
-        height: 128
+        x: 127
+        y: 5636
+        width: 387
+        height: 132
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -370,10 +370,10 @@ TextureImporter:
       name: Assetsextras_11
       rect:
         serializedVersion: 2
-        x: 554
-        y: 1052
-        width: 380
-        height: 128
+        x: 550
+        y: 5636
+        width: 389
+        height: 132
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -391,10 +391,10 @@ TextureImporter:
       name: Assetsextras_12
       rect:
         serializedVersion: 2
-        x: 131
-        y: 904
-        width: 381
-        height: 128
+        x: 127
+        y: 5490
+        width: 387
+        height: 132
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -412,10 +412,10 @@ TextureImporter:
       name: Assetsextras_13
       rect:
         serializedVersion: 2
-        x: 554
-        y: 904
-        width: 380
-        height: 128
+        x: 550
+        y: 5490
+        width: 389
+        height: 132
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -433,10 +433,10 @@ TextureImporter:
       name: Assetsextras_14
       rect:
         serializedVersion: 2
-        x: 131
-        y: 756
-        width: 381
-        height: 128
+        x: 127
+        y: 5340
+        width: 387
+        height: 136
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -454,10 +454,10 @@ TextureImporter:
       name: Assetsextras_15
       rect:
         serializedVersion: 2
-        x: 554
-        y: 756
-        width: 380
-        height: 128
+        x: 551
+        y: 5340
+        width: 388
+        height: 136
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,6 +467,27 @@ TextureImporter:
       bones: []
       spriteID: 2c5569be9b967d349b63eed085292812
       internalID: -1758814850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Assetsextras_16
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 4884
+        width: 1189
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 670e21ef71d529849bf5e89f31a93163
+      internalID: -1138674961
       vertices: []
       indices: 
       edges: []
@@ -490,6 +511,7 @@ TextureImporter:
       Assetsextras_13: 854405307
       Assetsextras_14: -1046028600
       Assetsextras_15: -1758814850
+      Assetsextras_16: -1138674961
       Assetsextras_2: -1110811188
       Assetsextras_3: 1022446616
       Assetsextras_4: -2067057459

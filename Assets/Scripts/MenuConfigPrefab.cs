@@ -18,6 +18,9 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
         public bool estaMutado;
         public bool efeitosMutados;
     }
+    [Header("Configurações fehca")]
+    public Button botaoFecharConfiguracoes; // Botão para fechar o painel de configurações
+    private HudControles hudControles; // Referência ao script HudControles para controlar o painel
 
     [Header("Configurações de Animação")]
     [SerializeField] private float hoverScale = 1.1f;
@@ -57,6 +60,19 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private void Start()
     {
+        // Buscar o GameObject do Canvas e localizar o componente HudControles
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas != null)
+        {
+            hudControles = canvas.GetComponent<HudControles>();
+        }
+
+        // Configurar o botão para fechar o painel de configurações usando a lógica do HudControles
+        if (botaoFecharConfiguracoes != null && hudControles != null)
+        {
+            botaoFecharConfiguracoes.onClick.AddListener(FecharPainelConfig);
+        }
+
         ConfigurarBotoes();
 
         // Obter referência ao Gerenciador de Som
@@ -66,7 +82,29 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
         CarregarPreferencias();
     }
 
-    private void ConfigurarBotoes()
+    private void FecharPainelConfig()
+    {
+        if (hudControles != null)
+        {
+            // Fecha o painel de configurações usando a lógica do HudControles
+            hudControles.FecharPainel(hudControles._painelConfig);
+
+                // Oculta o _painelBluer usando a lógica do HudControles
+                hudControles._painelBluer.DOScale(0, 0.0f).OnComplete(() => hudControles._painelBluer.gameObject.SetActive(false));
+         
+            // Reseta o estado do painel para permitir a abertura de outros painéis
+            hudControles._painelAtivo = null; // Define nenhum painel como ativo
+            hudControles.painelBloqueando = false; // Libera o bloqueio para abrir novos painéis
+
+            // Prepara o painel de configurações para ser reaberto corretamente
+            hudControles._painelConfig.localScale = Vector3.one; // Redefine a escala
+            hudControles._painelConfig.gameObject.SetActive(false); // Garante que o painel esteja inativo para o próximo uso
+            hudControles._painelBluer.DOScale(1, 1.1f).OnComplete(() => hudControles._painelBluer.gameObject.SetActive(false));
+        }
+    }
+
+
+private void ConfigurarBotoes()
     {
         // Configurar eventos para todos os botões
         ConfigurarBotao(botaoVoltarMenuPrincipal, VoltarMenuPrincipal);
@@ -130,7 +168,7 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private void VoltarMenuPrincipal()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuPrincipal");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 
     private void ConfirmarSairJogo()
