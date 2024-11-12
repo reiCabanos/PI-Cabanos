@@ -19,8 +19,8 @@ public class GerenciadorJogo : MonoBehaviour
     public TextMeshProUGUI timerText;
 
     [Header("Game Settings")]
-    public float initialProblemDuration = 5.0f;
-    public float minimumProblemDuration = 2.0f;
+    public float initialProblemDuration;
+    public float minimumProblemDuration;
     public float timeDecreaseRate = 0.2f;
     public float singlePlayerWinTime = 120.0f;
 
