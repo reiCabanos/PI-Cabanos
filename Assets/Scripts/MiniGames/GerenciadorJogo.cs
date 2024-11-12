@@ -12,6 +12,7 @@ public class GerenciadorJogo : MonoBehaviour
 
     [Header("UI References")]
     public Button startGameButton;
+    public Button resetGameButton;  // Novo botão para resetar o jogo
     public TextMeshProUGUI player1LivesText;
     public TextMeshProUGUI player2LivesText;
     public TextMeshProUGUI gameStateText;
@@ -43,6 +44,7 @@ public class GerenciadorJogo : MonoBehaviour
 
     void Start()
     {
+
         miniGameManager = FindObjectOfType<GerenciadorMiniGame>();
         blockSpawner = Camera.main?.GetComponent<BlockSpawner>();
 
@@ -58,6 +60,9 @@ public class GerenciadorJogo : MonoBehaviour
 
         // Configura o botão de iniciar para chamar o método OnStartButtonClicked
         startGameButton.onClick.AddListener(OnStartButtonClicked);
+
+        // Configura o botão de reset para chamar o método ResetGame
+        resetGameButton.onClick.AddListener(ResetGame); 
     }
 
     private void SetupInitialUI()
@@ -134,8 +139,19 @@ public class GerenciadorJogo : MonoBehaviour
         UpdateGameStateText("Jogo em andamento!");
         startGameButton.interactable = false;
 
-        miniGameManager.problemDuration = initialProblemDuration;
-        miniGameManager.StartGame();
+        // Ativa miniGameManager e blockSpawner para iniciar o jogo
+        if (miniGameManager != null)
+        {
+            miniGameManager.enabled = true;
+            miniGameManager.StartGame();
+        }
+
+        if (blockSpawner != null)
+        {
+            blockSpawner.enabled = true;
+            blockSpawner.StartGame();  // Certifique-se de que o método StartGame() inicializa os blocos para o jogo
+        }
+
         StartCoroutine(DecreaseProblemDuration());
 
         if (players.Count == 1)
@@ -147,6 +163,7 @@ public class GerenciadorJogo : MonoBehaviour
         Debug.Log("Jogo iniciado com " + players.Count + " jogadores.");
         UpdateLivesDisplay();
     }
+
 
     // Notifica que um jogador foi atingido, chamado pelo ManipuladorDeColisaoJogador
     public void OnPlayerHitTrigger(int playerID)
@@ -247,4 +264,87 @@ public class GerenciadorJogo : MonoBehaviour
             );
         }
     }
+
+    
+    public void ResetGame()
+    {
+        // 1. Finaliza o jogo atual e redefine variáveis globais
+        gameInProgress = false;
+        gameTimer = singlePlayerWinTime;
+
+        // 2. Reinicia todos os jogadores que já estavam presentes
+        foreach (var player in players)
+        {
+            ReiniciarJogador(player);
+        }
+
+        // 3. Permite novos jogadores e redefine o PlayerInputManager
+        PlayerInputManager.instance.EnableJoining();
+
+        // Verifica jogadores que já estavam na cena e os adiciona novamente ao fluxo
+        VerificarJogadoresExistentes();
+
+        // 4. Reseta o miniGameManager e o blockSpawner sem ativá-los ainda
+        if (miniGameManager != null)
+        {
+            miniGameManager.problemDuration = initialProblemDuration;
+            miniGameManager.enabled = false;
+        }
+
+        if (blockSpawner != null)
+        {
+            blockSpawner.InitializeBlocks();
+            blockSpawner.enabled = false;
+        }
+
+        // 5. Reseta a UI e define o estado inicial do jogo
+        UpdateGameStateText("Pressione 'Iniciar' para começar");
+        UpdateLivesDisplay();
+        UpdateTimerDisplay();
+
+        // Habilita o botão de iniciar se houver jogadores na lista
+        startGameButton.interactable = players.Count > 0;
+        resetGameButton.interactable = true;
+
+        Debug.Log("Jogo resetado e pronto para uma nova partida.");
+    }
+
+    private void VerificarJogadoresExistentes()
+    {
+        // Verifica se há jogadores instanciados no início do jogo
+        foreach (var playerInput in FindObjectsOfType<PlayerInput>())
+        {
+            if (!players.Exists(p => p.playerInput == playerInput))
+            {
+                OnPlayerJoined(playerInput); // Trata o jogador como se tivesse entrado agora
+            }
+        }
+    }
+
+    private void ReiniciarJogador(PlayerData player)
+    {
+        // Restaura o número de vidas do jogador
+        player.lives = playerLives;
+
+        // Reativa o input do jogador para que ele possa se mover novamente
+        if (player.playerInput != null)
+        {
+            player.playerInput.ActivateInput();  // Reativa o controle do jogador
+            player.playerInput.SwitchCurrentActionMap("Player");  // Certifique-se de que o action map correto está ativo
+        }
+
+        // Reposiciona o jogador ao ponto de spawn inicial (se necessário)
+        Transform playerTransform = player.playerInput.transform;
+        if (playerTransform != null)
+        {
+            playerTransform.position = Vector3.zero;  // Ajuste conforme a posição inicial desejada
+            playerTransform.rotation = Quaternion.identity;
+        }
+
+        Debug.Log($"Jogador {players.IndexOf(player) + 1} reiniciado e pronto para jogar.");
+    }
+
+    
+
+
 }

@@ -146,6 +146,19 @@ public class BlockSpawner : MonoBehaviour
         ShuffleList(randomNumbers);
     }
 
+    public void ResetSpawner()
+    {
+        foreach (GameObject block in BlockPool.SharedInstance.pooledObjects)
+        {
+            if (block != null)
+            {
+                block.SetActive(false);  // Desativa todos os blocos
+            }
+        }
+        InitializeBlocks(); // Reorganiza os blocos para a configuração inicial
+    }
+
+
     private void ArrangeBlocks()
     {
         int index = 0;
@@ -194,4 +207,5 @@ public class BlockSpawner : MonoBehaviour
             list[randomIndex] = temp;
         }
     }
+
 }
