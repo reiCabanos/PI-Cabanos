@@ -210,6 +210,30 @@ public class HudControles : MonoBehaviour
         }
     }
 
+    public void AbrirPainelComBluer(Transform painel)
+{
+    _painelBluer.gameObject.SetActive(true);
+    _painelBluer.DOScale(1, 0f);
+    _painelAtivo = painel;
+    painelBloqueando = true;
+}
+
+public void FecharPainelComBluer(Transform painel)
+{
+    if (_painelAtivo == painel)
+    {
+        _painelAtivo = null;
+        painelBloqueando = false;
+
+        // Desativa o _painelBluer se não houver nenhum painel ativo
+        if (_painelConfig == null || (!_painelConfig.gameObject.activeSelf && !_painelAtivo))
+        {
+            _painelBluer.DOScale(0, 0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+        }
+    }
+}
+
+
     // Funções para controlar o menu lateral
     public void OcultarMenuLateral()
     {
