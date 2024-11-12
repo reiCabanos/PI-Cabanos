@@ -55,6 +55,9 @@ public class GerenciadorJogo : MonoBehaviour
             playerInputManager.onPlayerJoined += OnPlayerJoined;
             playerInputManager.onPlayerLeft += OnPlayerLeft;
         }
+
+        // Configura o botão de iniciar para chamar o método OnStartButtonClicked
+        startGameButton.onClick.AddListener(OnStartButtonClicked);
     }
 
     private void SetupInitialUI()
@@ -71,8 +74,14 @@ public class GerenciadorJogo : MonoBehaviour
         players.Add(new PlayerData(playerInput, playerLives));
         UpdateGameStateText($"Jogador {players.Count} entrou! ({players.Count}/{PlayerInputManager.instance.maxPlayerCount})");
 
-        // Inicia o jogo se o número de jogadores estiver completo e o jogo ainda não começou
-        if (players.Count == PlayerInputManager.instance.maxPlayerCount && !gameInProgress)
+        // Ativa o botão iniciar se houver 1 jogador e o jogo ainda não tiver começado
+        if (players.Count == 1 && !gameInProgress)
+        {
+            startGameButton.interactable = true;
+        }
+
+        // Inicia o jogo automaticamente se houver exatamente 2 jogadores e o jogo ainda não começou
+        if (players.Count == 2 && !gameInProgress)
         {
             IniciarJogo(players.ConvertAll(p => p.playerInput));
         }
@@ -93,9 +102,22 @@ public class GerenciadorJogo : MonoBehaviour
                 EndGame(-1); // Empate
             }
         }
+
+        // Atualiza a interatividade do botão "Iniciar" dependendo do número de jogadores
+        startGameButton.interactable = players.Count == 1 && !gameInProgress;
     }
 
-    // Inicia o jogo quando o número de jogadores está completo
+    // Método auxiliar para iniciar o jogo ao clicar no botão
+    public void OnStartButtonClicked()
+    {
+        // Inicia o jogo apenas se houver 1 jogador e o jogo ainda não tiver começado
+        if (players.Count == 1 && !gameInProgress)
+        {
+            IniciarJogo(players.ConvertAll(p => p.playerInput));
+        }
+    }
+
+    // Inicia o jogo quando o número de jogadores está completo ou quando o botão "Iniciar" é pressionado
     public void IniciarJogo(List<PlayerInput> playerInputs)
     {
         if (gameInProgress) return;
