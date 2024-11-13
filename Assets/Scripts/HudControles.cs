@@ -16,8 +16,8 @@ public class HudControles : MonoBehaviour
     public Transform _painelConfig;
     public Transform _painelDialogo; // Novo painel de diálogo
 
-    private Transform _painelAtivo;
-    private bool painelBloqueando = false;
+    public Transform _painelAtivo;
+    public bool painelBloqueando = false;
     private float moveDistance = 35f;
     private float moveDuration = 4f;
     private Tweener moveTween;
@@ -167,7 +167,7 @@ public class HudControles : MonoBehaviour
         }
     }
 
-    private void FecharPainel(Transform painel)
+    public void FecharPainel(Transform painel)
     {
         if (painel == _painelDialogo) // Inclui a lógica de fechamento para o painel de diálogo
         {
@@ -210,26 +210,48 @@ public class HudControles : MonoBehaviour
         }
     }
 
+    public void AbrirPainelComBluer(Transform painel)
+{
+    _painelBluer.gameObject.SetActive(true);
+    _painelBluer.DOScale(1, 0f);
+    _painelAtivo = painel;
+    painelBloqueando = true;
+}
+
+public void FecharPainelComBluer(Transform painel)
+{
+    if (_painelAtivo == painel)
+    {
+        _painelAtivo = null;
+        painelBloqueando = false;
+
+        // Desativa o _painelBluer se não houver nenhum painel ativo
+        if (_painelConfig == null || (!_painelConfig.gameObject.activeSelf && !_painelAtivo))
+        {
+            _painelBluer.DOScale(0, 0f).OnComplete(() => _painelBluer.gameObject.SetActive(false));
+        }
+    }
+}
+
+
     // Funções para controlar o menu lateral
     public void OcultarMenuLateral()
     {
         if (PanelMenu != null && isMenuVisible)
         {
-            // Exibir mensagem de log para garantir que a função foi chamada
-            Debug.Log("Ocultando o menu lateral...");
-
-            // Move o painel lateral para fora da tela usando a animação
             PanelMenu.DOAnchorPosX(sideMenuMoveDistance, sideMenuMoveDuration)
                      .SetEase(Ease.InOutSine)
                      .OnComplete(() => Debug.Log("Menu lateral ocultado."));
 
-            // Atualiza o estado do menu
             isMenuVisible = false;
-            meuBotao.Select();  // Seleciona o botão, se necessário
-        }
-        else
-        {
-            Debug.LogWarning("O menu lateral já está oculto ou não foi atribuído.");
+
+            var manipuladorFoco = GetComponent<ManipuladorDeFocoUI>();
+            if (manipuladorFoco != null)
+            {
+                manipuladorFoco.FixarFocoNoPainelAtivo(); // Permite foco no painel fixo
+            }
+
+            meuBotao.Select();
         }
     }
 
@@ -237,12 +259,18 @@ public class HudControles : MonoBehaviour
     {
         if (!isMenuVisible)
         {
-            // Exibe o menu lateral, movendo-o para dentro da tela
             PanelMenu.DOAnchorPosX(-295f, sideMenuMoveDuration);
             isMenuVisible = true;
-            
+
+            var manipuladorFoco = GetComponent<ManipuladorDeFocoUI>();
+            if (manipuladorFoco != null)
+            {
+                manipuladorFoco.LiberarFocoPainel(); // Impede foco no painel fixo
+                manipuladorFoco.VerificarPainelAtivo();
+            }
         }
     }
+
 
     public void SetLeft(InputAction.CallbackContext context)
     {

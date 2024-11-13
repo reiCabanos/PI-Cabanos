@@ -11,44 +11,58 @@ public class ManipuladorDeFocoUI : MonoBehaviour
     {
         public GameObject painel; // Painel a ser monitorado
         public Selectable elementoFocoInicial; // Elemento inicial a ser focado (botão ou slider)
+        public bool isPainelFixo; // Define se este é o painel fixo
     }
 
-    public List<ConfiguracaoDeFocoPainel> configuracoesDeFocoPainel; // Lista de painéis e elementos de foco inicial
-    private Selectable elementoFocoAtual; // Armazena o elemento atualmente focado
-    private GameObject painelAtual; // Armazena o painel que está atualmente ativo
+    public List<ConfiguracaoDeFocoPainel> configuracoesDeFocoPainel;
+    private Selectable elementoFocoAtual;
+    private GameObject painelAtual;
+    private bool focoFixado = false;
+    private bool focoNoPainelFixoPermitido = true; // Controla se o painel fixo pode receber o foco
 
     private void Start()
     {
-        // Inicializa com o elemento de foco do painel ativo, se houver
         VerificarPainelAtivo();
     }
 
     private void Update()
     {
-        // Verifica se o foco foi perdido apenas se não houver nenhum elemento selecionado
-        if (elementoFocoAtual != null && EventSystem.current.currentSelectedGameObject == null)
+        // Verifica se o foco foi perdido e se foco fixo está ativo
+        if (focoFixado && elementoFocoAtual != null && EventSystem.current.currentSelectedGameObject == null)
         {
             StartCoroutine(DefinirFocoComAtraso(elementoFocoAtual));
         }
+    }
 
-        // Verifica se houve mudança no painel ativo e ajusta o foco conforme necessário
+    public void FixarFocoNoPainelAtivo()
+    {
+        focoFixado = true;
+        focoNoPainelFixoPermitido = true; // Permite foco no painel fixo
         VerificarPainelAtivo();
     }
 
-    private void VerificarPainelAtivo()
+    public void LiberarFocoPainel()
+    {
+        focoFixado = false;
+        focoNoPainelFixoPermitido = false; // Impede foco no painel fixo
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void VerificarPainelAtivo()
     {
         foreach (var config in configuracoesDeFocoPainel)
         {
-            // Se o painel foi ativado e é diferente do painel atual, atualiza o foco inicial
-            if (config.painel.activeSelf && painelAtual != config.painel)
+            // Evita focar no painel fixo se o foco no painel fixo não for permitido
+            if (config.painel.activeSelf && (painelAtual != config.painel) &&
+               (!config.isPainelFixo || focoNoPainelFixoPermitido))
             {
                 painelAtual = config.painel;
                 elementoFocoAtual = config.elementoFocoInicial;
 
-                // Mover o painel para o topo da hierarquia para garantir que ele está à frente
+                // Move o painel para o topo da hierarquia para garantir que está à frente
                 painelAtual.transform.SetAsLastSibling();
 
-                // Define o foco apenas no elemento inicial do painel ativado
+                // Define o foco no elemento inicial do painel ativado
                 StartCoroutine(DefinirFocoComAtraso(elementoFocoAtual));
                 break;
             }
@@ -57,12 +71,11 @@ public class ManipuladorDeFocoUI : MonoBehaviour
 
     private IEnumerator DefinirFocoComAtraso(Selectable elemento)
     {
-        yield return null; // Aguarda um quadro para garantir que o foco seja aplicado após a ativação
+        yield return null;
 
         if (elemento != null)
         {
-            EventSystem.current.SetSelectedGameObject(null); // Limpa o foco atual
-            EventSystem.current.SetSelectedGameObject(elemento.gameObject); // Foca no elemento inicial desejado
+            EventSystem.current.SetSelectedGameObject(elemento.gameObject); // Foca diretamente no elemento inicial desejado
         }
     }
 }
