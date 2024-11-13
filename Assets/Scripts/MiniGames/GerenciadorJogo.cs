@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GerenciadorJogo : MonoBehaviour
 {
@@ -18,12 +20,20 @@ public class GerenciadorJogo : MonoBehaviour
     [Header("UI References")]
     public Button startGameButton;
     public Button resetGameButton;
+    public Button retryButton;          // Novo botão "Jogar Novamente"
+    public GameObject startPanel;       // Painel que contém os botões
+
     public TextMeshProUGUI player1LivesText;
     public TextMeshProUGUI player2LivesText;
     public TextMeshProUGUI gameStateText;
     public TextMeshProUGUI timerText;
     public GameObject endGamePanel;  // Painel de fundo para vitória/derrota
     public TextMeshProUGUI endGameMessage;  // Texto para mensagem de vitória/empate
+    public GameObject pausePanel; // Painel de pausa
+    public Button backButton;      // Botão "Voltar ao Menu"
+    public Button resumeButton;    // Botão "Continuar Jogo"
+    private bool isPaused = false;
+    private bool wasStartPanelVisible = false; // Variável para rastrear o estado do startPanel antes da pausa
 
     [Header("Game Settings")]
     public float initialProblemDuration;
@@ -49,8 +59,34 @@ public class GerenciadorJogo : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Verifica se a tecla ESC ou o botão START do joystick foram pressionados usando o novo sistema de Input
+        if (Keyboard.current.escapeKey.wasPressedThisFrame || Gamepad.current.startButton.wasPressedThisFrame)
+        {
+            TogglePauseGame();
+        }
+    }
+
     void Start()
     {
+        // Configura os botões para as ações correspondentes
+        backButton.onClick.AddListener(ReturnToMenu);
+        resumeButton.onClick.AddListener(ResumeGame);
+        retryButton.onClick.AddListener(RetryGame); // Configura o botão "Jogar Novamente"
+        
+
+
+        // Inicialmente oculta o painel
+        startPanel.SetActive(false);
+
+        // Exibe o painel com animação ao iniciar
+        ShowStartPanel();
+
+        // Inicialmente oculta o painel de pausa
+        pausePanel.SetActive(false);
+        retryButton.gameObject.SetActive(false);
+
         miniGameManager = FindObjectOfType<GerenciadorMiniGame>();
         blockSpawner = Camera.main?.GetComponent<BlockSpawner>();
 
@@ -66,13 +102,16 @@ public class GerenciadorJogo : MonoBehaviour
 
         // Configura o botão de iniciar para chamar o método OnStartButtonClicked
         startGameButton.onClick.AddListener(OnStartButtonClicked);
+        // Seleciona automaticamente o botão "Start Game" ao carregar a tela inicial
+        EventSystem.current.SetSelectedGameObject(startGameButton.gameObject);
+
 
         // Configura o botão de reset para chamar o método ResetGame
         resetGameButton.onClick.AddListener(ResetGame);
+
     }
 
-    
-
+   
 
     private void SetupInitialUI()
     {
@@ -144,6 +183,11 @@ public class GerenciadorJogo : MonoBehaviour
             Debug.Log("Condições para iniciar o jogo não foram atendidas.");
             Debug.Log("gameInProgress: " + gameInProgress);
         }
+        // Oculta o painel com animação
+        HideStartPanel();
+        gameInProgress = true;
+        endGamePanel.SetActive(false); // Garante que o painel de fim de jogo esteja oculto no início da partida
+        startGameButton.gameObject.SetActive(false);
     }
 
 
@@ -251,11 +295,19 @@ public class GerenciadorJogo : MonoBehaviour
             endMessage = "Empate!";
         }
 
+        endGamePanel.SetActive(true);
+        endGamePanel.transform.localScale = Vector3.zero;
+        endGamePanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+
         // Atualiza o texto do painel de fim de jogo
         if (endGameMessage != null)
         {
             endGameMessage.text = endMessage;
         }
+        // Exibe o painel de início novamente após a partida terminar
+        ShowStartPanel();
+
 
         // Exibe o painel de fim de jogo com animação
         MostrarEndGamePanel();
@@ -273,6 +325,13 @@ public class GerenciadorJogo : MonoBehaviour
         resetGameButton.interactable = true;
 
         Debug.Log("Jogo finalizado.");
+        // Ativa o botão "Jogar Novamente" para o final da partida
+        retryButton.gameObject.SetActive(true);
+        
+        // Define o retryButton como o botão selecionado automaticamente
+        EventSystem.current.SetSelectedGameObject(retryButton.gameObject);
+
+
     }
 
     private IEnumerator GameTimerCountdown()
@@ -473,6 +532,107 @@ public class GerenciadorJogo : MonoBehaviour
         {
             Debug.LogWarning("Não há cores suficientes na lista de cores para atribuir a todos os jogadores.");
         }
+    }
+
+    private void TogglePauseGame()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    // Método para pausar o jogo e exibir o painel de pausa com animações
+    private void PauseGame()
+    {
+        Time.timeScale = 0; // Pausa o tempo do jogo
+        pausePanel.SetActive(true);
+        // Salva o estado do startPanel e o desativa se estiver visível
+        wasStartPanelVisible = startPanel.activeSelf;
+        if (wasStartPanelVisible)
+        {
+            startPanel.SetActive(false);
+        }
+
+        pausePanel.transform.localScale = Vector3.zero; // Define o tamanho inicial do painel
+        pausePanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
+
+        backButton.transform.localScale = Vector3.zero;
+        resumeButton.transform.localScale = Vector3.zero;
+
+        backButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.2f).SetUpdate(true);
+        resumeButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.4f).SetUpdate(true);
+        EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
+
+    }
+
+    // Método para despausar o jogo e ocultar o painel de pausa com animações
+    private void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1; // Retoma o tempo do jogo
+        if (wasStartPanelVisible)
+        {
+            startPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
+        }
+
+        // Anima o painel para encolher até desaparecer
+        pausePanel.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            pausePanel.SetActive(false); // Após a animação, torna o painel invisível
+        });
+    }
+
+    // Retorna ao menu principal
+    private void ReturnToMenu()
+    {
+        Time.timeScale = 1; // Garante que o tempo seja retomado
+        SceneManager.LoadScene("Menu");
+    }
+
+    private void ShowStartPanel()
+    {
+        startPanel.SetActive(true);
+
+        // Configura a escala inicial do painel e dos botões para zero
+        startPanel.transform.localScale = Vector3.zero;
+        startGameButton.transform.localScale = Vector3.zero;
+        resetGameButton.transform.localScale = Vector3.zero;
+        retryButton.transform.localScale = Vector3.zero;
+
+
+        // Anima o painel para aparecer com efeito de "crescimento"
+        startPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+        // Animação dos botões dentro do painel
+        startGameButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.2f);
+        resetGameButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.4f);
+        retryButton.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetDelay(0.6f);
+
+
+        // Seleciona automaticamente o botão "Start Game" ao exibir o painel
+        EventSystem.current.SetSelectedGameObject(startGameButton.gameObject);
+    }
+
+    private void HideStartPanel()
+    {
+        startPanel.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+        {
+            startPanel.SetActive(false); // Torna o painel invisível após a animação
+        });
+    }
+
+    private void RetryGame()
+    {
+        ResetGame();           // Reseta o jogo
+        OnStartButtonClicked(); // Inicia o jogo novamente
     }
 
 }
