@@ -61,6 +61,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] Transform _posRestatPlayer;
     public Transform _moveCamera;
     public Transform _fim;
+    
     [SerializeField] private Transform[] _scores; 
     [SerializeField] public Transform _coinNextPos;
     [SerializeField] Transform _t;
@@ -103,7 +104,8 @@ public class PlayerMove : MonoBehaviour
    [SerializeField] private Transform[] _todosRestatPoints; // Lista de todos os pontos de reinício
     public float _distanciaSolo =1f; // Distância para verificar o chão
     public LayerMask _chaoLayer; // Camada do chão
-    
+    public GameObject _fimGamer;
+    public GameObject _fimTentar;
 
 
     void Start()
@@ -392,8 +394,9 @@ public class PlayerMove : MonoBehaviour
             _controle._stop=true;
             _anim.SetFloat("correndo", 0);
             _anim.SetBool("parado", true);
-            
-         
+
+
+            _fimTentar.SetActive(true);
             _fim.DOScale(1, 0.5f);
             _comecarNovamente.Select();
             _fimG.Select();
@@ -603,6 +606,8 @@ public class PlayerMove : MonoBehaviour
         _anim.SetBool("parado", false);
 
         // Ocultar a tela de fim de jogo
+        _fimGamer.SetActive(false);
+        _fimTentar.SetActive(false);
         _fim.DOScale(0, 0.5f);
         _telaReiniciar.DOScale(0, 0.5f);
     }

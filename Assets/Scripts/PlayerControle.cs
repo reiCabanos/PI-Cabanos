@@ -48,6 +48,7 @@ public class PlayerControle : MonoBehaviour
    
     public TextMeshProUGUI _textoPontuaca;
     public TextMeshProUGUI _textoVida;
+    public GameObject _reiniciarGame;
 
 
 
@@ -255,6 +256,7 @@ public class PlayerControle : MonoBehaviour
         if (vida <= 0)
         {
             _fimGame = true;
+            _reiniciarGame.SetActive(true);
             _iConVida[0].DOScale(0, 0.5f);
             _telaGameOver.DOScale(1, 0.5f);
             HudCamera2();
