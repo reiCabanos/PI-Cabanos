@@ -24,7 +24,9 @@ public class GerenciadorJogo : MonoBehaviour
     public GameObject startPanel;       // Painel que contém os botões
 
     public TextMeshProUGUI player1LivesText;
+    public Image player1ColorIndicator;
     public TextMeshProUGUI player2LivesText;
+    public Image player2ColorIndicator;
     public TextMeshProUGUI gameStateText;
     public TextMeshProUGUI timerText;
     public GameObject endGamePanel;  // Painel de fundo para vitória/derrota
@@ -357,7 +359,10 @@ public class GerenciadorJogo : MonoBehaviour
     {
         player1LivesText.text = players.Count > 0 ? $"P1 Vidas: {players[0].lives}" : "P1 Vidas: 0";
         player2LivesText.text = players.Count > 1 ? $"P2 Vidas: {players[1].lives}" : "P2 Vidas: 0";
+
+     
     }
+
 
     private void UpdateGameStateText(string message)
     {
@@ -506,36 +511,47 @@ public class GerenciadorJogo : MonoBehaviour
     // Método para atribuir uma cor única ao jogador, criando uma luz de aura ao redor do personagem
     private void AtribuirCorAoJogador(GameObject playerObject, int playerIndex)
     {
-        // Verifica se há cores suficientes na lista para o número de jogadores
+        // Verifica se o índice do jogador está dentro da lista de cores
         if (playerIndex < playerColors.Count)
         {
             Color playerColor = playerColors[playerIndex];
+            playerColor.a = 1.0f;
 
-            // Tenta encontrar ou adicionar uma luz ao jogador para simular a aura
+            // Aplica a cor à interface (indicadores UI)
+            if (playerIndex == 0 && player1ColorIndicator != null)
+            {
+                player1ColorIndicator.color = playerColor;
+            }
+            else if (playerIndex == 1 && player2ColorIndicator != null)
+            {
+                player2ColorIndicator.color = playerColor;
+            }
+
+            // Aplica a cor à luz de aura do jogador
             Light auraLight = playerObject.GetComponentInChildren<Light>();
             if (auraLight == null)
             {
-                // Cria uma nova luz se não existir uma já configurada
+                // Cria a luz se ainda não existir
                 GameObject auraLightObj = new GameObject("AuraLight");
-                auraLightObj.transform.SetParent(playerObject.transform);  // Atribui a luz como filha do objeto do jogador
-                auraLightObj.transform.localPosition = Vector3.zero;  // Coloca a luz no centro do jogador
+                auraLightObj.transform.SetParent(playerObject.transform);
+                auraLightObj.transform.localPosition = Vector3.zero;
 
                 auraLight = auraLightObj.AddComponent<Light>();
-                auraLight.type = LightType.Point;  // Define a luz como "Point Light" para simular uma aura ao redor
-                auraLight.range = 5.0f;  // Ajusta o alcance da luz (pode ser configurado conforme necessário)
-                auraLight.intensity = 1.5f;  // Ajusta a intensidade da luz (pode ser configurado conforme necessário)
+                auraLight.type = LightType.Point;
+                auraLight.range = 5.0f;
+                auraLight.intensity = 1.5f;
             }
 
-            // Define a cor da luz como a cor do jogador
             auraLight.color = playerColor;
-
-            Debug.Log($"Luz de aura do jogador {playerIndex + 1} atribuída com a cor {playerColor}.");
+            Debug.Log($"Atribuindo a cor {playerColor} ao jogador {playerIndex + 1}");
         }
         else
         {
-            Debug.LogWarning("Não há cores suficientes na lista de cores para atribuir a todos os jogadores.");
+            Debug.LogWarning("Não há cores suficientes na lista de cores para todos os jogadores.");
         }
     }
+
+
 
     private void TogglePauseGame()
     {

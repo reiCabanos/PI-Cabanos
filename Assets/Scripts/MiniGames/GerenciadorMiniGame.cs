@@ -1,3 +1,4 @@
+using DG.Tweening; // Certifique-se de ter o DOTween instalado
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -15,7 +16,6 @@ public class GerenciadorMiniGame : MonoBehaviour
     private bool problemActive = false;
     private bool gameStarted = false;
     public List<ManipuladorDeColisaoJogador> _manipuladorDeColisaoJogadors;
-  
 
     void Start()
     {
@@ -68,12 +68,26 @@ public class GerenciadorMiniGame : MonoBehaviour
         remainingTime = problemDuration;
         problemActive = true;
 
+        // Adiciona a animação de pulsar
+        AnimateProblemText();
+
         // Chama a função para randomizar os números dos blocos
         blockSpawner.RandomizeBlocks();
 
         Debug.Log($"Problema gerado: {problemText.text}, Resposta correta: {correctAnswer}");
         Debug.Log("Gera blocos ");
         Invoke("Chamarjogadores", 1);
+    }
+
+    void AnimateProblemText()
+    {
+        if (problemText != null)
+        {
+            // Faz o texto pulsar entre 1x e 1.2x no eixo X e Y, em loop
+            problemText.transform.DOScale(new Vector3(1.2f, 1.2f, 1), 0.5f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
+        }
     }
 
     void Chamarjogadores()
@@ -83,7 +97,6 @@ public class GerenciadorMiniGame : MonoBehaviour
             _manipuladorDeColisaoJogadors[i].VoltarPlayer();
         }
     }
-
 
     void Update()
     {
