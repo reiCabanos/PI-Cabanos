@@ -23,6 +23,7 @@ public class FPS_Controller : MonoBehaviour
 
     private float speed;
     public Transform objectToMove;
+    public MoveNew _move;
     
     //physics push
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -142,7 +143,7 @@ public class FPS_Controller : MonoBehaviour
     public void SetMouse(InputAction.CallbackContext value)
     {
         // Se canMove for verdadeiro, aplicamos o movimento da câmera
-        if (canMove)
+        if (canMove && _move._agoraMira==true)
         {// Pegando o valor do movimento do mouse
             Vector3 mouseDelta = value.ReadValue<Vector3>();
 

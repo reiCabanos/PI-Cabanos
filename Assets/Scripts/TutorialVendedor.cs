@@ -25,8 +25,9 @@ public class TutorialVendedor : MonoBehaviour
     public GameObject _pontoTroca;
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
+    public Button _buttonVendedor;
 
-
+   
 
 
 
@@ -39,6 +40,11 @@ public class TutorialVendedor : MonoBehaviour
 
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
+        
+    }
+    public void Update()
+    {
+        _buttonVendedor.Select();
     }
 
 

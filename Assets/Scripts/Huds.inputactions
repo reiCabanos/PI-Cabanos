@@ -106,9 +106,9 @@
                 },
                 {
                     "name": "MoveMira",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "0772491d-18f6-4e2b-a904-c6ee18665400",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

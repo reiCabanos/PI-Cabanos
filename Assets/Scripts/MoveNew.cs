@@ -79,6 +79,7 @@ public class MoveNew : MonoBehaviour
     public bool podeAvancarManga = false;
     public TutorialManga _manga;
     public GameObject _tutorManga;
+    public bool _agoraMira = false;
 
 
 
@@ -293,6 +294,7 @@ public class MoveNew : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Tutor2"))
         {
+            _agoraMira = true;
             _tutoriasJ2._conText = 0;
             _tutoriasJ2._fimTutor = false;
             _gameController._gamerOver = true;
@@ -351,7 +353,7 @@ public class MoveNew : MonoBehaviour
 
     public void SetMira(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed)
+        if (callbackContext.performed && _agoraMira==true)
         {
             _mira1 = true;
             _mira.gameObject.SetActive(_mira1);
