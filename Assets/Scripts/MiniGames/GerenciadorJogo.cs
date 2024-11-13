@@ -199,6 +199,9 @@ public class GerenciadorJogo : MonoBehaviour
 
         Debug.Log("Iniciando o jogo com " + playerInputs.Count + " jogadores.");
 
+        HideStartPanel();
+
+
         players.Clear();
 
         foreach (var playerInput in playerInputs)
