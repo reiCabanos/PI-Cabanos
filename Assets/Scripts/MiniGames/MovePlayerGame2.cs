@@ -97,12 +97,22 @@ public class Moveplayergame2 : MonoBehaviour
         if (value.performed)
         {
             Vector2 moveInput = value.ReadValue<Vector2>();
-            _moveX = moveInput.x;  // Mantemos o X normal
-            _moveZ = moveInput.y;  // O Y do input será usado como Z no mundo
+
+            // Verifique se a entrada veio do teclado ou do joystick
+            if (value.control.device is Keyboard)
+            {
+                _moveX = -moveInput.x;  // Inverte o X apenas para corrigir a direção horizontal
+                _moveZ = moveInput.y;   // Mantém o Y como está para corrigir a direção vertical
+            }
+            else
+            {
+                _moveX = moveInput.x;
+                _moveZ = moveInput.y;
+            }
 
             if (showDebugLogs)
             {
-                /*Debug.Log($"Move input received: X={_moveX}, Z={_moveZ}");*/
+                Debug.Log($"Move input received: X={_moveX}, Z={_moveZ}");
             }
         }
         else if (value.canceled)
@@ -111,6 +121,7 @@ public class Moveplayergame2 : MonoBehaviour
             _moveZ = 0;
         }
     }
+
 
     public void SetJump(InputAction.CallbackContext value)
     {
