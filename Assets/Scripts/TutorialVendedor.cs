@@ -26,10 +26,8 @@ public class TutorialVendedor : MonoBehaviour
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
     public Button _buttonVendedor;
-
-   
-
-
+    public SceneHandler _sceneHandler;
+    public PanelTween _panelTween;
 
 
     void Start()
@@ -42,11 +40,7 @@ public class TutorialVendedor : MonoBehaviour
         _panelTutor.localScale = Vector3.zero;
         
     }
-    public void Update()
-    {
-        _buttonVendedor.Select();
-    }
-
+    
 
     public void PrimeiroTutorial(int value, int value2)
     {
@@ -87,6 +81,14 @@ public class TutorialVendedor : MonoBehaviour
             _imag3.SetActive(false);
             _textProTutor2.SetActive(true);
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo5);
+        }
+        else if (value2 == 5) // tutorial tabua
+        {
+            GerenciadorSomDialogo.PararSom();
+            _textProTutor2.SetActive(false);
+            _sceneHandler.OpenGameScene();
+            _panelTween.StartSequence();
+        
         }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
@@ -141,9 +143,11 @@ public class TutorialVendedor : MonoBehaviour
                 PrimeiroTutorial(0, 4); // texto Final 
                 _conText++;
             }
+            
 
             else if (_conText == 5)
             {
+                PrimeiroTutorial(0, 5); // texto Final 
                 GerenciadorSomDialogo.PararSom();
                 _fimTutor = true;
                 _panelTutorPrefab.SetActive(false);
