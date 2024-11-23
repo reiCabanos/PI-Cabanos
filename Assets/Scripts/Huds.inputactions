@@ -105,15 +105,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MoveMira",
-                    "type": "Button",
-                    "id": "0772491d-18f6-4e2b-a904-c6ee18665400",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Avanca",
                     "type": "Button",
                     "id": "47d1c543-19be-411d-88cc-6b6422db789c",
@@ -486,39 +477,6 @@
                     "action": "Atirar",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "3D Vector",
-                    "id": "0b62e9ec-8798-4de6-8408-7de0a5806b37",
-                    "path": "3DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveMira",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "654da428-d61f-40a5-9919-bbcd2540ced5",
-                    "path": "<Gamepad>/rightStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "e62fef9d-2a44-4077-8d86-b25f20055b74",
-                    "path": "<Gamepad>/rightStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveMira",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",

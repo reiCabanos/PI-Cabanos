@@ -8,20 +8,16 @@ public class FPS_Controller : MonoBehaviour
     public Camera playerCamera;
     [HideInInspector] public Vector3 playerCameraPos;
     [HideInInspector] public Quaternion playerCameraRot;
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
-    public float lookSpeed = 2f;
-
+    public float lookSpeed = 3f;
+   
     [HideInInspector] public float startLookSpeed;
     public float lookXLimit = 90f;
     float rotationX = 0;
 
     private bool canMove = true;
     CharacterController characterController;
-
-    private float speed;
+    public float smoothingFactor = 0.1f;
+    private Vector3 smoothInput;
     public Transform objectToMove;
     public MoveNew _move;
     
@@ -38,16 +34,17 @@ public class FPS_Controller : MonoBehaviour
     
     void Update()
     {
-
+        
 
         if (canMove)
         {
             // Atualizando a rotação no eixo X
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-
+            Vector3 mouseInput = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
             // Girando a câmera no eixo X
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            smoothInput = Vector3.Lerp(smoothInput, mouseInput, smoothingFactor);
 
             // Mantendo o valor original do eixo Y de objectToMove
             float currentYRotation = objectToMove.rotation.eulerAngles.y;
@@ -65,15 +62,17 @@ public class FPS_Controller : MonoBehaviour
     {
         // Se canMove for verdadeiro, aplicamos o movimento da câmera
         if (canMove && _move._agoraMira==true)
-        {// Pegando o valor do movimento do mouse
+        {
             Vector3 mouseDelta = value.ReadValue<Vector3>();
-
-            // Atualizando a rotação no eixo X (movimento vertical do mouse)
+            Vector3 mouseInput = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
+            // Ajustando os valores de rotação com base na sensibilidade (lookSpeed)
             rotationX += -mouseDelta.y * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
 
             // Girando a câmera no eixo X
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            smoothInput = Vector3.Lerp(smoothInput, mouseInput, smoothingFactor);
+
 
             // Mantendo a rotação atual no eixo Y do objeto (apenas movimentando no eixo X)
             float currentYRotation = objectToMove.rotation.eulerAngles.y;
