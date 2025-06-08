@@ -51,8 +51,7 @@ public class FPS_Controller : MonoBehaviour
     {
         startLookSpeed = lookSpeed;
         characterController = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+       
     }
     public void ApplyKickback(float kickbackStrength)
     {

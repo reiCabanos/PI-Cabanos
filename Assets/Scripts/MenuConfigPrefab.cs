@@ -62,6 +62,10 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private bool estaMutado = false;
     private bool efeitosMutados = false;
 
+    [ Header("Slider") ]
+    public GameObject _slider;
+    public RectTransform _painelSlider;
+
     private void Start()
     {
         // Buscar o GameObject do Canvas e localizar o componente HudControles
@@ -84,6 +88,10 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         // Carregar preferências salvas
         CarregarPreferencias();
+
+        // Desativar slider 
+        
+
     }
 
     private void AbrirPainel(GameObject painel)
@@ -126,6 +134,8 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
                     hudControles._painelBluer.DOScale(1, 0f);
                 }
             }
+            // Desativar slider 
+            _slider.SetActive(false);
         });
     }
 
@@ -176,6 +186,9 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
             // Desativar o _painelBluer ao fechar o painel de configurações
             hudControles._painelBluer.DOScale(0, 0.0f).OnComplete(() => hudControles._painelBluer.gameObject.SetActive(false));
+            // Ativar slider
+            _slider.SetActive(true);
+            _painelSlider.DOAnchorPos(new Vector2(-295f, _painelSlider.anchoredPosition.y), 0.5f).SetEase(Ease.InOutCubic);
         }
     }
 

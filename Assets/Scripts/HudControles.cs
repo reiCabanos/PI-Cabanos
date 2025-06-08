@@ -40,6 +40,7 @@ public class HudControles : MonoBehaviour
     public Button meuBotao;  // O botão que seleciona o painel
     public Transform painelQueSeraSelecionado;  // O painel a ser selecionado
 
+
     void Awake()
     {
         blockMovement = true;
@@ -57,6 +58,7 @@ public class HudControles : MonoBehaviour
         _telaInventario.gameObject.SetActive(false);
         _painelConfig.gameObject.SetActive(false);
         _painelDialogo.gameObject.SetActive(false); // Inicia o painel de diálogo como inativo
+
 
         moveTween = _telaIniciar.DOLocalMoveX(moveDistance, moveDuration)
                               .SetEase(Ease.InOutSine)
@@ -104,19 +106,31 @@ public class HudControles : MonoBehaviour
 
     public void SetSair(InputAction.CallbackContext value)
     {
-        _telaDiaIni = true;
+       // _telaDiaIni = true;
         if (value.performed)
         {
             _telaDiaIni = true;
-            if (_painelAtivo == _telaCelular || _painelAtivo == _painelDialogo) // Adicionado o painel de diálogo à condição
+            // Se um dos painéis estiver ativo, fecha e volta para a HUD
+            if (_painelAtivo == _telaCelular || _painelAtivo == _painelDialogo ||
+                _painelAtivo == _telaInventario || _painelAtivo == _painelConfig)
             {
                 FecharPainel(_painelAtivo);
                 AbrirPainel(_telaHuds);
+                MostrarMenuLateral();
+
             }
-            else if (_painelAtivo != _telaHuds)
+            else if (_painelAtivo == _telaHuds)
             {
+                // Se já está na HUD, abre o painel de configurações
+                AbrirPainel(_painelConfig);
+               _panelSliderMenu.gameObject.SetActive(false);
+            }
+            else
+            {
+                // Se qualquer outro estiver ativo, volta para a HUD
                 FecharPainel(_painelAtivo);
                 AbrirPainel(_telaHuds);
+                
             }
         }
     }
