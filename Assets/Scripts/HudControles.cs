@@ -39,6 +39,7 @@ public class HudControles : MonoBehaviour
     // Variáveis para o botão que alterna um painel específico
     public Button meuBotao;  // O botão que seleciona o painel
     public Transform painelQueSeraSelecionado;  // O painel a ser selecionado
+    [SerializeField] private ManipuladorDeFocoUI manipuladorFoco;
 
 
     void Awake()
@@ -64,7 +65,7 @@ public class HudControles : MonoBehaviour
                               .SetEase(Ease.InOutSine)
                               .SetLoops(-1, LoopType.Yoyo);
 
-        // Vincular o botão para alternar o painel
+        // Vincular o botao para alternar o painel
         if (meuBotao != null)
         {
             meuBotao.onClick.AddListener(() => AlternarPainel(painelQueSeraSelecionado));
@@ -179,6 +180,7 @@ public class HudControles : MonoBehaviour
         {
             OcultarMenuLateral();
         }
+        manipuladorFoco.VerificarPainelAtivo();
     }
 
     public void FecharPainel(Transform painel)
@@ -259,13 +261,10 @@ public void FecharPainelComBluer(Transform painel)
 
             isMenuVisible = false;
 
-            var manipuladorFoco = GetComponent<ManipuladorDeFocoUI>();
-            if (manipuladorFoco != null)
-            {
-                manipuladorFoco.FixarFocoNoPainelAtivo(); // Permite foco no painel fixo
-            }
+            
+            
 
-            meuBotao.Select();
+            
         }
     }
 
@@ -276,12 +275,7 @@ public void FecharPainelComBluer(Transform painel)
             PanelMenu.DOAnchorPosX(-295f, sideMenuMoveDuration);
             isMenuVisible = true;
 
-            var manipuladorFoco = GetComponent<ManipuladorDeFocoUI>();
-            if (manipuladorFoco != null)
-            {
-                manipuladorFoco.LiberarFocoPainel(); // Impede foco no painel fixo
-                manipuladorFoco.VerificarPainelAtivo();
-            }
+           
         }
     }
 

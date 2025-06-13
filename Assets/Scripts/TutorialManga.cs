@@ -24,6 +24,8 @@ public class TutorialManga : MonoBehaviour
     public GameObject _tutorManga;
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
+    public GameObject _slider; // Slider de Menu
+
     void Start()
     {
         _gameController = Camera.main.GetComponent<GameController>();
@@ -35,6 +37,7 @@ public class TutorialManga : MonoBehaviour
 
     public void PrimeiroTutorial(int value, int value2)
     {
+        _slider.SetActive(false); // Desativa o slider de Menu
         // Exibe o tutorial baseado no valor recebido
         if (value2 == 0) // texto jogo
         {
@@ -70,6 +73,7 @@ public class TutorialManga : MonoBehaviour
         _panelTutor.transform.localScale = Vector3.zero;
         _gameController._gamerOver = false; // Restaura o movimento do jogador
         _tutorManga.SetActive(false);
+        _slider.SetActive(true); // ativar o slider de Menu
 
     }
 

@@ -89,10 +89,11 @@ public class MenuConfigPrefab : MonoBehaviour, IPointerEnterHandler, IPointerExi
         // Carregar preferências salvas
         CarregarPreferencias();
 
-        // Desativar slider 
         
 
+
     }
+    
 
     private void AbrirPainel(GameObject painel)
     {

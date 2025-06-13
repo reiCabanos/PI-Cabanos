@@ -26,8 +26,12 @@ public class TutorialVendedor : MonoBehaviour
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
     public Button _buttonVendedor;
-
+    public GameObject _slider; // Slider de Menu
    
+    public SceneHandler _sceneHandler;
+    public PanelTween _panelTween;
+
+
 
 
 
@@ -40,16 +44,32 @@ public class TutorialVendedor : MonoBehaviour
 
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
-        
+        // Conecta os métodos ao botão via código
+        _buttonVendedor.onClick.AddListener(AtivarTransicaoFinal);
+
+
+
+    }
+    void AtivarTransicaoFinal()
+    {
+        StartCoroutine(TransicaoComDelay());
+    }
+
+    IEnumerator TransicaoComDelay()
+    {
+        _panelTween.StartSequence();
+        yield return new WaitForSeconds(7f); // Ajuste o tempo conforme a duração da animação
+        _sceneHandler.OpenGameScene();
     }
     public void Update()
     {
-        _buttonVendedor.Select();
+        //_buttonVendedor.Select();
     }
 
 
     public void PrimeiroTutorial(int value, int value2)
     {
+        _slider.SetActive(false); // Desativa o slider de Menu
         // Exibe o tutorial baseado no valor recebido
         if (value2 == 0) // texto jogo
         {
@@ -80,6 +100,8 @@ public class TutorialVendedor : MonoBehaviour
             _imag2.SetActive(false);
             _imag3.SetActive(true);
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo4);
+           
+
         }
         else if (value2 == 4) // tutorial tabua
         {
@@ -87,6 +109,8 @@ public class TutorialVendedor : MonoBehaviour
             _imag3.SetActive(false);
             _textProTutor2.SetActive(true);
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo5);
+            _buttonVendedor.Select();
+
         }
         // Inicia a animação de abertura do painel do tutorial
         StartCoroutine(TempoTutorON());
@@ -104,6 +128,7 @@ public class TutorialVendedor : MonoBehaviour
         _panelTutor.transform.localScale = Vector3.zero;
         _gameController._gamerOver = false; // Restaura o movimento do jogador
         _pontoTroca.SetActive(false);
+        _slider.SetActive(true); // ativar o slider de Menu
 
     }
 

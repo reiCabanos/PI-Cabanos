@@ -26,6 +26,7 @@ public class TutoriasJogo2 : MonoBehaviour
     public GameObject _tutor2;
     public MoveNew _moveNew;
     public GameObject _panelTutorPrefab;
+    public GameObject _slider; // Slider de Menu
 
 
 
@@ -47,6 +48,7 @@ public class TutoriasJogo2 : MonoBehaviour
     public void PrimeiroTutorial(int value, int value2)
     {
         // Exibe o tutorial baseado no valor recebido
+        _slider.SetActive(false); // Desativa o slider de Menu
         if (value2 == 0) // texto jogo
         {
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.ddialogo1);
@@ -101,6 +103,7 @@ public class TutoriasJogo2 : MonoBehaviour
         _panelTutor.transform.localScale = Vector3.zero;
         _gameController._gamerOver = false; // Restaura o movimento do jogador
         _tutor2.SetActive(false);
+        _slider.SetActive(true); // ativar o slider de Menu
 
     }
 
