@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TutorialVendedor : MonoBehaviour
@@ -45,12 +46,12 @@ public class TutorialVendedor : MonoBehaviour
         // Desativa o tutorial no início
         _panelTutor.localScale = Vector3.zero;
         // Conecta os métodos ao botão via código
-        _buttonVendedor.onClick.AddListener(AtivarTransicaoFinal);
+        
 
 
 
     }
-    void AtivarTransicaoFinal()
+    public void AtivarTransicaoFinal()
     {
         StartCoroutine(TransicaoComDelay());
     }
@@ -63,7 +64,7 @@ public class TutorialVendedor : MonoBehaviour
     }
     public void Update()
     {
-        //_buttonVendedor.Select();
+        
     }
 
 
@@ -109,7 +110,9 @@ public class TutorialVendedor : MonoBehaviour
             _imag3.SetActive(false);
             _textProTutor2.SetActive(true);
             GerenciadorSomDialogo.TocarSom(TipoSomDialogo.vdialogo5);
-            _buttonVendedor.Select();
+            // _buttonVendedor.Select();
+            EventSystem.current.SetSelectedGameObject(_buttonVendedor.gameObject);
+            _buttonVendedor.onClick.Invoke();
 
         }
         // Inicia a animação de abertura do painel do tutorial
